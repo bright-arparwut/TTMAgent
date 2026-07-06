@@ -4,6 +4,12 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, field_validator
 
 
+def _utc_when_naive(value: datetime) -> datetime:
+    """MongoDB returns naive datetimes (the client is not tz_aware);
+    this system only ever stores UTC, so naive means UTC."""
+    return value if value.tzinfo is not None else value.replace(tzinfo=UTC)
+
+
 class ConsultationTurn(BaseModel):
     """One raw message in the working buffer. Never persisted past Consultation close."""
 
@@ -12,6 +18,11 @@ class ConsultationTurn(BaseModel):
     role: Literal["user", "advisor"]
     text: str
     timestamp: datetime
+
+    @field_validator("timestamp")
+    @classmethod
+    def _assume_utc_when_naive(cls, value: datetime) -> datetime:
+        return _utc_when_naive(value)
 
 
 class TongueDescription(BaseModel):
@@ -66,9 +77,7 @@ class HealthRecordEntry(BaseModel):
     @field_validator("consultation_date")
     @classmethod
     def _assume_utc_when_naive(cls, value: datetime) -> datetime:
-        """MongoDB returns naive datetimes (the client is not tz_aware);
-        this system only ever stores UTC, so naive means UTC."""
-        return value if value.tzinfo is not None else value.replace(tzinfo=UTC)
+        return _utc_when_naive(value)
 
 
 class RelevanceGateResult(BaseModel):

@@ -29,8 +29,12 @@ class WorkingBufferRepository:
         if doc is None:
             return None
 
+        last_activity = doc["last_activity"]
+        if last_activity.tzinfo is None:
+            last_activity = last_activity.replace(tzinfo=UTC)
+
         gap = timedelta(hours=gap_hours)
-        if datetime.now(UTC) - doc["last_activity"] < gap:
+        if datetime.now(UTC) - last_activity < gap:
             return None
 
         await self._collection.delete_one({"user_id": user_id})

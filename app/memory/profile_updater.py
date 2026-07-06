@@ -83,7 +83,12 @@ async def rebuild_profile(
     user_id: str,
     settings: Settings,
 ) -> HealthProfile | None:
-    """Rebuild the projection by replaying all entries chronologically."""
+    """Rebuild the projection by replaying all entries chronologically.
+
+    Note: rebuilding discards the original patch log, so `applied_at`
+    history on the rebuilt profile's items resets to rebuild time rather
+    than reflecting the original close-time updates.
+    """
     entries = await record_repo.all_for_user(user_id)
     if not entries:
         return None
