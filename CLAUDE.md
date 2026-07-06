@@ -1,4 +1,4 @@
-# csb_thesis
+# TTMAgent
 
 API endpoint for a LINE application (LINE chatbot), built in Python.
 
@@ -15,3 +15,7 @@ Default label vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `read
 ### Domain docs
 
 Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Message flow
+
+The unified decision map for how each LINE message type is handled (and who decides what): `docs/message-flow.md`.
