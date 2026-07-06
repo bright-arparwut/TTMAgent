@@ -1,0 +1,438 @@
+<title>TTM Advisor — Message Flow</title>
+<style>
+  /*
+    Token plan
+    ----------
+    Colors (page chrome — kept quiet and neutral so the map's own
+    color coding stays the loudest thing on the page):
+      --ink     #1f2a37  primary text (slate, not pure black)
+      --muted   #5b6672  secondary text, captions, edge labels
+      --paper   #f5f7fa  page background (cool off-white)
+      --surface #ffffff  panel / card / node background
+      --line    #c7cdd6  hairline borders, dividers
+      --accent  #3d5a80  interactive accent (buttons, focus ring, links)
+    The three decision-diamond colors and the dashed "pending" stroke are
+    FIXED semantic values from the spec, not derived from this palette:
+      deterministic  fill #e6f0fa / stroke #2b6cb0
+      llm-scored     fill #fdf3e0 / stroke #b7791f
+      agentic        fill #f3e8fd / stroke #6b46c1
+
+    Type roles: display (h1, 1.5rem/600) - label (uppercase micro-labels,
+    0.68rem/700, letter-spacing .08em) - body (running text, 0.9rem/1.55)
+    - map (SVG node text, 12-13px/600).
+
+    Layout concept: a header strip of wrapping scenario buttons sits above
+    a two-pane workspace - a horizontally-scrollable SVG map beside a
+    fixed-width notes aside - collapsing to a single column under 860px.
+  */
+
+  :root {
+    --ink: #1f2a37;
+    --muted: #5b6672;
+    --paper: #f5f7fa;
+    --surface: #ffffff;
+    --line: #c7cdd6;
+    --accent: #3d5a80;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { max-width: 100%; overflow-x: hidden; }
+
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 78rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  header { display: flex; flex-direction: column; gap: .3rem; }
+  .eyebrow {
+    margin: 0;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  h1 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.75rem); font-weight: 600; letter-spacing: -.01em; }
+  p.sub { margin: 0; max-width: 46rem; color: var(--muted); font-size: .92rem; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .scenario-btn {
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 500;
+    padding: .55rem .95rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .scenario-btn:hover { border-color: var(--accent); }
+  .scenario-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .scenario-btn.selected { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 20rem;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .workspace { grid-template-columns: 1fr; }
+  }
+
+  .map-container {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .map-container svg {
+    display: block;
+    width: 100%;
+    min-width: 1100px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .notes {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-self: start;
+  }
+  .panel-title {
+    margin: 0;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .legend { display: flex; flex-direction: column; gap: .5rem; padding-bottom: .9rem; border-bottom: 1px solid var(--line); }
+  .legend-item { display: flex; align-items: center; gap: .55rem; font-size: .8rem; }
+  .swatch { width: .85rem; height: .85rem; border-radius: 3px; flex: 0 0 auto; }
+  .swatch.deterministic { background: #e6f0fa; border: 1.5px solid #2b6cb0; }
+  .swatch.llmscored { background: #fdf3e0; border: 1.5px solid #b7791f; }
+  .swatch.agentic { background: #f3e8fd; border: 1.5px solid #6b46c1; }
+  .swatch.pending { background: var(--surface); border: 1.5px dashed var(--muted); }
+
+  .notes-body { display: flex; flex-direction: column; gap: .6rem; }
+  #step-notes ol { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .6rem; }
+  #step-notes li { font-size: .85rem; line-height: 1.55; }
+  #step-notes p.hint { margin: 0; font-size: .85rem; color: var(--muted); }
+
+  footer { font-size: .78rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; }
+  footer code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .92em; }
+
+  /* ---- map elements: base state, then active/dimmed overrides ---- */
+  [data-map-el] { stroke-width: 2; opacity: 1; }
+  .active { stroke-width: 3; opacity: 1; }
+  .dimmed { opacity: .25; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-map-el] { transition: opacity .15s ease, stroke-width .15s ease; }
+    .scenario-btn { transition: background .15s ease, border-color .15s ease, color .15s ease; }
+  }
+</style>
+
+<div class="page">
+
+  <header>
+    <p class="eyebrow">TTM Advisor · Reference</p>
+    <h1>Message Flow</h1>
+    <p class="sub">How the TTM advisor handles each kind of incoming LINE message, and who makes each
+    decision along the way. Pick a scenario below to trace it through the map.</p>
+  </header>
+
+  <div class="toolbar" role="group" aria-label="Scenario picker">
+    <button class="scenario-btn" data-scenario="hello">👋 Says "hello"</button>
+    <button class="scenario-btn" data-scenario="feelings">🤒 Describes feelings</button>
+    <button class="scenario-btn" data-scenario="tongue">👅 Tongue photo</button>
+    <button class="scenario-btn" data-scenario="notongue">📷 Photo, no tongue</button>
+    <button class="scenario-btn" data-scenario="gap">⏰ Returns after gap</button>
+    <button class="scenario-btn" data-scenario="firstvisit">🆕 First visit, empty profile</button>
+  </div>
+
+  <div class="workspace">
+    <div class="map-container">
+      <svg viewBox="0 0 1420 2680" width="1420" height="2680" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Message flow decision map">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a93a3"></path>
+          </marker>
+        </defs>
+
+        <!-- edges -->
+        <path id="e-WH-EVT" data-map-el="" class="edge" d="M 520,107 L 520,165" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-EVT-WEL" data-map-el="" class="edge" d="M 520,275 L 520,310 L 140,310 L 140,326" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="520" y="284" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">follow</text>
+        <path id="e-WEL-END1" data-map-el="" class="edge" d="M 140,394 L 140,473" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-EVT-LOCK" data-map-el="" class="edge" d="M 520,275 L 520,1166" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="520" y="712" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">text</text>
+        <path id="e-EVT-LOAD" data-map-el="" class="edge" d="M 520,275 L 520,310 L 900,310 L 900,326" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="520" y="284" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">image</text>
+        <path id="e-LOAD-DL" data-map-el="" class="edge" d="M 900,394 L 900,466" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-DL-DET" data-map-el="" class="edge" d="M 900,534 L 900,606" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-DET-TF" data-map-el="" class="edge" d="M 900,674 L 900,725" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-TF-RETAKE" data-map-el="" class="edge" d="M 985,780 L 1280,780 L 1280,886" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="1132" y="772" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">no</text>
+        <path id="e-RETAKE-END2" data-map-el="" class="edge" d="M 1280,954 L 1280,1033" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-TF-VD" data-map-el="" class="edge" d="M 900,835 L 900,886" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="900" y="852" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">yes</text>
+        <path id="e-VD-INJECT" data-map-el="" class="edge" d="M 900,954 L 900,1026" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-INJECT-LOCK" data-map-el="" class="edge" d="M 900,1094 L 900,1130 L 520,1130 L 520,1166" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-LOCK-STALE" data-map-el="" class="edge" d="M 520,1234 L 520,1285" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-STALE-GATE" data-map-el="" class="edge" d="M 605,1340 L 900,1340 L 900,1425" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="752" y="1332" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">yes</text>
+        <path id="e-GATE-REC" data-map-el="" class="edge" d="M 900,1535 L 900,1586" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="900" y="1552" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">yes</text>
+        <path id="e-REC-PU" data-map-el="" class="edge" d="M 900,1654 L 900,1726" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-PU-APPEND" data-map-el="" class="edge" d="M 900,1794 L 900,1830 L 520,1830 L 520,1866" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-GATE-DISCARD" data-map-el="" class="edge" d="M 985,1480 L 1280,1480 L 1280,1586" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="1132" y="1472" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">no</text>
+        <path id="e-DISCARD-APPEND" data-map-el="" class="edge" d="M 1280,1654 L 1280,1690 L 520,1690 L 520,1866" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-STALE-APPEND" data-map-el="" class="edge" d="M 520,1395 L 520,1866" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="520" y="1622" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">no</text>
+        <path id="e-APPEND-CTX" data-map-el="" class="edge" d="M 520,1934 L 520,2006" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-CTX-AGENT" data-map-el="" class="edge" d="M 520,2074 L 520,2125" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-AGENT-TOOLS" data-map-el="" class="edge" d="M 550,2165 L 770,2165" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="660" y="2157" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">call tool</text>
+        <path id="e-TOOLS-AGENT" data-map-el="" class="edge" d="M 770,2195 L 550,2195" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-AGENT-REPLY" data-map-el="" class="edge" d="M 520,2235 L 520,2286" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <text x="520" y="2252" text-anchor="middle" font-size="11" fill="#5b6672" class="edge-label">answer</text>
+        <path id="e-REPLY-APPADV" data-map-el="" class="edge" d="M 520,2354 L 520,2426" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+        <path id="e-APPADV-END3" data-map-el="" class="edge" d="M 520,2494 L 520,2573" fill="none" stroke="#8a93a3" marker-end="url(#arrow)"></path>
+
+        <!-- nodes -->
+        <g id="WH" data-map-el="" class="node">
+          <rect x="445" y="53" width="150" height="54" rx="27" ry="27" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="520" y="84" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">LINE webhook</text>
+        </g>
+        <g id="EVT" data-map-el="" class="node">
+          <polygon points="520,165 605,220 520,275 435,220" fill="#ffffff" stroke="#8a93a3"></polygon>
+          <text x="520" y="224" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Event type?</text>
+        </g>
+        <g id="WEL" data-map-el="" class="node">
+          <rect x="30" y="326" width="220" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="140" y="356">One-time welcome</tspan><tspan x="140" y="372">+ disclaimer</tspan></text>
+        </g>
+        <g id="END1" data-map-el="" class="node">
+          <rect x="80" y="473" width="120" height="54" rx="27" ry="27" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="140" y="504" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">End</text>
+        </g>
+        <g id="LOAD" data-map-el="" class="node">
+          <rect x="800" y="326" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="356">Show loading</tspan><tspan x="900" y="372">indicator</tspan></text>
+        </g>
+        <g id="DL" data-map-el="" class="node">
+          <rect x="800" y="466" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="496">Download image</tspan><tspan x="900" y="512">bytes</tspan></text>
+        </g>
+        <g id="DET" data-map-el="" class="node">
+          <rect x="800" y="606" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="636">TongueDetector:</tspan><tspan x="900" y="652">detect + crop</tspan></text>
+        </g>
+        <g id="TF" data-map-el="" class="node">
+          <polygon points="900,725 985,780 900,835 815,780" fill="#e6f0fa" stroke="#2b6cb0"></polygon>
+          <text x="900" y="784" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Tongue found?</text>
+        </g>
+        <g id="RETAKE" data-map-el="" class="node">
+          <rect x="1180" y="886" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="1280" y="916">Retake guidance</tspan><tspan x="1280" y="932">(not recorded)</tspan></text>
+        </g>
+        <g id="END2" data-map-el="" class="node">
+          <rect x="1220" y="1033" width="120" height="54" rx="27" ry="27" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="1280" y="1064" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">End</text>
+        </g>
+        <g id="VD" data-map-el="" class="node">
+          <rect x="800" y="886" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="916">VisionDescriber →</tspan><tspan x="900" y="932">Tongue Description</tspan></text>
+        </g>
+        <g id="INJECT" data-map-el="" class="node">
+          <rect x="800" y="1026" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="900" y="1064" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Inject as text turn</text>
+        </g>
+        <g id="LOCK" data-map-el="" class="node">
+          <rect x="420" y="1166" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="520" y="1196">Acquire per-user</tspan><tspan x="520" y="1212">lock</tspan></text>
+        </g>
+        <g id="STALE" data-map-el="" class="node">
+          <polygon points="520,1285 605,1340 520,1395 435,1340" fill="#e6f0fa" stroke="#2b6cb0"></polygon>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="520" y="1336">Buffer stale?</tspan><tspan x="520" y="1352">(gap &gt; 6h)</tspan></text>
+        </g>
+        <g id="GATE" data-map-el="" class="node">
+          <polygon points="900,1425 985,1480 900,1535 815,1480" fill="#fdf3e0" stroke="#b7791f"></polygon>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="1476">Relevance Gate:</tspan><tspan x="900" y="1492">health content?</tspan></text>
+        </g>
+        <g id="REC" data-map-el="" class="node">
+          <rect x="800" y="1586" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="1616">Write Health</tspan><tspan x="900" y="1632">Record entry</tspan></text>
+        </g>
+        <g id="DISCARD" data-map-el="" class="node">
+          <rect x="1180" y="1586" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="1280" y="1616">Discard buffer</tspan><tspan x="1280" y="1632">(profile untouched)</tspan></text>
+        </g>
+        <g id="PU" data-map-el="" class="node">
+          <rect x="790" y="1726" width="220" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3" stroke-dasharray="6 4"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="1756">Profile Updater</tspan><tspan x="900" y="1772">(ADR 0003 — pending)</tspan></text>
+        </g>
+        <g id="APPEND" data-map-el="" class="node">
+          <rect x="420" y="1866" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="520" y="1904" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Append user turn</text>
+        </g>
+        <g id="CTX" data-map-el="" class="node">
+          <rect x="390" y="2006" width="260" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="520" y="2036">Retrieve context</tspan><tspan x="520" y="2052">(profile* + records + RAG)</tspan></text>
+        </g>
+        <g id="AGENT" data-map-el="" class="node">
+          <polygon points="520,2125 605,2180 520,2235 435,2180" fill="#f3e8fd" stroke="#6b46c1"></polygon>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="520" y="2176">ReAct: answer</tspan><tspan x="520" y="2192">or call tool?</tspan></text>
+        </g>
+        <g id="TOOLS" data-map-el="" class="node">
+          <rect x="770" y="2146" width="260" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="2176">search_health_records /</tspan><tspan x="900" y="2192">get_health_record_by_date</tspan></text>
+        </g>
+        <g id="REPLY" data-map-el="" class="node">
+          <rect x="420" y="2286" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="520" y="2324" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Reply in Thai</text>
+        </g>
+        <g id="APPADV" data-map-el="" class="node">
+          <rect x="420" y="2426" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="520" y="2464" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">Append advisor turn</text>
+        </g>
+        <g id="END3" data-map-el="" class="node">
+          <rect x="445" y="2573" width="150" height="54" rx="27" ry="27" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text x="520" y="2604" text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600">End</text>
+        </g>
+      </svg>
+    </div>
+
+    <aside class="notes">
+      <div class="legend">
+        <p class="panel-title">Legend</p>
+        <div class="legend-item"><span class="swatch deterministic"></span>Deterministic code decides</div>
+        <div class="legend-item"><span class="swatch llmscored"></span>Code-triggered, LLM-scored</div>
+        <div class="legend-item"><span class="swatch agentic"></span>Advisor's own agentic choice</div>
+        <div class="legend-item"><span class="swatch pending"></span>Dashed = approved design, pending build</div>
+      </div>
+      <div class="notes-body">
+        <p class="panel-title">Walkthrough</p>
+        <div id="step-notes">
+          <p class="hint">Pick a scenario above to trace it through the map.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>Full topology, branch notes, and the underlying edge-vs-code check: <code>docs/message-flow.md</code>.</footer>
+
+</div>
+
+<script>
+  const SCENARIOS = [
+    {
+      id: "hello", label: "👋 Says \"hello\"",
+      nodes: ["WH","EVT","LOCK","STALE","APPEND","CTX","AGENT","REPLY","APPADV","END3"],
+      edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
+      notes: [
+        "A plain text greeting arrives; the webhook routes it down the text branch.",
+        "The per-user lock guarantees this user's turns are processed one at a time.",
+        "The Working Buffer is fresh (no 6-hour gap), so no Consultation closes.",
+        "The Advisor answers directly — greetings need no record tools.",
+        "Nothing is written now. When this Consultation eventually closes, the Relevance Gate discards pure chit-chat: no Health Record entry, no Health Profile change."
+      ]
+    },
+    {
+      id: "feelings", label: "🤒 Describes feelings",
+      nodes: ["WH","EVT","LOCK","STALE","APPEND","CTX","AGENT","TOOLS","REPLY","APPADV","END3"],
+      edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-TOOLS","e-TOOLS-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
+      notes: [
+        "The user describes symptoms in Thai; routed down the text branch under the per-user lock.",
+        "Context is assembled: the Health Profile face sheet (ADR 0003 — pending build), the recent Health Record summaries, and TTM corpus passages retrieved for this message.",
+        "In the ReAct loop the Advisor may call the read-only tools search_health_records / get_health_record_by_date to reach beyond the injected summaries — this is the map's only agentic decision.",
+        "The reply is a TTM-grounded Assessment with advice — never a clinical diagnosis."
+      ]
+    },
+    {
+      id: "tongue", label: "👅 Tongue photo",
+      nodes: ["WH","EVT","LOAD","DL","DET","TF","VD","INJECT","LOCK","STALE","APPEND","CTX","AGENT","REPLY","APPADV","END3"],
+      edges: ["e-WH-EVT","e-EVT-LOAD","e-LOAD-DL","e-DL-DET","e-DET-TF","e-TF-VD","e-VD-INJECT","e-INJECT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
+      notes: [
+        "An image event shows the LINE loading indicator while the bytes download.",
+        "TongueDetector — deterministic code, not an agent tool — finds and crops the tongue.",
+        "VisionDescriber produces a structured Tongue Description: observation only, no interpretation.",
+        "The description is injected as a text turn: the Advisor, not the vision model, makes the Tongue Assessment (the two-model split, ADR 0001).",
+        "From here the turn follows the same spine as any text message."
+      ]
+    },
+    {
+      id: "notongue", label: "📷 Photo, no tongue",
+      nodes: ["WH","EVT","LOAD","DL","DET","TF","RETAKE","END2"],
+      edges: ["e-WH-EVT","e-EVT-LOAD","e-LOAD-DL","e-DL-DET","e-DET-TF","e-TF-RETAKE","e-RETAKE-END2"],
+      notes: [
+        "TongueDetector finds no tongue in the photo.",
+        "The bot replies with retake guidance: «ดิฉันมองไม่เห็นลิ้นในภาพนี้ชัดเจนค่ะ ลองถ่ายภาพลิ้นให้เต็มกรอบ แสงสว่างเพียงพอ และภาพไม่เบลอ แล้วส่งมาอีกครั้งนะคะ»",
+        "The turn is never recorded in the Working Buffer — the system never assesses what wasn't detected."
+      ]
+    },
+    {
+      id: "gap", label: "⏰ Returns after gap",
+      nodes: ["WH","EVT","LOCK","STALE","GATE","REC","PU","APPEND","CTX","AGENT","REPLY","APPADV","END3"],
+      edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-GATE","e-GATE-REC","e-REC-PU","e-PU-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
+      notes: [
+        "The user returns after more than 6 hours; the previous Consultation is now stale.",
+        "Close happens lazily — inside this webhook call, before the new turn is handled. No scheduler exists.",
+        "The Relevance Gate scores the stale buffer: health content → a Health Record entry is written; chit-chat → everything is discarded and the Health Profile is untouched.",
+        "On a gate pass, the Profile Updater folds the new entry into the Health Profile as item-level patches (ADR 0003 — pending build).",
+        "This is the only write path to long-term memory — one gate guards both the Record and the Profile. The new message then proceeds down the normal spine."
+      ]
+    },
+    {
+      id: "firstvisit", label: "🆕 First visit, empty profile",
+      nodes: ["WH","EVT","LOCK","STALE","APPEND","CTX","AGENT","REPLY","APPADV","END3"],
+      edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
+      notes: [
+        "A brand-new user (after the follow-time welcome: «สวัสดีค่ะ ดิฉันเป็นผู้ช่วยให้คำแนะนำด้านแพทย์แผนไทยเบื้องต้น ไม่ใช่แพทย์และไม่ได้ให้การวินิจฉัยทางการแพทย์ หากมีอาการรุนแรงหรือฉุกเฉิน กรุณาพบแพทย์หรือโทร 1669 ทันที»): the Health Profile is empty and the Health Record has no entries.",
+        "The injected context lists which face-sheet fields are missing — e.g. birth date, needed to derive ธาตุเจ้าเรือน (ADR 0003 — pending build).",
+        "The system prompt tells the Advisor to weave in at most one natural intake question — never a form-filling interrogation.",
+        "Cold start is prompting, not machinery: no separate onboarding flow exists."
+      ]
+    }
+  ];
+
+  function selectScenario(id) {
+    const scenario = SCENARIOS.find((s) => s.id === id);
+    const lit = new Set([...scenario.nodes, ...scenario.edges]);
+    document.querySelectorAll("[data-map-el]").forEach((el) => {
+      el.classList.toggle("active", lit.has(el.id));
+      el.classList.toggle("dimmed", !lit.has(el.id));
+    });
+    document.querySelectorAll(".scenario-btn").forEach((btn) => {
+      btn.classList.toggle("selected", btn.dataset.scenario === id);
+    });
+    document.getElementById("step-notes").innerHTML =
+      "<ol>" + scenario.notes.map((n) => `<li>${n}</li>`).join("") + "</ol>";
+  }
+  document.querySelectorAll(".scenario-btn").forEach((btn) => {
+    btn.addEventListener("click", () => selectScenario(btn.dataset.scenario));
+  });
+</script>
