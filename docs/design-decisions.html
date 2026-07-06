@@ -1,0 +1,375 @@
+<title>TTM Consultation Assistant — Design Decisions</title>
+<style>
+  :root {
+    --ground: #F4F7F1;
+    --card: #FFFFFF;
+    --ink: #1C2B22;
+    --muted: #66766B;
+    --green: #2E6B4C;
+    --green-soft: #E3EDE5;
+    --turmeric: #C08A2D;
+    --turmeric-soft: #F6EDDC;
+    --line: #D8E0D6;
+    --mono: "SF Mono", "Menlo", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+    line-height: 1.55;
+    margin: 0;
+    padding: 3rem 1.25rem 5rem;
+  }
+  .page { max-width: 60rem; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+
+  /* ---------- header ---------- */
+  header .eyebrow {
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--green); font-weight: 600; margin-bottom: .6rem;
+  }
+  header h1 {
+    font-family: "Futura", "Avenir Next", "Helvetica Neue", sans-serif;
+    font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 0 0 .35rem; letter-spacing: -.01em; text-wrap: balance;
+  }
+  header .thai { color: var(--turmeric); font-weight: 600; }
+  header p.sub { color: var(--muted); margin: .4rem 0 0; max-width: 42rem; }
+
+  h2 {
+    font-family: "Futura", "Avenir Next", sans-serif;
+    font-size: 1.15rem; letter-spacing: .02em; margin: 0 0 1rem;
+    display: flex; align-items: baseline; gap: .6rem;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--line); align-self: center; }
+
+  /* ---------- pipeline ---------- */
+  .pipeline { display: flex; flex-direction: column; gap: .65rem; }
+  .lane { display: flex; align-items: stretch; gap: .5rem; flex-wrap: wrap; }
+  .lane-label {
+    flex: 0 0 6.2rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; display: flex; align-items: center;
+  }
+  .node {
+    background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+    padding: .45rem .7rem; font-size: .82rem; display: flex; flex-direction: column;
+    justify-content: center; min-width: 7rem;
+  }
+  .node small { color: var(--muted); font-size: .68rem; }
+  .node.llm { border-color: var(--green); background: var(--green-soft); }
+  .node.ext { border-style: dashed; }
+  .node.store { border-color: var(--turmeric); background: var(--turmeric-soft); }
+  .arrow { display: flex; align-items: center; color: var(--muted); font-size: .9rem; }
+  .pipeline-note { font-size: .78rem; color: var(--muted); margin-top: .35rem; }
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: .72rem; color: var(--muted); margin-top: .5rem; }
+  .legend span::before {
+    content: ""; display: inline-block; width: .7rem; height: .7rem; border-radius: 3px;
+    margin-right: .35rem; vertical-align: -1px; border: 1px solid var(--line); background: var(--card);
+  }
+  .legend .l-llm::before { background: var(--green-soft); border-color: var(--green); }
+  .legend .l-store::before { background: var(--turmeric-soft); border-color: var(--turmeric); }
+  .legend .l-ext::before { border-style: dashed; }
+
+  /* ---------- decision ledger ---------- */
+  .branch { margin-bottom: 1.6rem; }
+  .branch-title {
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--green); font-weight: 700; margin: 0 0 .55rem;
+  }
+  .decisions { display: flex; flex-direction: column; gap: .55rem; }
+  .decision {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: .8rem 1rem; display: grid; grid-template-columns: 2.4rem 1fr; gap: .2rem .8rem;
+  }
+  .decision .num {
+    grid-row: span 2; font-family: var(--mono); font-size: .8rem; color: var(--green);
+    font-weight: 700; padding-top: .15rem; font-variant-numeric: tabular-nums;
+  }
+  .decision .what { font-weight: 600; font-size: .92rem; }
+  .decision .why { color: var(--muted); font-size: .82rem; max-width: 46rem; }
+  .decision .why b { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: .78em; background: var(--green-soft);
+    padding: .1em .35em; border-radius: 4px;
+  }
+
+  /* ---------- glossary ---------- */
+  .terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .55rem; }
+  .term {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .7rem .85rem;
+  }
+  .term .name { font-weight: 700; font-size: .85rem; }
+  .term .name .avoid { color: var(--muted); font-weight: 400; font-size: .72rem; }
+  .term p { margin: .25rem 0 0; font-size: .78rem; color: var(--muted); }
+
+  /* ---------- evaluation ---------- */
+  .evals { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .6rem; }
+  .eval {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .8rem .9rem;
+  }
+  .eval .tag {
+    display: inline-block; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+    font-weight: 700; border-radius: 999px; padding: .12rem .55rem; margin-bottom: .45rem;
+  }
+  .tag.primary { background: var(--green); color: #fff; }
+  .tag.secondary { background: var(--turmeric-soft); color: var(--turmeric); }
+  .eval .name { font-weight: 600; font-size: .88rem; }
+  .eval p { margin: .3rem 0 0; font-size: .78rem; color: var(--muted); }
+
+  /* ---------- ADRs ---------- */
+  .adrs { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .6rem; }
+  .adr {
+    border-left: 3px solid var(--green); background: var(--card); border-radius: 0 8px 8px 0;
+    border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: .8rem 1rem;
+  }
+  .adr .id { font-family: var(--mono); font-size: .72rem; color: var(--green); font-weight: 700; }
+  .adr .name { font-weight: 600; font-size: .9rem; margin: .15rem 0 .3rem; }
+  .adr p { margin: 0; font-size: .78rem; color: var(--muted); }
+
+  footer { color: var(--muted); font-size: .74rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+
+<div class="page">
+
+  <header>
+    <div class="eyebrow">CSB Thesis · Design record · 2026-07-03</div>
+    <h1>TTM Consultation Assistant <span class="thai">ผู้ช่วยแพทย์แผนไทย</span></h1>
+    <p class="sub">A LINE chatbot acting as a Thai Traditional Medicine self-care advisor: Thai chat, tongue
+    assessment from photos, and doctor-style memory — every decision below was resolved in a grilling session
+    and is recorded in <code>CONTEXT.md</code> and <code>docs/adr/</code>.</p>
+  </header>
+
+  <section>
+    <h2>Message pipeline</h2>
+    <div class="pipeline">
+      <div class="lane">
+        <div class="lane-label">Every turn</div>
+        <div class="node ext">LINE webhook<small>signature check</small></div>
+        <div class="arrow">→</div>
+        <div class="node">FastAPI<small>bg task · 200 fast</small></div>
+        <div class="arrow">→</div>
+        <div class="node">Loading animation<small>≤ 60 s indicator</small></div>
+        <div class="arrow">→</div>
+        <div class="node">Per-user queue<small>serialize turns</small></div>
+      </div>
+      <div class="lane">
+        <div class="lane-label">Image turn</div>
+        <div class="node ext">Roboflow API<small>detect + crop tongue</small></div>
+        <div class="arrow">→</div>
+        <div class="node llm">Vision Describer<small>swappable slot</small></div>
+        <div class="arrow">→</div>
+        <div class="node">Tongue Description<small>structured JSON</small></div>
+        <div class="arrow">→</div>
+        <div class="node" style="border-style:dotted;">no tongue?<small>retake guidance</small></div>
+      </div>
+      <div class="lane">
+        <div class="lane-label">Text turn</div>
+        <div class="node">BGE-M3<small>local embeddings</small></div>
+        <div class="arrow">→</div>
+        <div class="node store">Chroma<small>TTM book, top-k</small></div>
+        <div class="arrow">→</div>
+        <div class="node llm">Advisor Model<small>config-selected · LangGraph loop</small></div>
+        <div class="arrow">→</div>
+        <div class="node store">Health Record<small>read tools + auto-inject</small></div>
+      </div>
+      <div class="lane">
+        <div class="lane-label">Reply</div>
+        <div class="node">Thai response<small>Assessment, never diagnosis</small></div>
+        <div class="arrow">→</div>
+        <div class="node ext">Reply token<small>push fallback</small></div>
+      </div>
+    </div>
+    <div class="legend">
+      <span class="l-llm">LLM slot (config-swappable)</span>
+      <span class="l-store">Persistence</span>
+      <span class="l-ext">External service</span>
+    </div>
+    <p class="pipeline-note">At Consultation close (next message after a &gt; 6 h gap) the working buffer passes the
+    Relevance Gate and, if clinically relevant, is summarized into a Health Record entry — deterministically, never by an LLM tool call.</p>
+  </section>
+
+  <section>
+    <h2>Decision ledger</h2>
+
+    <div class="branch">
+      <p class="branch-title">Domain</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">01</span>
+          <span class="what">The domain is Thai Traditional Medicine, not modern healthcare</span>
+          <span class="why">The bot is a <b>TTM self-care advisor</b>: it produces Assessments (never clinical
+          diagnoses) grounded in the TTM corpus, and recommends a doctor for anything clinically serious.</span>
+        </div>
+        <div class="decision"><span class="num">02</span>
+          <span class="what">Tongue-only visual assessment, one pipeline</span>
+          <span class="why">Every image goes through the tongue detector. Tongue found → Tongue Assessment;
+          not found → retake guidance. Rashes, wounds, and arbitrary health images are <b>out of scope</b> —
+          the corpus doesn't ground them and they dilute the thesis.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <p class="branch-title">Memory</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">03</span>
+          <span class="what">Health Record is the only persistent memory</span>
+          <span class="why">Doctor's-notes-style entries with a conversation summary; raw transcripts are never
+          stored long-term. Mirrors how a real doctor charts a visit. (ADR-0002)</span>
+        </div>
+        <div class="decision"><span class="num">04</span>
+          <span class="what">Consultations close lazily on a 6-hour inactivity gap</span>
+          <span class="why">Raw turns wait in a working buffer; the next message after the gap triggers
+          summarization. <b>No cron, no scheduler</b> — everything happens inside webhook handling, and users
+          who vanish mid-chat are handled for free.</span>
+        </div>
+        <div class="decision"><span class="num">05</span>
+          <span class="what">Relevance Gate at close</span>
+          <span class="why">Memes, greetings, and off-topic chat are discarded without creating an entry —
+          the chart stays clean because the last 3 entries are auto-injected into every new Consultation.</span>
+        </div>
+        <div class="decision"><span class="num">06</span>
+          <span class="what">Auto-inject + read-only tools; no LLM write tools</span>
+          <span class="why">Recent entries load automatically (continuity never depends on a tool call);
+          <code>search_health_records</code> and <code>get_health_record_by_date</code> cover deep lookups.
+          Record integrity never depends on the model remembering to call <code>save()</code>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <p class="branch-title">Models</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">07</span>
+          <span class="what">Two-model pipeline: config-selected Advisor + separate Vision Describer</span>
+          <span class="why">Neither slot has a fixed model. The Advisor Model reasons over the corpus and
+          calls tools; the Vision Describer only <b>describes</b> the tongue, never assesses. Both switch
+          via config — e.g. Typhoon vs. a frontier model as Advisor is an experiment, not a rewrite. (ADR-0001)</span>
+        </div>
+        <div class="decision"><span class="num">08</span>
+          <span class="what">Structured Tongue Description schema, derived from the book</span>
+          <span class="why">The Describer fills fixed TTM observation fields plus a notes field and an
+          image-quality flag. Describer models become interchangeable and the two stages are
+          <b>separately evaluable</b>.</span>
+        </div>
+        <div class="decision"><span class="num">09</span>
+          <span class="what">Advisor Model and detector both reachable via hosted API</span>
+          <span class="why">Whichever model config selects for the Advisor slot (e.g. Typhoon) runs via its
+          hosted API; Roboflow detector likewise hosted. Zero GPU ops, free tiers, reproducible enough for
+          a thesis. Detector keeps a confidence threshold + crop padding as tunable constants.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <p class="branch-title">Knowledge</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">10</span>
+          <span class="what">RAG = Chroma (embedded) + BGE-M3 (local), plain top-k</span>
+          <span class="why">One book is a small corpus: chunk by the book's own sections, retrieve k≈4–6 per
+          advisor turn. No re-ranker, no hybrid search. Plain MongoDB in Docker has <b>no vector search</b> —
+          MongoDB stays for records only.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <p class="branch-title">Delivery &amp; ops</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">11</span>
+          <span class="what">Webhook returns 200 immediately; pipeline runs in a background task</span>
+          <span class="why">Loading animation while thinking, reply token with push fallback, and per-user
+          serialization so parallel turns can't race the buffer.</span>
+        </div>
+        <div class="decision"><span class="num">12</span>
+          <span class="what">Deterministic spine in plain Python; LangGraph only for the advisor loop</span>
+          <span class="why">Detect → describe → retrieve is fixed code; only the Health-Record tool loop is
+          agentic. Model slots are LangChain config, so swaps are <code>.env</code> edits.</span>
+        </div>
+        <div class="decision"><span class="num">13</span>
+          <span class="what">Local dev behind a Cloudflare named tunnel; cloud VPS optional later</span>
+          <span class="why">FastAPI + MongoDB (Docker) + Chroma folder all local; the same compose stack moves
+          to a small VPS if the evaluation needs always-on availability.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <p class="branch-title">Safety</p>
+      <div class="decisions">
+        <div class="decision"><span class="num">14</span>
+          <span class="what">Three system-prompt-level safety rules</span>
+          <span class="why">One-time disclaimer on follow; <b>red-flag escalation</b> (emergency symptoms →
+          drop TTM framing, direct to 1669); scope refusals (no dosing, no disease-cure claims, no
+          pregnancy/infant herbal advice). No separate classifier model.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ubiquitous language</h2>
+    <div class="terms">
+      <div class="term"><div class="name">Thai Traditional Medicine <span class="avoid">not "Thai healthcare"</span></div>
+        <p>The domain — แพทย์แผนไทย, incl. tongue inspection and element-based wellness.</p></div>
+      <div class="term"><div class="name">TTM Self-Care Advisor <span class="avoid">not "doctor bot"</span></div>
+        <p>What the bot is. Never claims modern medical diagnosis.</p></div>
+      <div class="term"><div class="name">Assessment <span class="avoid">not "diagnosis"</span></div>
+        <p>The bot's TTM-grounded interpretation of a user's condition.</p></div>
+      <div class="term"><div class="name">Tongue Assessment <span class="avoid">not "tongue diagnosis"</span></div>
+        <p>Assessment from a detected-and-cropped tongue photo — the only visual kind.</p></div>
+      <div class="term"><div class="name">Advisor Model <span class="avoid">not "the LLM" / "the Typhoon model"</span></div>
+        <p>Text LLM conducting the Consultation. Config-selected slot, no fixed default — e.g. Typhoon, GPT, Claude.</p></div>
+      <div class="term"><div class="name">Vision Describer <span class="avoid">not "image model"</span></div>
+        <p>Multimodal model that describes tongue photos. Describes; never assesses.</p></div>
+      <div class="term"><div class="name">Tongue Description <span class="avoid">not "caption"</span></div>
+        <p>Structured observation (schema from the book) + notes + quality flag.</p></div>
+      <div class="term"><div class="name">Consultation <span class="avoid">not "session"</span></div>
+        <p>One bounded episode, like a doctor visit. Closed by the inactivity gap.</p></div>
+      <div class="term"><div class="name">Health Record <span class="avoid">not "chat log"</span></div>
+        <p>Per-user structured entries + conversation summaries. The only long-term memory.</p></div>
+      <div class="term"><div class="name">Relevance Gate <span class="avoid">not "spam filter"</span></div>
+        <p>Close-time check: only clinically relevant Consultations become entries.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Evaluation plan</h2>
+    <div class="evals">
+      <div class="eval"><span class="tag primary">Primary</span>
+        <div class="name">Tongue Description accuracy</div>
+        <p>Labeled tongue-photo set vs. schema output; same photos through Gemini / GPT / Claude as the
+        Describer — the model-comparison table.</p></div>
+      <div class="eval"><span class="tag primary">Primary</span>
+        <div class="name">Memory ablation</div>
+        <p>Returning-user scenarios with Health Record injection on vs. off. The thesis's most novel claim.</p></div>
+      <div class="eval"><span class="tag primary">Primary</span>
+        <div class="name">Safety escalation rate</div>
+        <p>Red-flag message test set (e.g. chest pain, breathing difficulty) → measured escalation-to-1669 rate.</p></div>
+      <div class="eval"><span class="tag secondary">Secondary</span>
+        <div class="name">TTM correctness</div>
+        <p>Groundedness / expert rating of Assessments against the corpus — included, but not the headline.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Architecture decision records</h2>
+    <div class="adrs">
+      <div class="adr"><span class="id">ADR-0001</span>
+        <div class="name">Two-model pipeline</div>
+        <p>Config-selected Advisor + separate structured-output Vision Describer, instead of one frontier
+        multimodal model. No model is architecturally fixed; tool-calling risk travels with whichever
+        model is configured, mitigated by a config-level escape hatch.</p></div>
+      <div class="adr"><span class="id">ADR-0002</span>
+        <div class="name">Health-Record-only memory</div>
+        <p>Lazy gap-close summarization with a Relevance Gate; no LLM write tools. Changing this invalidates
+        the memory-ablation experiment.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    Generated from the grilling session of 2026-07-03 · source of truth: <code>CONTEXT.md</code>,
+    <code>docs/adr/0001</code>, <code>docs/adr/0002</code> · csb_thesis
+  </footer>
+
+</div>
