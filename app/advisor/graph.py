@@ -22,8 +22,14 @@ def build_advisor_agent(settings: Settings, tools: list[BaseTool]) -> CompiledSt
     return create_react_agent(model, tools, prompt=SYSTEM_PROMPT)
 
 
-def _build_context_block(retrieved_passages: list[str], recent_records_summary: str) -> str:
+def _build_context_block(
+    retrieved_passages: list[str],
+    recent_records_summary: str,
+    health_profile_block: str,
+) -> str:
     sections = []
+    if health_profile_block:
+        sections.append(f"Health Profile (current face sheet):\n{health_profile_block}")
     if recent_records_summary:
         sections.append(f"Recent Health Record entries for this user:\n{recent_records_summary}")
     if retrieved_passages:
@@ -38,9 +44,12 @@ async def run_advisor(
     user_message: str,
     retrieved_passages: list[str],
     recent_records_summary: str,
+    health_profile_block: str = "",
 ) -> str:
     """Run one Advisor turn and return its final Thai-language reply text."""
-    context_block = _build_context_block(retrieved_passages, recent_records_summary)
+    context_block = _build_context_block(
+        retrieved_passages, recent_records_summary, health_profile_block
+    )
     text = (
         f"{context_block}\n\n---\n\nUser message: {user_message}"
         if context_block

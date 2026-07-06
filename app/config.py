@@ -56,6 +56,10 @@ class Settings(BaseSettings):
     consultation_gap_hours: float = 6.0
     health_record_inject_count: int = 3
 
+    # Health Profile (ADR 0003) -- the memory ablation arm: off skips both
+    # the Profile Updater at close and the face-sheet injection.
+    health_profile_enabled: bool = True
+
     def advisor_slot(self) -> ModelSlotSettings:
         return ModelSlotSettings(
             provider=self.advisor_provider,

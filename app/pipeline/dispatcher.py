@@ -7,7 +7,10 @@ from app.advisor.tools import build_health_record_tools
 from app.config import Settings
 from app.line.messaging import LineMessenger
 from app.memory.db import get_database
+from app.memory.health_profile import HealthProfileRepository, empty_profile
 from app.memory.health_record import HealthRecordRepository
+from app.memory.profile_render import render_profile
+from app.memory.profile_updater import update_profile_from_entry
 from app.memory.relevance_gate import summarize_consultation
 from app.memory.working_buffer import WorkingBufferRepository
 from app.models.schemas import ConsultationTurn
@@ -87,16 +90,28 @@ async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Set
     db = get_database(settings)
     buffer_repo = WorkingBufferRepository(db)
     record_repo = HealthRecordRepository(db)
+    profile_repo = HealthProfileRepository(db)
 
     stale_turns = await buffer_repo.pop_if_stale(user_id, settings.consultation_gap_hours)
     if stale_turns:
         gate_result = await summarize_consultation(stale_turns, user_id=user_id, settings=settings)
         if gate_result.has_health_content and gate_result.entry is not None:
             await record_repo.insert(gate_result.entry)
+            if settings.health_profile_enabled:
+                # The only Health Profile write path: gate-passed close (ADR 0003).
+                await update_profile_from_entry(
+                    profile_repo, user_id=user_id, entry=gate_result.entry, settings=settings
+                )
 
     await buffer_repo.append_turn(
         user_id, ConsultationTurn(role="user", text=incoming_text, timestamp=datetime.now(UTC))
     )
+
+    health_profile_block = ""
+    if settings.health_profile_enabled:
+        now = datetime.now(UTC)
+        profile = await profile_repo.get(user_id) or empty_profile(user_id, now)
+        health_profile_block = render_profile(profile, today=now.date())
 
     recent_entries = await record_repo.recent(user_id, settings.health_record_inject_count)
     recent_summary = "\n".join(entry.conversation_summary for entry in recent_entries)
@@ -109,6 +124,7 @@ async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Set
         user_message=incoming_text,
         retrieved_passages=passages,
         recent_records_summary=recent_summary,
+        health_profile_block=health_profile_block,
     )
 
     await buffer_repo.append_turn(
