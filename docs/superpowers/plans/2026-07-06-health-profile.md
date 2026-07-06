@@ -596,7 +596,7 @@ class HealthProfileRepository:
 - [ ] **Step 5: Run test to verify it passes**
 
 Run: `uv run pytest tests/memory/test_health_profile.py -v`
-Expected: 8 passed
+Expected: 7 passed
 
 - [ ] **Step 6: Lint, full suite, commit**
 
@@ -764,7 +764,8 @@ git commit -m "feat: render Health Profile face sheet for prompt injection"
 **Files:**
 - Create: `app/memory/profile_updater.py`
 - Modify: `app/memory/health_record.py` (add `all_for_user`)
-- Test: `tests/memory/test_profile_updater.py`
+- Modify: `app/models/schemas.py` (tz-aware validator — Mongo reads return naive datetimes; naive means UTC in this system)
+- Test: `tests/memory/test_profile_updater.py`, `tests/models/test_schemas.py`
 
 **Interfaces:**
 - Consumes: Tasks 1/3/4; `build_chat_model` from `app/advisor/llm.py` (same structured-output pattern as `app/memory/relevance_gate.py:60-64`); `HealthRecordEntry`
@@ -826,8 +827,11 @@ class _FakeStructuredModel:
 
     async def ainvoke(self, prompt: str) -> ProfilePatch:
         self.prompts.append(prompt)
+        # Match on the entry-section marker only: the rendered profile
+        # legitimately echoes prior complaint text (the projection carries
+        # it forward), so a bare-substring match would re-match old entries.
         for complaint, patch in PATCHES_BY_COMPLAINT.items():
-            if complaint in prompt:
+            if f"Chief complaint: {complaint}" in prompt:
                 return patch
         return ProfilePatch()
 
@@ -915,6 +919,50 @@ In `app/memory/health_record.py`, after the `get_by_date` method, add:
         return [HealthRecordEntry(**doc) async for doc in cursor]
 ```
 
+- [ ] **Step 3b: Normalize Mongo-read datetimes at the model boundary**
+
+The Motor client is not `tz_aware`, so datetimes read back from MongoDB are naive even though this system only ever stores UTC. Without this, entries fetched by `all_for_user` carry naive `consultation_date`s and the rebuild-equivalence test fails on tzinfo alone. Validate at the boundary:
+
+In `app/models/schemas.py`, change the imports to:
+
+```python
+from datetime import UTC, datetime
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, field_validator
+```
+
+and add to `HealthRecordEntry` (after the field declarations):
+
+```python
+    @field_validator("consultation_date")
+    @classmethod
+    def _assume_utc_when_naive(cls, value: datetime) -> datetime:
+        """MongoDB returns naive datetimes (the client is not tz_aware);
+        this system only ever stores UTC, so naive means UTC."""
+        return value if value.tzinfo is not None else value.replace(tzinfo=UTC)
+```
+
+Create `tests/models/test_schemas.py`:
+
+```python
+from datetime import UTC, datetime
+
+from app.models.schemas import HealthRecordEntry
+
+
+def test_naive_consultation_date_is_assumed_utc():
+    entry = HealthRecordEntry(
+        user_id="U1",
+        consultation_date=datetime(2026, 7, 1, 9, 0),
+        chief_complaint="x",
+        advice_given="y",
+        conversation_summary="z",
+    )
+    assert entry.consultation_date == datetime(2026, 7, 1, 9, 0, tzinfo=UTC)
+    assert entry.consultation_date.tzinfo is not None
+```
+
 - [ ] **Step 4: Write the updater implementation**
 
 Create `app/memory/profile_updater.py`:
@@ -941,9 +989,9 @@ from app.models.schemas import HealthRecordEntry
 
 UPDATE_PROMPT = """\
 You maintain the Health Profile of a user of a Thai Traditional Medicine \
-self-care advisor: a face sheet of their CURRENT state (sex, birth date, \
-chronic conditions, allergies, regular medicines/herbs, habits, ongoing \
-complaints).
+self-care advisor. The profile is a face sheet of their CURRENT state \
+(sex, birth date, chronic conditions, allergies, regular medicines/herbs, \
+habits, ongoing complaints).
 
 Current profile — list items are labeled with stable IDs in brackets:
 {profile}
@@ -1027,7 +1075,7 @@ Expected: 3 passed
 
 ```bash
 uv run ruff check app tests && uv run pytest
-git add app/memory/profile_updater.py app/memory/health_record.py tests/memory/test_profile_updater.py
+git add app/memory/profile_updater.py app/memory/health_record.py app/models/schemas.py tests/memory/test_profile_updater.py tests/models/test_schemas.py
 git commit -m "feat: add Profile Updater with rebuild-by-replay (projection of entries)"
 ```
 
