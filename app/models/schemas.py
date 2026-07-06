@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_validator
 
 
 class ConsultationTurn(BaseModel):
@@ -62,6 +62,13 @@ class HealthRecordEntry(BaseModel):
     tongue: TongueAssessment | None = None
     advice_given: str
     conversation_summary: str
+
+    @field_validator("consultation_date")
+    @classmethod
+    def _assume_utc_when_naive(cls, value: datetime) -> datetime:
+        """MongoDB returns naive datetimes (the client is not tz_aware);
+        this system only ever stores UTC, so naive means UTC."""
+        return value if value.tzinfo is not None else value.replace(tzinfo=UTC)
 
 
 class RelevanceGateResult(BaseModel):

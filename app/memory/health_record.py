@@ -38,6 +38,12 @@ class HealthRecordRepository:
         )
         return [HealthRecordEntry(**doc) async for doc in cursor]
 
+    async def all_for_user(self, user_id: str) -> list[HealthRecordEntry]:
+        """All entries chronologically -- the replay source for rebuilding
+        the Health Profile projection (ADR 0003)."""
+        cursor = self._collection.find({"user_id": user_id}).sort("consultation_date", 1)
+        return [HealthRecordEntry(**doc) async for doc in cursor]
+
     async def search(self, user_id: str, query: str, limit: int = 10) -> list[HealthRecordEntry]:
         """Case-insensitive substring search across the free-text fields.
 
