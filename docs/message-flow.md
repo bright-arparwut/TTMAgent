@@ -52,6 +52,7 @@ flowchart TD
     class GATE llmscored
     class AGENT agentic
 ```
+
 ## The three decision diamonds
 
 | Decision | Decider | Kind |
