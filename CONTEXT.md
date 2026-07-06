@@ -45,5 +45,17 @@ The check at Consultation close that decides whether the exchange contained heal
 _Avoid_: spam filter, content filter
 
 **Health Record**:
-The per-user persistent memory, mirroring a doctor's notes: a series of record entries, each holding structured observations (symptoms, Assessments, advice) plus a summary of the conversation that produced them. The only long-term memory — raw transcripts are not persisted.
+The per-user persistent memory, mirroring a doctor's notes: a series of record entries, each holding structured observations (symptoms, Assessments, advice) plus a summary of the conversation that produced them. The only long-term memory — raw transcripts are not persisted — and the sole source from which the Health Profile is derived.
 _Avoid_: conversation history, chat log, transcript
+
+**Health Profile**:
+The per-user face sheet: a single current-state view holding TTM identity (birth date, sex, and the ธาตุเจ้าเรือน derived from birth date), clinical background (chronic conditions, allergies, regular medicines and herbs), lifestyle habits, and Ongoing Complaints. Derived exclusively from Health Record entries — rebuildable from them at any time — and read by the Advisor every turn, but never writable by it.
+_Avoid_: patient profile, user profile, patient record
+
+**Profile Updater**:
+The deterministic step at Consultation close that folds a gate-passed Health Record entry into the Health Profile as precise item-level changes — never a rewrite of the whole sheet. LLM-scored but code-triggered, like the Relevance Gate; the Advisor cannot invoke it.
+_Avoid_: memory tool, save tool, profile agent
+
+**Ongoing Complaint**:
+An open item on the Health Profile tracking a condition across Consultations (e.g. persistent insomnia), like a doctor's follow-up list. Cleared when the user reports it resolved.
+_Avoid_: active issue, open ticket, symptom log
