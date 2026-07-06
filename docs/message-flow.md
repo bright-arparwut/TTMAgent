@@ -4,8 +4,7 @@ How the TTM advisor handles each kind of incoming LINE message, and who
 makes each decision along the way. Blue diamonds are decided by
 deterministic code, the amber diamond is code-triggered but LLM-scored,
 and the purple diamond is the Advisor Model's own agentic choice.
-Dashed elements are approved design, pending build
-([ADR 0003](adr/0003-health-profile-projection.md)).
+The Health Profile write path is defined by [ADR 0003](adr/0003-health-profile-projection.md).
 
 ```mermaid
 flowchart TD
@@ -30,12 +29,12 @@ flowchart TD
         STALE{"Working Buffer stale?<br/>(gap > 6 h)"}
         STALE -->|yes| GATE{"Relevance Gate:<br/>health content?"}
         GATE -->|yes| REC["Write Health Record entry"]
-        REC --> PU["Profile Updater:<br/>patch Health Profile<br/>(ADR 0003 — pending)"]
+        REC --> PU["Profile Updater:<br/>patch Health Profile<br/>(ADR 0003)"]
         PU --> APPEND["Append user turn to Working Buffer"]
         GATE -->|no| DISCARD["Discard buffer —<br/>Health Profile untouched"]
         DISCARD --> APPEND
         STALE -->|no| APPEND
-        APPEND --> CTX["Retrieve context:<br/>Health Profile* + recent Health Record summaries + RAG passages"]
+        APPEND --> CTX["Retrieve context:<br/>Health Profile + recent Health Record summaries + RAG passages"]
         CTX --> AGENT{"Advisor ReAct loop:<br/>answer directly or call a record tool?"}
         AGENT -->|call tool| TOOLS["search_health_records /<br/>get_health_record_by_date (read-only)"]
         TOOLS --> AGENT
@@ -49,17 +48,10 @@ flowchart TD
     classDef deterministic fill:#e6f0fa,stroke:#2b6cb0
     classDef llmscored fill:#fdf3e0,stroke:#b7791f
     classDef agentic fill:#f3e8fd,stroke:#6b46c1
-    classDef planned stroke-dasharray: 6 4
     class TF,STALE deterministic
     class GATE llmscored
     class AGENT agentic
-    class PU planned
 ```
-
-\* Health Profile injection into context is approved design
-([ADR 0003](adr/0003-health-profile-projection.md)), pending build; the
-record summaries and RAG passages are live today.
-
 ## The three decision diamonds
 
 | Decision | Decider | Kind |
@@ -95,7 +87,7 @@ a [Health Record](../CONTEXT.md) entry is written, then the
 [Profile Updater](../CONTEXT.md) folds that entry into the
 [Health Profile](../CONTEXT.md) as item-level patches — adding, updating,
 or clearing items such as [Ongoing Complaints](../CONTEXT.md)
-([ADR 0003](adr/0003-health-profile-projection.md) — pending build).
+([ADR 0003](adr/0003-health-profile-projection.md)).
 No health content → everything is discarded and the Health Profile is
 untouched. This is the only write path to long-term memory. The Advisor
 has no write tools — its only tools are the two read-only record tools.

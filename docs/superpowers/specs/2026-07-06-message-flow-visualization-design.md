@@ -15,7 +15,7 @@ The visualization depicts the system **as built plus the approved Health
 Profile design** (accurate to `app/pipeline/dispatcher.py`,
 `app/advisor/tools.py`, and ADRs 0001/0002/0003), not a proposed redesign.
 Health Profile elements follow `docs/adr/0003-health-profile-projection.md`
-(approved, implementation pending). In particular:
+(implemented). In particular:
 
 - Tongue detection/classification is a **deterministic pipeline step**
   (`TongueDetector` → `VisionDescriber`) that runs *before* the agent —
@@ -121,10 +121,9 @@ one writes `docs/message-flow.md`, one builds the HTML file
 - Every edge in both diagrams checked against `app/pipeline/dispatcher.py`,
   `app/advisor/tools.py`, `app/advisor/graph.py`,
   `app/memory/relevance_gate.py`
-- Health Profile edges checked against
-  `docs/adr/0003-health-profile-projection.md` until the implementation
-  lands; once built, re-check against the profile updater/repository
-  modules and remove this caveat
+- Health Profile edges verified against the implementation
+  (`app/memory/profile_updater.py`, `app/memory/health_profile.py`,
+  `app/pipeline/dispatcher.py`) as of the Health Profile build.
 - Mermaid syntax render-checked before commit
 - Artifact opens, all six scenario paths highlight correctly, no
   horizontal page scroll

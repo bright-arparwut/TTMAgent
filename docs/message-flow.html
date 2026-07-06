@@ -11,7 +11,7 @@
       --surface #ffffff  panel / card / node background
       --line    #c7cdd6  hairline borders, dividers
       --accent  #3d5a80  interactive accent (buttons, focus ring, links)
-    The three decision-diamond colors and the dashed "pending" stroke are
+    The three decision-diamond colors are
     FIXED semantic values from the spec, not derived from this palette:
       deterministic  fill #e6f0fa / stroke #2b6cb0
       llm-scored     fill #fdf3e0 / stroke #b7791f
@@ -133,7 +133,6 @@
   .swatch.deterministic { background: #e6f0fa; border: 1.5px solid #2b6cb0; }
   .swatch.llmscored { background: #fdf3e0; border: 1.5px solid #b7791f; }
   .swatch.agentic { background: #f3e8fd; border: 1.5px solid #6b46c1; }
-  .swatch.pending { background: var(--surface); border: 1.5px dashed var(--muted); }
 
   .notes-body { display: flex; flex-direction: column; gap: .6rem; }
   #step-notes ol { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .6rem; }
@@ -292,8 +291,8 @@
           <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="1280" y="1616">Discard buffer</tspan><tspan x="1280" y="1632">(profile untouched)</tspan></text>
         </g>
         <g id="PU" data-map-el="" class="node">
-          <rect x="790" y="1726" width="220" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3" stroke-dasharray="6 4"></rect>
-          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="1756">Profile Updater</tspan><tspan x="900" y="1772">(ADR 0003 — pending)</tspan></text>
+          <rect x="790" y="1726" width="220" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
+          <text text-anchor="middle" fill="#1f2a37" font-size="12" font-weight="600"><tspan x="900" y="1756">Profile Updater</tspan><tspan x="900" y="1772">(ADR 0003)</tspan></text>
         </g>
         <g id="APPEND" data-map-el="" class="node">
           <rect x="420" y="1866" width="200" height="68" rx="8" ry="8" fill="#ffffff" stroke="#8a93a3"></rect>
@@ -332,7 +331,6 @@
         <div class="legend-item"><span class="swatch deterministic"></span>Deterministic code decides</div>
         <div class="legend-item"><span class="swatch llmscored"></span>Code-triggered, LLM-scored</div>
         <div class="legend-item"><span class="swatch agentic"></span>Advisor's own agentic choice</div>
-        <div class="legend-item"><span class="swatch pending"></span>Dashed = approved design, pending build</div>
       </div>
       <div class="notes-body">
         <p class="panel-title">Walkthrough</p>
@@ -367,7 +365,7 @@
       edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-TOOLS","e-TOOLS-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
       notes: [
         "The user describes symptoms in Thai; routed down the text branch under the per-user lock.",
-        "Context is assembled: the Health Profile face sheet (ADR 0003 — pending build), the recent Health Record summaries, and TTM corpus passages retrieved for this message.",
+        "Context is assembled: the Health Profile face sheet (ADR 0003), the recent Health Record summaries, and TTM corpus passages retrieved for this message.",
         "In the ReAct loop the Advisor may call the read-only tools search_health_records / get_health_record_by_date to reach beyond the injected summaries — this is the map's only agentic decision.",
         "The reply is a TTM-grounded Assessment with advice — never a clinical diagnosis."
       ]
@@ -402,7 +400,7 @@
         "The user returns after more than 6 hours; the previous Consultation is now stale.",
         "Close happens lazily — inside this webhook call, before the new turn is handled. No scheduler exists.",
         "The Relevance Gate scores the stale buffer: health content → a Health Record entry is written; chit-chat → everything is discarded and the Health Profile is untouched.",
-        "On a gate pass, the Profile Updater folds the new entry into the Health Profile as item-level patches (ADR 0003 — pending build).",
+        "On a gate pass, the Profile Updater folds the new entry into the Health Profile as item-level patches (ADR 0003).",
         "This is the only write path to long-term memory — one gate guards both the Record and the Profile. The new message then proceeds down the normal spine."
       ]
     },
@@ -412,7 +410,7 @@
       edges: ["e-WH-EVT","e-EVT-LOCK","e-LOCK-STALE","e-STALE-APPEND","e-APPEND-CTX","e-CTX-AGENT","e-AGENT-REPLY","e-REPLY-APPADV","e-APPADV-END3"],
       notes: [
         "A brand-new user (after the follow-time welcome: «สวัสดีค่ะ ดิฉันเป็นผู้ช่วยให้คำแนะนำด้านแพทย์แผนไทยเบื้องต้น ไม่ใช่แพทย์และไม่ได้ให้การวินิจฉัยทางการแพทย์ หากมีอาการรุนแรงหรือฉุกเฉิน กรุณาพบแพทย์หรือโทร 1669 ทันที»): the Health Profile is empty and the Health Record has no entries.",
-        "The injected context lists which face-sheet fields are missing — e.g. birth date, needed to derive ธาตุเจ้าเรือน (ADR 0003 — pending build).",
+        "The injected context lists which face-sheet fields are missing — e.g. birth date, needed to derive ธาตุเจ้าเรือน (ADR 0003).",
         "The system prompt tells the Advisor to weave in at most one natural intake question — never a form-filling interrogation.",
         "Cold start is prompting, not machinery: no separate onboarding flow exists."
       ]
