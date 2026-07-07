@@ -77,8 +77,12 @@ run the Advisor, reply in Thai.
 **`image`** — tongue detection is a deterministic pipeline step that runs
 *before* the agent ([ADR 0001](adr/0001-two-model-pipeline.md)): the
 [Vision Describer](../CONTEXT.md) only describes; the Advisor makes the
-[Tongue Assessment](../CONTEXT.md). No detected tongue → retake guidance,
-never an Assessment, and the turn is not recorded.
+[Tongue Assessment](../CONTEXT.md). Detection and crop run server-side in
+a Roboflow workflow ([ADR 0004](adr/0004-serverless-workflow-crop.md));
+the confidence gate stays in app code. No detected tongue → retake
+guidance, never an Assessment, and the turn is not recorded. A detector
+or describer *failure* (outage, timeout) instead sends a Thai
+system-hiccup message — an outage is never presented as a bad photo.
 
 **Consultation close** — lazy, inside webhook handling: when a message
 arrives after a >6 h gap (config default), the stale buffer meets the
