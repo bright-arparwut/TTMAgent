@@ -67,6 +67,49 @@ class _FakeDescription:
         return '{"color": "แดง"}'
 
 
+async def test_download_failure_sends_system_hiccup(monkeypatch):
+    # Observed live 2026-07-07: a LINE content-API 404 escaped the guard and
+    # the user saw the loading animation, then silence.
+    messenger, consultation_inputs = _patch_common(monkeypatch)
+
+    async def failing_download(message_id):
+        raise RuntimeError("LINE content API 404")
+
+    messenger.download_content = failing_download
+
+    await dispatcher.handle_image_message(_event(), _settings())
+
+    assert messenger.sent == [dispatcher.SYSTEM_HICCUP_MESSAGE]
+    assert consultation_inputs == []
+
+
+async def test_loading_animation_failure_does_not_abort_turn(monkeypatch):
+    # The loading animation is cosmetic -- its failure must not cost the user
+    # their Tongue Assessment.
+    messenger, consultation_inputs = _patch_common(monkeypatch)
+
+    async def failing_loading(user_id):
+        raise RuntimeError("loading animation rejected")
+
+    messenger.show_loading = failing_loading
+
+    async def ok_detect(self, image_bytes):
+        return CroppedTongue(image=_pil_image(), confidence=0.9)
+
+    async def ok_describe(self, image):
+        return _FakeDescription()
+
+    monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
+    monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
+    monkeypatch.setattr(_StubDescriber, "describe", ok_describe, raising=False)
+    monkeypatch.setattr(dispatcher, "VisionDescriber", _StubDescriber)
+
+    await dispatcher.handle_image_message(_event(), _settings())
+
+    assert messenger.sent == ["คำแนะนำจากผู้ช่วย"]
+    assert len(consultation_inputs) == 1
+
+
 async def test_detector_error_sends_system_hiccup_not_retake(monkeypatch):
     messenger, consultation_inputs = _patch_common(monkeypatch)
 

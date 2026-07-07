@@ -58,11 +58,16 @@ async def handle_text_message(event: MessageEvent, settings: Settings) -> None:
 async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
     user_id = event.source.user_id
     messenger = LineMessenger(settings)
-    await messenger.show_loading(user_id)
-
-    image_bytes = await messenger.download_content(event.message.id)
+    try:
+        await messenger.show_loading(user_id)
+    except Exception:
+        # The loading animation is cosmetic -- its failure must not cost the
+        # user their Tongue Assessment.
+        logger.warning("Loading animation failed for user %s", user_id, exc_info=True)
 
     try:
+        image_bytes = await messenger.download_content(event.message.id)
+
         detector = TongueDetector(settings)
         cropped = await detector.detect_and_crop(image_bytes)
 
@@ -71,9 +76,10 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
             describer = VisionDescriber(settings)
             description = await describer.describe(cropped.image)
     except Exception:
-        # Detector or describer outage must read as a system hiccup, never
-        # as "your photo is bad" -- see docs/adr/0004-serverless-workflow-crop.md.
-        # TongueDetectionError and describer/LLM errors share the same remedy.
+        # Content download, detector, or describer outage must read as a
+        # system hiccup, never as "your photo is bad" -- see
+        # docs/adr/0004-serverless-workflow-crop.md. TongueDetectionError and
+        # describer/LLM errors share the same remedy.
         logger.exception("Vision pipeline failed for user %s", user_id)
         await messenger.reply_or_push(
             reply_token=event.reply_token, user_id=user_id, text=SYSTEM_HICCUP_MESSAGE

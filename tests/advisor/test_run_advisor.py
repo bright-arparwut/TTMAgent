@@ -1,8 +1,9 @@
+from datetime import UTC, datetime
+
 from langchain_core.messages import AIMessage
 
 from app.advisor.graph import run_advisor
 from app.models.schemas import ConsultationTurn
-from datetime import UTC, datetime
 
 
 class _FakeAgent:

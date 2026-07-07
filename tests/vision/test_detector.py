@@ -27,8 +27,11 @@ def _jpeg_bytes(size: tuple[int, int] = (16, 16)) -> bytes:
     return buffer.getvalue()
 
 
-def _crop(size: tuple[int, int] = (16, 16)) -> dict:
-    return {"type": "base64", "value": base64.b64encode(_jpeg_bytes(size)).decode("utf-8")}
+def _crop(size: tuple[int, int] = (16, 16)) -> str:
+    # The inference SDK unwraps workflow image outputs to bare base64 strings
+    # (observed live 2026-07-07); the raw-HTTP {"type": "base64", "value": ...}
+    # dict shape is covered separately below.
+    return base64.b64encode(_jpeg_bytes(size)).decode("utf-8")
 
 
 def _prediction(confidence: float) -> dict:
@@ -44,11 +47,15 @@ def _prediction(confidence: float) -> dict:
     }
 
 
-def _response(predictions: list[dict], crops: list[dict]) -> list[dict]:
+def _response(predictions: list[dict], crops: list) -> list[dict]:
+    # Mirrors the live serverless workflow response (observed 2026-07-07):
+    # extra outputs (count_objects, output_image) are present and ignored.
     return [
         {
-            "output_tongue_crop": crops,
-            "raw_predictions": {
+            "output_crops": crops,
+            "count_objects": len(predictions),
+            "output_image": _crop(),
+            "predictions": {
                 "predictions": predictions,
                 "image": {"width": 640, "height": 480},
             },
@@ -133,8 +140,20 @@ async def test_raises_on_empty_response_list():
         await detector.detect_and_crop(_jpeg_bytes())
 
 
+async def test_accepts_raw_http_dict_shaped_crop():
+    # Raw HTTP API (no SDK) wraps crops as {"type": "base64", "value": ...};
+    # decode_crop accepts both shapes.
+    dict_crop = {"type": "base64", "value": _crop()}
+    detector, _ = _detector_returning(_response([_prediction(0.9)], [dict_crop]))
+
+    result = await detector.detect_and_crop(_jpeg_bytes())
+
+    assert isinstance(result, CroppedTongue)
+    assert result.image.size == (16, 16)
+
+
 async def test_raises_when_crop_base64_does_not_decode_to_an_image():
-    bad_crop = {"type": "base64", "value": "bm90LWFuLWltYWdl"}  # "not-an-image"
+    bad_crop = "bm90LWFuLWltYWdl"  # "not-an-image"
     detector, _ = _detector_returning(_response([_prediction(0.9)], [bad_crop]))
 
     with pytest.raises(TongueDetectionError):

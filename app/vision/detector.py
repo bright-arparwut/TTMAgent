@@ -71,8 +71,8 @@ class TongueDetector:
     def _parse_result(self, results: object) -> CroppedTongue | None:
         try:
             entry = results[0]
-            predictions = entry["raw_predictions"]["predictions"]
-            crops = entry["output_tongue_crop"]
+            predictions = entry["predictions"]["predictions"]
+            crops = entry["output_crops"]
 
             if not predictions:
                 return None
