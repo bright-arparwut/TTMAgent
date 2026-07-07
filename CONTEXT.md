@@ -17,7 +17,7 @@ The bot's TTM-grounded interpretation of a user's condition (e.g., from a tongue
 _Avoid_: diagnosis, medical diagnosis
 
 **Advisor Model**:
-The text LLM that conducts the Consultation: chats in Thai, reasons over the TTM corpus, produces Assessments, and calls Health Record tools. A config-selected slot with no fixed default — any sufficiently Thai-capable model can fill it (e.g. Typhoon, GPT, Claude); swapping it is an experiment, not a rewrite.
+The text LLM that conducts the Consultation: chats in Thai, reasons over the TTM corpus, produces Assessments, and calls Health Record tools. A config-selected slot with no fixed default — any sufficiently Thai-capable model can fill it (e.g. Typhoon, GPT, Claude); swapping it is an experiment, not a rewrite. Currently filled by Gemini 2.5 Flash (same model as the Vision Describer, for now).
 _Avoid_: the LLM, chatbot model, "the Typhoon model"
 
 **Tongue Detection**:
@@ -25,7 +25,7 @@ The deterministic step that runs before the Vision Describer: it decides whether
 _Avoid_: tongue recognition, image validation
 
 **Vision Describer**:
-The multimodal model that examines a cropped tongue photo and produces a Tongue Description. It describes; it never assesses. A swappable slot independent of the Advisor Model.
+The multimodal model that examines a cropped tongue photo and produces a Tongue Description. It describes; it never assesses. A swappable slot independent of the Advisor Model. Currently filled by Gemini 2.5 Flash (same model as the Advisor, for now).
 _Avoid_: image model, vision LLM
 
 **Tongue Description**:
@@ -41,7 +41,7 @@ A bounded episode of interaction between a user and the advisor, analogous to on
 _Avoid_: session, chat, thread
 
 **Working Buffer**:
-The raw, per-user store of turns for the currently-open Consultation (role, text, timestamp). Exists only until the Consultation closes, at which point the Relevance Gate summarizes it and it is deleted — never itself a form of long-term memory.
+The raw, per-user store of turns for the currently-open Consultation (role, text, timestamp). Each turn, the spine replays its recent turns to the Advisor as within-Consultation memory — the Advisor itself has no tool to query it. Exists only until the Consultation closes, at which point the Relevance Gate summarizes it and it is deleted — never itself a form of long-term memory.
 _Avoid_: conversation history, chat log, session store
 
 **Relevance Gate**:

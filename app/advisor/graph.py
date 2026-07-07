@@ -1,4 +1,6 @@
-from langchain_core.messages import HumanMessage
+from collections.abc import Sequence
+
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.tools import BaseTool
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.prebuilt import create_react_agent
@@ -6,6 +8,7 @@ from langgraph.prebuilt import create_react_agent
 from app.advisor.llm import build_chat_model
 from app.advisor.prompts import SYSTEM_PROMPT
 from app.config import Settings
+from app.models.schemas import ConsultationTurn
 
 
 def build_advisor_agent(settings: Settings, tools: list[BaseTool]) -> CompiledStateGraph:
@@ -60,6 +63,17 @@ def _build_context_block(
     return "\n\n".join(sections)
 
 
+def _history_to_messages(history: Sequence[ConsultationTurn]) -> list[BaseMessage]:
+    """Working Buffer replay (ADR 0005): prior turns become role-tagged
+    message history, raw stored text only -- context blocks never replay."""
+    return [
+        HumanMessage(content=turn.text)
+        if turn.role == "user"
+        else AIMessage(content=turn.text)
+        for turn in history
+    ]
+
+
 async def run_advisor(
     agent: CompiledStateGraph,
     *,
@@ -67,6 +81,7 @@ async def run_advisor(
     retrieved_passages: list[str],
     recent_records_summary: str,
     health_profile_block: str = "",
+    history: Sequence[ConsultationTurn] = (),
 ) -> str:
     """Run one Advisor turn and return its final Thai-language reply text."""
     context_block = _build_context_block(
@@ -78,6 +93,7 @@ async def run_advisor(
         else user_message
     )
 
-    result = await agent.ainvoke({"messages": [HumanMessage(content=text)]})
+    messages = [*_history_to_messages(history), HumanMessage(content=text)]
+    result = await agent.ainvoke({"messages": messages})
     final_message = result["messages"][-1]
     return _content_to_text(final_message.content)

@@ -34,7 +34,7 @@ flowchart TD
         GATE -->|no| DISCARD["Discard buffer —<br/>Health Profile untouched"]
         DISCARD --> APPEND
         STALE -->|no| APPEND
-        APPEND --> CTX["Retrieve context:<br/>Health Profile + recent Health Record summaries + RAG passages"]
+        APPEND --> CTX["Retrieve context:<br/>Working Buffer replay (message history) +<br/>Health Profile + recent Health Record summaries + RAG passages"]
         CTX --> AGENT{"Advisor ReAct loop:<br/>answer directly or call a record tool?"}
         AGENT -->|call tool| TOOLS["search_health_records /<br/>get_health_record_by_date (read-only)"]
         TOOLS --> AGENT
@@ -71,8 +71,10 @@ gate passes — one boundary guards both long-term memory writes.
 
 **`text`** — the per-user lock serializes turns, then the shared spine
 runs: close a stale [Consultation](../CONTEXT.md) if one is waiting,
-append the turn to the [Working Buffer](../CONTEXT.md), retrieve context,
-run the Advisor, reply in Thai.
+load the [Working Buffer](../CONTEXT.md)'s prior turns, append the new
+turn, retrieve context, run the Advisor with the prior turns replayed as
+message history ([ADR 0005](adr/0005-working-buffer-replay.md), capped
+by config), reply in Thai.
 
 **`image`** — tongue detection is a deterministic pipeline step that runs
 *before* the agent ([ADR 0001](adr/0001-two-model-pipeline.md)): the

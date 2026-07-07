@@ -70,7 +70,8 @@ def _patch_dispatcher(monkeypatch, recorder: _Recorder, *, stale: bool) -> None:
     monkeypatch.setattr(dispatcher, "build_advisor_agent", lambda settings, tools: None)
 
     async def fake_run_advisor(agent, *, user_message, retrieved_passages,
-                               recent_records_summary, health_profile_block=""):
+                               recent_records_summary, health_profile_block="",
+                               history=()):
         recorder.profile_blocks.append(health_profile_block)
         return "คำตอบ"
 

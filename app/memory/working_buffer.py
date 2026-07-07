@@ -10,9 +10,11 @@ COLLECTION = "working_buffer"
 class WorkingBufferRepository:
     """The raw, per-user turn buffer for the currently-open Consultation.
 
-    Never queried by the Advisor directly and never itself persisted long
-    term -- see CONTEXT.md -> Consultation / Health Record. Closing is
-    lazy: `pop_if_stale` is the only place a Consultation actually ends.
+    Read by the spine each turn and replayed to the Advisor as
+    within-Consultation memory (ADR 0005) -- the Advisor has no tool to
+    query it. Never itself persisted long term -- see CONTEXT.md ->
+    Consultation / Health Record. Closing is lazy: `pop_if_stale` is the
+    only place a Consultation actually ends.
     """
 
     def __init__(self, db: AsyncIOMotorDatabase) -> None:

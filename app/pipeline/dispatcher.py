@@ -128,6 +128,15 @@ async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Set
                     profile_repo, user_id=user_id, entry=gate_result.entry, settings=settings
                 )
 
+    # Load prior turns BEFORE appending this one (ADR 0005): history is
+    # exactly the turns that precede the incoming message. Capped at read
+    # time only -- the Relevance Gate still sees the full buffer at close.
+    # cap=0 disables replay (the memory-ablation arm); a plain negative
+    # slice would hit Python's -0 == 0 trap and replay everything.
+    max_turns = settings.advisor_history_max_turns
+    prior_turns = await buffer_repo.current_turns(user_id)
+    history = prior_turns[-max_turns:] if max_turns > 0 else []
+
     await buffer_repo.append_turn(
         user_id, ConsultationTurn(role="user", text=incoming_text, timestamp=datetime.now(UTC))
     )
@@ -150,6 +159,7 @@ async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Set
         retrieved_passages=passages,
         recent_records_summary=recent_summary,
         health_profile_block=health_profile_block,
+        history=history,
     )
 
     await buffer_repo.append_turn(

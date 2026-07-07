@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -57,6 +58,10 @@ class Settings(BaseSettings):
     # Consultation lifecycle
     consultation_gap_hours: float = 6.0
     health_record_inject_count: int = 3
+    # Working Buffer turns replayed to the Advisor each turn (ADR 0005);
+    # caps what is *sent*, never what is stored -- the Relevance Gate still
+    # summarizes the full buffer at close. 0 disables replay (ablation arm).
+    advisor_history_max_turns: int = Field(default=30, ge=0)
 
     # Health Profile (ADR 0003) -- the memory ablation arm: off skips both
     # the Profile Updater at close and the face-sheet injection.
