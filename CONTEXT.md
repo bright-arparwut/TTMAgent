@@ -20,6 +20,10 @@ _Avoid_: diagnosis, medical diagnosis
 The text LLM that conducts the Consultation: chats in Thai, reasons over the TTM corpus, produces Assessments, and calls Health Record tools. A config-selected slot with no fixed default — any sufficiently Thai-capable model can fill it (e.g. Typhoon, GPT, Claude); swapping it is an experiment, not a rewrite.
 _Avoid_: the LLM, chatbot model, "the Typhoon model"
 
+**Tongue Detection**:
+The deterministic step that runs before the Vision Describer: it decides whether a user's photo actually shows a tongue and, if so, isolates it for description. This gate — not the Advisor — is the sole authority on "is there a tongue here?", so the advisor never assesses a photo that failed it. Three outcomes: a tongue is found (→ Tongue Description); no tongue is found (→ retake guidance, never an Assessment, turn not recorded); or the step itself fails, which is a system problem and not a bad photo (→ a system-hiccup notice asking the user to try again later).
+_Avoid_: tongue recognition, image validation
+
 **Vision Describer**:
 The multimodal model that examines a cropped tongue photo and produces a Tongue Description. It describes; it never assesses. A swappable slot independent of the Advisor Model.
 _Avoid_: image model, vision LLM
