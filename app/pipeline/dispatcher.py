@@ -1,3 +1,4 @@
+import logging
 from datetime import UTC, datetime
 
 from linebot.v3.webhooks import FollowEvent, MessageEvent
@@ -19,6 +20,8 @@ from app.rag.vector_store import retrieve_passages
 from app.vision.describer import VisionDescriber
 from app.vision.detector import TongueDetector
 
+logger = logging.getLogger(__name__)
+
 WELCOME_MESSAGE = (
     "สวัสดีค่ะ ดิฉันเป็นผู้ช่วยให้คำแนะนำด้านแพทย์แผนไทยเบื้องต้น "
     "ไม่ใช่แพทย์และไม่ได้ให้การวินิจฉัยทางการแพทย์ หากมีอาการรุนแรงหรือฉุกเฉิน "
@@ -27,6 +30,9 @@ WELCOME_MESSAGE = (
 RETAKE_GUIDANCE = (
     "ดิฉันมองไม่เห็นลิ้นในภาพนี้ชัดเจนค่ะ ลองถ่ายภาพลิ้นให้เต็มกรอบ แสงสว่างเพียงพอ "
     "และภาพไม่เบลอ แล้วส่งมาอีกครั้งนะคะ"
+)
+SYSTEM_HICCUP_MESSAGE = (
+    "ขออภัยค่ะ ระบบวิเคราะห์ภาพขัดข้องชั่วคราว กรุณาลองส่งภาพอีกครั้งภายหลังนะคะ"
 )
 
 
@@ -56,8 +62,24 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
 
     image_bytes = await messenger.download_content(event.message.id)
 
-    detector = TongueDetector(settings)
-    cropped = await detector.detect_and_crop(image_bytes)
+    try:
+        detector = TongueDetector(settings)
+        cropped = await detector.detect_and_crop(image_bytes)
+
+        description = None
+        if cropped is not None:
+            describer = VisionDescriber(settings)
+            description = await describer.describe(cropped.image)
+    except Exception:
+        # Detector or describer outage must read as a system hiccup, never
+        # as "your photo is bad" -- see docs/adr/0004-serverless-workflow-crop.md.
+        # TongueDetectionError and describer/LLM errors share the same remedy.
+        logger.exception("Vision pipeline failed for user %s", user_id)
+        await messenger.reply_or_push(
+            reply_token=event.reply_token, user_id=user_id, text=SYSTEM_HICCUP_MESSAGE
+        )
+        return
+
     if cropped is None:
         # No tongue detected: guidance only, never a Tongue Assessment, and
         # not recorded in the working buffer -- see CONTEXT.md -> Tongue Assessment.
@@ -65,9 +87,6 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
             reply_token=event.reply_token, user_id=user_id, text=RETAKE_GUIDANCE
         )
         return
-
-    describer = VisionDescriber(settings)
-    description = await describer.describe(cropped.image)
 
     turn_text = (
         "[User sent a tongue photo.] Vision Describer observations: "
