@@ -1,3 +1,4 @@
+import asyncio
 import io
 
 from inference_sdk import InferenceHTTPClient
@@ -5,12 +6,23 @@ from PIL import Image
 from pydantic import BaseModel, ConfigDict
 
 from app.config import Settings
+from app.vision.crop import decode_crop
 
-ROBOFLOW_HOSTED_API_URL = "https://detect.roboflow.com"
+ROBOFLOW_SERVERLESS_API_URL = "https://serverless.roboflow.com"
+WORKFLOW_TIMEOUT_SECONDS = 30
+
+
+class TongueDetectionError(Exception):
+    """The Roboflow workflow call failed: network, timeout, or a response
+    that violates the contract in docs/adr/0004-serverless-workflow-crop.md.
+
+    Distinct from a clean "no tongue" (detect_and_crop -> None): callers
+    should reply with a system-hiccup message, never retake guidance.
+    """
 
 
 class CroppedTongue(BaseModel):
-    """A tongue photo cropped to the detected bounding box (plus padding)."""
+    """A tongue photo cropped server-side by the Roboflow workflow."""
 
     model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
 
@@ -19,46 +31,68 @@ class CroppedTongue(BaseModel):
 
 
 class TongueDetector:
-    """Wraps the Roboflow hosted inference API for the trained tongue model.
+    """Wraps the Roboflow serverless workflow (tongue-detect-crop), which
+    detects the tongue, keeps the top-1 detection, and crops server-side.
 
-    See docs/adr and CONTEXT.md -> Tongue Assessment: below
-    `confidence_threshold` counts as "no tongue detected" and should trigger
-    retake guidance rather than a Tongue Assessment.
+    Console-side invariants (docs/adr/0004-serverless-workflow-crop.md):
+    the workflow's model-node threshold must stay BELOW
+    `roboflow_confidence_threshold` (the app-side gate is the only
+    authoritative "tongue found?" decision -- docs/message-flow.md), and a
+    top-1 detections filter keeps both output lists at <= 1 entry. The
+    argmax pairing below is insurance against console edits breaking that.
     """
 
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
         self._client = InferenceHTTPClient(
-            api_url=ROBOFLOW_HOSTED_API_URL, api_key=settings.roboflow_api_key
+            api_url=ROBOFLOW_SERVERLESS_API_URL, api_key=settings.roboflow_api_key
         )
 
     async def detect_and_crop(self, image_bytes: bytes) -> CroppedTongue | None:
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        result = await self._client.infer_async(image, model_id=self._settings.roboflow_model_id)
-        prediction = self._best_prediction(result)
-        if prediction is None:
-            return None
+        try:
+            results = await asyncio.wait_for(
+                asyncio.to_thread(
+                    self._client.run_workflow,
+                    workspace_name=self._settings.roboflow_workspace_name,
+                    workflow_id=self._settings.roboflow_workflow_id,
+                    images={"image": image},
+                    use_cache=False,
+                ),
+                timeout=WORKFLOW_TIMEOUT_SECONDS,
+            )
+        except TimeoutError as exc:
+            raise TongueDetectionError("Roboflow workflow call timed out") from exc
+        except Exception as exc:
+            raise TongueDetectionError("Roboflow workflow call failed") from exc
 
-        cropped = self._crop_with_padding(image, prediction)
-        return CroppedTongue(image=cropped, confidence=prediction["confidence"])
+        return self._parse_result(results)
 
-    def _best_prediction(self, result: dict) -> dict | None:
-        predictions = result.get("predictions", [])
-        if not predictions:
-            return None
-        best = max(predictions, key=lambda p: p["confidence"])
-        if best["confidence"] < self._settings.roboflow_confidence_threshold:
-            return None
-        return best
+    def _parse_result(self, results: object) -> CroppedTongue | None:
+        try:
+            entry = results[0]
+            predictions = entry["raw_predictions"]["predictions"]
+            crops = entry["output_tongue_crop"]
 
-    def _crop_with_padding(self, image: Image.Image, prediction: dict) -> Image.Image:
-        padding_ratio = self._settings.roboflow_crop_padding_ratio
-        cx, cy = prediction["x"], prediction["y"]
-        half_w = prediction["width"] / 2 * (1 + padding_ratio)
-        half_h = prediction["height"] / 2 * (1 + padding_ratio)
+            if not predictions:
+                return None
+            if len(crops) != len(predictions):
+                raise TongueDetectionError(
+                    f"Workflow contract violation: {len(crops)} crops for "
+                    f"{len(predictions)} predictions"
+                )
 
-        left = max(0, int(cx - half_w))
-        top = max(0, int(cy - half_h))
-        right = min(image.width, int(cx + half_w))
-        bottom = min(image.height, int(cy + half_h))
-        return image.crop((left, top, right, bottom))
+            best_index = max(
+                range(len(predictions)), key=lambda i: predictions[i]["confidence"]
+            )
+            best = predictions[best_index]
+            if best["confidence"] < self._settings.roboflow_confidence_threshold:
+                return None
+
+            return CroppedTongue(
+                image=decode_crop(crops[best_index]), confidence=best["confidence"]
+            )
+        except TongueDetectionError:
+            raise
+        except (IndexError, KeyError, TypeError, ValueError) as exc:
+            raise TongueDetectionError(f"Malformed workflow response: {exc!r}") from exc
