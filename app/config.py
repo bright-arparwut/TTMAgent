@@ -37,11 +37,13 @@ class Settings(BaseSettings):
     describer_api_key: str = ""
     describer_base_url: str | None = None
 
-    # Roboflow hosted tongue detector
+    # Roboflow serverless workflow: tongue detect + server-side crop.
+    # roboflow_confidence_threshold is the only authoritative "tongue
+    # found?" gate -- see docs/adr/0004-serverless-workflow-crop.md.
     roboflow_api_key: str = ""
-    roboflow_model_id: str = ""
+    roboflow_workspace_name: str = ""
+    roboflow_workflow_id: str = ""
     roboflow_confidence_threshold: float = 0.5
-    roboflow_crop_padding_ratio: float = 0.12
 
     # MongoDB (Health Records + working buffer)
     mongodb_uri: str = "mongodb://localhost:27017"
