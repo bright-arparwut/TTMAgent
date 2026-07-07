@@ -22,6 +22,28 @@ def build_advisor_agent(settings: Settings, tools: list[BaseTool]) -> CompiledSt
     return create_react_agent(model, tools, prompt=SYSTEM_PROMPT)
 
 
+def _content_to_text(content: object) -> str:
+    """Flatten an LLM message's `.content` to a plain string.
+
+    Gemini (and other providers) return `.content` as a *list* of content
+    blocks when thinking is enabled -- a thought-signature block alongside the
+    visible text block(s) -- instead of a bare string. ConsultationTurn.text
+    requires a str, so extract and join the text blocks and drop the rest.
+    See docs/message-flow.md -> the advisor reply lane.
+    """
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict) and block.get("type") == "text":
+                parts.append(block.get("text", ""))
+        return "".join(parts)
+    return str(content)
+
+
 def _build_context_block(
     retrieved_passages: list[str],
     recent_records_summary: str,
@@ -58,4 +80,4 @@ async def run_advisor(
 
     result = await agent.ainvoke({"messages": [HumanMessage(content=text)]})
     final_message = result["messages"][-1]
-    return final_message.content
+    return _content_to_text(final_message.content)
