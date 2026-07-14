@@ -1,5 +1,4 @@
 import base64
-import io
 
 from langchain_core.messages import HumanMessage
 from PIL import Image
@@ -7,6 +6,7 @@ from PIL import Image
 from app.advisor.llm import build_chat_model
 from app.config import Settings
 from app.models.schemas import TongueDescription
+from app.vision.crop import encode_jpeg
 
 # Placeholder prompt pending the TTM textbook's tongue-inspection categories
 # (see CONTEXT.md -> Tongue Description). Extend this once the book schema
@@ -31,9 +31,7 @@ class VisionDescriber:
         self._structured_model = model.with_structured_output(TongueDescription)
 
     async def describe(self, image: Image.Image) -> TongueDescription:
-        buffer = io.BytesIO()
-        image.save(buffer, format="JPEG")
-        encoded = base64.standard_b64encode(buffer.getvalue()).decode("utf-8")
+        encoded = base64.standard_b64encode(encode_jpeg(image)).decode("utf-8")
 
         message = HumanMessage(
             content=[

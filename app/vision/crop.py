@@ -19,3 +19,11 @@ def decode_crop(crop: str | dict) -> Image.Image:
         return Image.open(io.BytesIO(raw)).convert("RGB")
     except (KeyError, TypeError, binascii.Error, OSError) as exc:
         raise ValueError(f"Workflow crop did not decode to an image: {exc!r}") from exc
+
+
+def encode_jpeg(image: Image.Image) -> bytes:
+    """Encode a PIL image as JPEG bytes -- the single encode step for both
+    Tongue Photo storage (ADR 0007) and the describer's data URL."""
+    buffer = io.BytesIO()
+    image.save(buffer, format="JPEG")
+    return buffer.getvalue()
