@@ -82,7 +82,9 @@ def main() -> None:
     if not secret:
         raise SystemExit("line_channel_secret is empty -- set LINE_CHANNEL_SECRET in .env")
 
-    body = json.dumps({"destination": "U" + "0" * 32, "events": [_build_event(args.kind, args.text)]})
+    body = json.dumps(
+        {"destination": "U" + "0" * 32, "events": [_build_event(args.kind, args.text)]}
+    )
     signature = _sign(body, "wrong-secret" if args.bad_signature else secret)
 
     response = httpx.post(
