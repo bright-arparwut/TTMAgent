@@ -7,18 +7,29 @@ from app.advisor.prompts import SYSTEM_PROMPT
 from app.advisor.topic_menu import TOPIC_MENU_MARKER, split_topic_menu
 
 
-def test_prompt_teaches_the_exact_marker_the_parser_matches():
-    assert TOPIC_MENU_MARKER in SYSTEM_PROMPT
+def test_prompt_shows_the_marker_as_a_standalone_line():
+    # The parser only accepts the marker on its own line (_last_marker_line),
+    # so the prompt must display it the same way -- a substring match would
+    # keep passing even if the example collapsed into running prose.
+    assert any(line.strip() == TOPIC_MENU_MARKER for line in SYSTEM_PROMPT.splitlines())
 
 
-def test_a_reply_in_the_prompts_taught_format_parses_into_topics():
-    # Mirrors the example block shown in the system prompt verbatim.
-    reply = (
-        "ธาตุเจ้าเรือนของคุณน่าจะเป็นธาตุไฟค่ะ\n\n"
-        f"{TOPIC_MENU_MARKER}\n- อาหารบำรุงธาตุ\n- ท่าบริหารแก้ปวดหลัง"
-    )
+def test_the_prompts_own_example_block_parses_into_its_topics():
+    # Extract the example block exactly as the LLM will see it: the marker
+    # line plus its run of bullet lines. Hardcoding a copy here would let
+    # the prompt's real example drift without failing this test.
+    lines = SYSTEM_PROMPT.splitlines()
+    start = next(i for i, line in enumerate(lines) if line.strip() == TOPIC_MENU_MARKER)
+    block = [lines[start]]
+    for line in lines[start + 1 :]:
+        if not line.strip().startswith("-"):
+            break
+        block.append(line)
+    reply = "คำตอบหลัก\n" + "\n".join(block)
+
     parsed = split_topic_menu(reply)
-    assert parsed.visible_text == "ธาตุเจ้าเรือนของคุณน่าจะเป็นธาตุไฟค่ะ"
+
+    assert parsed.visible_text == "คำตอบหลัก"
     assert parsed.topics == ("อาหารบำรุงธาตุ", "ท่าบริหารแก้ปวดหลัง")
 
 
