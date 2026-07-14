@@ -33,7 +33,7 @@ class _FakeMessenger:
     async def download_content(self, message_id) -> bytes:
         return b"fake-image-bytes"
 
-    async def reply_or_push(self, *, reply_token, user_id, text) -> None:
+    async def reply_or_push(self, *, reply_token, user_id, text, topics=()) -> None:
         self.sent.append(text)
 
 
@@ -46,7 +46,7 @@ def _patch_common(monkeypatch) -> tuple[_FakeMessenger, list[str]]:
 
     async def fake_consultation(user_id, incoming_text, settings):
         consultation_inputs.append(incoming_text)
-        return "คำแนะนำจากผู้ช่วย"
+        return dispatcher.split_topic_menu("คำแนะนำจากผู้ช่วย")
 
     monkeypatch.setattr(dispatcher, "_run_consultation_turn", fake_consultation)
     return messenger, consultation_inputs

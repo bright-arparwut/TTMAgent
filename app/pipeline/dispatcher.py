@@ -5,6 +5,7 @@ from linebot.v3.webhooks import FollowEvent, MessageEvent
 
 from app.advisor.graph import build_advisor_agent, run_advisor
 from app.advisor.tools import build_health_record_tools
+from app.advisor.topic_menu import ParsedReply, split_topic_menu
 from app.config import Settings
 from app.line.messaging import LineMessenger
 from app.memory.db import get_database
@@ -49,10 +50,15 @@ async def handle_follow(event: FollowEvent, settings: Settings) -> None:
 async def handle_text_message(event: MessageEvent, settings: Settings) -> None:
     user_id = event.source.user_id
     async with user_queue.lock_for(user_id):
-        reply_text = await _run_consultation_turn(user_id, event.message.text, settings)
+        parsed = await _run_consultation_turn(user_id, event.message.text, settings)
 
     messenger = LineMessenger(settings)
-    await messenger.reply_or_push(reply_token=event.reply_token, user_id=user_id, text=reply_text)
+    await messenger.reply_or_push(
+        reply_token=event.reply_token,
+        user_id=user_id,
+        text=parsed.visible_text,
+        topics=parsed.topics,
+    )
 
 
 async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
@@ -101,12 +107,19 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
     )
 
     async with user_queue.lock_for(user_id):
-        reply_text = await _run_consultation_turn(user_id, turn_text, settings)
+        parsed = await _run_consultation_turn(user_id, turn_text, settings)
 
-    await messenger.reply_or_push(reply_token=event.reply_token, user_id=user_id, text=reply_text)
+    await messenger.reply_or_push(
+        reply_token=event.reply_token,
+        user_id=user_id,
+        text=parsed.visible_text,
+        topics=parsed.topics,
+    )
 
 
-async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Settings) -> str:
+async def _run_consultation_turn(
+    user_id: str, incoming_text: str, settings: Settings
+) -> ParsedReply:
     """Shared turn logic for both text and (described) image turns: close a
     stale Consultation if one is waiting, append this turn, retrieve TTM
     context, run the Advisor, and append its reply. See CONTEXT.md ->
@@ -162,7 +175,12 @@ async def _run_consultation_turn(user_id: str, incoming_text: str, settings: Set
         history=history,
     )
 
+    # The raw reply -- delimiter block included -- goes into the Working
+    # Buffer so the Advisor can resolve "ข้อสอง" after LINE hides the
+    # buttons (ADR 0006). Only the LINE transport sees the split.
+    parsed = split_topic_menu(reply_text)
     await buffer_repo.append_turn(
-        user_id, ConsultationTurn(role="advisor", text=reply_text, timestamp=datetime.now(UTC))
+        user_id,
+        ConsultationTurn(role="advisor", text=parsed.raw_text, timestamp=datetime.now(UTC)),
     )
-    return reply_text
+    return parsed

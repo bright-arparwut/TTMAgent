@@ -39,7 +39,8 @@ flowchart TD
         AGENT -->|call tool| TOOLS["search_health_records /<br/>get_health_record_by_date (read-only)"]
         TOOLS --> AGENT
         AGENT -->|answer| REPLY["Reply in Thai"]
-        REPLY --> APPADV["Append advisor turn to Working Buffer"]
+        REPLY --> MENU["Parse Topic Menu block<br/>(ADR 0006): visible text +<br/>Quick Reply topics"]
+        MENU --> APPADV["Append RAW advisor turn<br/>(menu block included)<br/>to Working Buffer"]
     end
 
     LOCK --> STALE
@@ -48,7 +49,7 @@ flowchart TD
     classDef deterministic fill:#e6f0fa,stroke:#2b6cb0
     classDef llmscored fill:#fdf3e0,stroke:#b7791f
     classDef agentic fill:#f3e8fd,stroke:#6b46c1
-    class TF,STALE deterministic
+    class TF,STALE,MENU deterministic
     class GATE llmscored
     class AGENT agentic
 ```
@@ -74,7 +75,11 @@ runs: close a stale [Consultation](../CONTEXT.md) if one is waiting,
 load the [Working Buffer](../CONTEXT.md)'s prior turns, append the new
 turn, retrieve context, run the Advisor with the prior turns replayed as
 message history ([ADR 0005](adr/0005-working-buffer-replay.md), capped
-by config), reply in Thai.
+by config), reply in Thai. The reply's trailing `[หัวข้อ]` block, if any,
+becomes [Topic Menu](../CONTEXT.md) Quick Reply buttons
+([ADR 0006](adr/0006-topic-menu-delimiter-protocol.md)); the raw reply --
+block included -- is what the Working Buffer stores, so "ข้อสอง" still
+resolves after the buttons disappear.
 
 **`image`** — tongue detection is a deterministic pipeline step that runs
 *before* the agent ([ADR 0001](adr/0001-two-model-pipeline.md)): the
