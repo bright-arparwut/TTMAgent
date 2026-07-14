@@ -21,7 +21,10 @@ flowchart TD
     DET --> TF{"Tongue found?"}
     TF -->|no| RETAKE["Thai retake guidance<br/>turn not recorded"]
     RETAKE --> END2([End])
-    TF -->|yes| VD["VisionDescriber &rarr; Tongue Description"]
+    TF -->|crop returned| SAVE["Persist Tongue Photo<br/>(ADR 0007, gate-independent)"]
+    SAVE --> PG{"Passed confidence gate?"}
+    PG -->|no| RETAKE
+    PG -->|yes| VD["VisionDescriber &rarr; Tongue Description<br/>(patched into the saved photo)"]
     VD --> INJECT["Description injected as text turn"]
     INJECT --> LOCK
 
@@ -49,7 +52,7 @@ flowchart TD
     classDef deterministic fill:#e6f0fa,stroke:#2b6cb0
     classDef llmscored fill:#fdf3e0,stroke:#b7791f
     classDef agentic fill:#f3e8fd,stroke:#6b46c1
-    class TF,STALE,MENU deterministic
+    class TF,PG,STALE,MENU deterministic
     class GATE llmscored
     class AGENT agentic
 ```
@@ -86,7 +89,16 @@ resolves after the buttons disappear.
 [Vision Describer](../CONTEXT.md) only describes; the Advisor makes the
 [Tongue Assessment](../CONTEXT.md). Detection and crop run server-side in
 a Roboflow workflow ([ADR 0004](adr/0004-serverless-workflow-crop.md));
-the confidence gate stays in app code. No detected tongue → retake
+the confidence gate stays in app code.
+Every returned crop -- gate-passed or not -- is persisted as a
+[Tongue Photo](../CONTEXT.md) in the standalone `tongue_photos` collection
+([ADR 0007](adr/0007-tongue-photo-dataset-and-echo.md)), outside the memory
+lifecycle. Gate-passed crops are echoed back beside the Assessment as a LINE
+ImageMessage (Quick Reply rides on the image); the URL is a self-hosted
+capability URL, `GET /tongue-photos/{photo_id}`, and delivery degrades one
+rung at a time down to plain text -- the image never costs the user their
+Assessment.
+No detected tongue → retake
 guidance, never an Assessment, and the turn is not recorded. A detector
 or describer *failure* (outage, timeout) instead sends a Thai
 system-hiccup message — an outage is never presented as a bad photo.
