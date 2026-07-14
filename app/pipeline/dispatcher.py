@@ -1,4 +1,5 @@
 import logging
+import uuid
 from datetime import UTC, datetime
 
 from linebot.v3.webhooks import FollowEvent, MessageEvent
@@ -15,18 +16,21 @@ from app.memory.profile_render import render_profile
 from app.memory.profile_updater import update_profile_from_entry
 from app.memory.relevance_gate import summarize_consultation
 from app.memory.working_buffer import WorkingBufferRepository
-from app.models.schemas import ConsultationTurn
+from app.models.schemas import ConsultationTurn, TongueDescription, TonguePhoto
 from app.pipeline import user_queue
 from app.rag.vector_store import retrieve_passages
+from app.tongue_photos.repository import TonguePhotoRepository
+from app.vision.crop import encode_jpeg
 from app.vision.describer import VisionDescriber
-from app.vision.detector import TongueDetector
+from app.vision.detector import CroppedTongue, TongueDetector
 
 logger = logging.getLogger(__name__)
 
 WELCOME_MESSAGE = (
     "สวัสดีค่ะ ดิฉันเป็นผู้ช่วยให้คำแนะนำด้านแพทย์แผนไทยเบื้องต้น "
     "ไม่ใช่แพทย์และไม่ได้ให้การวินิจฉัยทางการแพทย์ หากมีอาการรุนแรงหรือฉุกเฉิน "
-    "กรุณาพบแพทย์หรือโทร 1669 ทันที"
+    "กรุณาพบแพทย์หรือโทร 1669 ทันที "
+    "ทั้งนี้ ภาพลิ้นที่ส่งเข้ามาเพื่อรับการประเมินจะถูกจัดเก็บไว้เพื่อการวิจัยค่ะ"
 )
 RETAKE_GUIDANCE = (
     "ดิฉันมองไม่เห็นลิ้นในภาพนี้ชัดเจนค่ะ ลองถ่ายภาพลิ้นให้เต็มกรอบ แสงสว่างเพียงพอ "
@@ -73,33 +77,44 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
 
     try:
         image_bytes = await messenger.download_content(event.message.id)
-
         detector = TongueDetector(settings)
         cropped = await detector.detect_and_crop(image_bytes)
-
-        description = None
-        if cropped is not None and cropped.passed_gate:
-            describer = VisionDescriber(settings)
-            description = await describer.describe(cropped.image)
     except Exception:
-        # Content download, detector, or describer outage must read as a
-        # system hiccup, never as "your photo is bad" -- see
-        # docs/adr/0004-serverless-workflow-crop.md. TongueDetectionError and
-        # describer/LLM errors share the same remedy.
+        # Content download or detector outage must read as a system hiccup,
+        # never as "your photo is bad" -- see
+        # docs/adr/0004-serverless-workflow-crop.md.
         logger.exception("Vision pipeline failed for user %s", user_id)
         await messenger.reply_or_push(
             reply_token=event.reply_token, user_id=user_id, text=SYSTEM_HICCUP_MESSAGE
         )
         return
 
+    photo_id = None
+    if cropped is not None:
+        photo_id = await _save_tongue_photo(cropped, event.message.id, user_id, settings)
+
     if cropped is None or not cropped.passed_gate:
         # No tongue, or detected but below the confidence gate: guidance
-        # only, never a Tongue Assessment, and not recorded in the working
-        # buffer -- see CONTEXT.md -> Tongue Assessment and ADR 0007.
+        # only, never a Tongue Assessment (and below-gate crops are never
+        # described or echoed -- ADR 0007), not recorded in the buffer.
         await messenger.reply_or_push(
             reply_token=event.reply_token, user_id=user_id, text=RETAKE_GUIDANCE
         )
         return
+
+    try:
+        describer = VisionDescriber(settings)
+        description = await describer.describe(cropped.image)
+    except Exception:
+        # Describer outage: same hiccup remedy, but the photo is already on
+        # record with description null, marking exactly which stage failed.
+        logger.exception("Vision describer failed for user %s", user_id)
+        await messenger.reply_or_push(
+            reply_token=event.reply_token, user_id=user_id, text=SYSTEM_HICCUP_MESSAGE
+        )
+        return
+
+    await _save_description(photo_id, description, settings)
 
     turn_text = (
         "[User sent a tongue photo.] Vision Describer observations: "
@@ -115,7 +130,56 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
         user_id=user_id,
         text=parsed.visible_text,
         topics=parsed.topics,
+        image_url=_photo_url(photo_id, settings),
     )
+
+
+async def _save_tongue_photo(
+    cropped: CroppedTongue, message_id: str, user_id: str, settings: Settings
+) -> str | None:
+    """Persist the crop the moment detection succeeds (ADR 0007): dataset
+    capture is independent of the gate, the describer, and the echo. Returns
+    the photo_id, or None when the save failed -- a Mongo write error is
+    logged, never surfaced, and the caller skips the echo so LINE is never
+    handed a URL that would 404.
+    """
+    photo = TonguePhoto(
+        # Capability URL id: UUID4, never a Mongo ObjectId (enumerable).
+        photo_id=str(uuid.uuid4()),
+        user_id=user_id,
+        image=encode_jpeg(cropped.image),
+        captured_at=datetime.now(UTC),
+        confidence=cropped.confidence,
+        passed_gate=cropped.passed_gate,
+        line_message_id=message_id,
+    )
+    try:
+        await TonguePhotoRepository(get_database(settings)).insert(photo)
+    except Exception:
+        logger.exception("Tongue Photo save failed for user %s", user_id)
+        return None
+    return photo.photo_id
+
+
+async def _save_description(
+    photo_id: str | None, description: TongueDescription, settings: Settings
+) -> None:
+    """Patch the Tongue Description into an already-saved photo. Best-effort
+    for the same reason as _save_tongue_photo: never costs the user a turn."""
+    if photo_id is None:
+        return
+    try:
+        await TonguePhotoRepository(get_database(settings)).set_description(
+            photo_id, description
+        )
+    except Exception:
+        logger.exception("Tongue Description patch failed for photo %s", photo_id)
+
+
+def _photo_url(photo_id: str | None, settings: Settings) -> str | None:
+    if photo_id is None or not settings.public_base_url:
+        return None
+    return f"{settings.public_base_url.rstrip('/')}/tongue-photos/{photo_id}"
 
 
 async def _run_consultation_turn(

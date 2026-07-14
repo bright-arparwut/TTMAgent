@@ -46,6 +46,12 @@ class Settings(BaseSettings):
     roboflow_workflow_id: str = ""
     roboflow_confidence_threshold: float = 0.5
 
+    # Public HTTPS origin of this app (the tunnel hostname), used to build
+    # tongue-photo capability URLs (ADR 0007). Empty disables the image echo;
+    # changing it breaks images already delivered to chats (URLs are frozen
+    # in LINE's message history).
+    public_base_url: str = ""
+
     # MongoDB (Health Records + working buffer)
     mongodb_uri: str = "mongodb://localhost:27017"
     mongodb_db_name: str = "ttm_advisor"
