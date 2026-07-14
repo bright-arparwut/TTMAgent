@@ -80,7 +80,9 @@ async def test_run_advisor_replays_history_as_role_tagged_messages():
     assert isinstance(messages[1], AIMessage)
     assert messages[1].content == "ปวดหัวมานานแค่ไหนคะ"
     assert isinstance(messages[2], HumanMessage)
-    assert messages[2].content == "ประมาณสามวันค่ะ"
+    # The current message carries the ongoing-consultation marker; history
+    # replay itself is what this test pins down.
+    assert "ประมาณสามวันค่ะ" in messages[2].content
 
 
 async def test_run_advisor_attaches_context_block_to_current_message_only():
@@ -101,6 +103,24 @@ async def test_run_advisor_attaches_context_block_to_current_message_only():
     assert messages[0].content == "ปวดหัวมาก"  # no context block on history
     assert "ตำราแพทย์แผนไทยว่าด้วยธาตุ" in messages[-1].content
     assert "ประมาณสามวันค่ะ" in messages[-1].content
+
+
+async def test_run_advisor_marks_ongoing_consultation_when_history_exists():
+    """The no-greeting signal must be deterministic: the spine knows whether
+    prior turns exist, so the current message carries an explicit ongoing-
+    consultation marker instead of asking the model to infer it."""
+    fake = _FakeAgent("ตอบ")
+    history = [_turn("user", "ปวดหัวมาก")]
+
+    await run_advisor(
+        fake,
+        user_message="ประมาณสามวันค่ะ",
+        retrieved_passages=[],
+        recent_records_summary="",
+        history=history,
+    )
+
+    assert "[Ongoing Consultation" in fake.invoked_state["messages"][-1].content
 
 
 async def test_run_advisor_without_history_sends_single_message():

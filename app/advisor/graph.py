@@ -92,6 +92,17 @@ async def run_advisor(
         if context_block
         else user_message
     )
+    # Deterministic no-greeting signal: the per-turn context block makes each
+    # message read like a fresh consultation opening, so Gemini re-greets
+    # mid-conversation. A prompt rule alone ("greet only when history is
+    # empty") proved unreliable -- the spine knows whether prior turns exist,
+    # so it says so explicitly.
+    if history:
+        text = (
+            "[Ongoing Consultation -- prior turns precede this message. "
+            "Continue the conversation directly; do not greet or "
+            f"re-introduce yourself.]\n\n{text}"
+        )
 
     messages = [*_history_to_messages(history), HumanMessage(content=text)]
     result = await agent.ainvoke({"messages": messages})
