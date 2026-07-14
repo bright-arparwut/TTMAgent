@@ -84,7 +84,7 @@ async def test_gate_pass_triggers_updater_and_injects_profile(monkeypatch):
 
     reply = await dispatcher._run_consultation_turn("U1", "สวัสดี", _settings())
 
-    assert reply == "คำตอบ"
+    assert reply.visible_text == "คำตอบ"
     assert recorder.updater_calls == ["U1"]
     assert recorder.profile_blocks[0] != ""  # rendered profile injected
 
