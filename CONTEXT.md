@@ -36,6 +36,10 @@ _Avoid_: image caption, image analysis
 The specific kind of Assessment produced from a detected-and-cropped tongue photo: shape, color, and texture/coating interpreted through the TTM corpus. The only kind of visual Assessment the advisor performs; images without a detected tongue get guidance to retake, never an Assessment.
 _Avoid_: tongue diagnosis, image analysis
 
+**Tongue Photo**:
+The kept record of a crop produced by Tongue Detection — the research dataset, and the photo "stapled to the chart" as provenance for a Tongue Assessment. Every crop is kept, including ones the confidence gate rejected (marked as rejected; those are never described, never assessed, and never shown back). A gate-passed Tongue Photo pairs the crop with the detector's confidence and the Tongue Description made from it, and is echoed back to the user after the Assessment reply. Deliberately outside Consultation memory: it survives regardless of the Relevance Gate, is not part of the Working Buffer or Health Record lifecycle, and is never written to the Health Profile. Users are told at first contact that photos are kept for research.
+_Avoid_: profile image, user image, chat attachment, image log
+
 **Consultation**:
 A bounded episode of interaction between a user and the advisor, analogous to one doctor visit. Closed by an inactivity gap, at which point it passes the Relevance Gate: clinically relevant Consultations are summarized into a Health Record entry; the rest (memes, greetings, off-topic chat) are discarded. A user has many Consultations over time.
 _Avoid_: session, chat, thread
