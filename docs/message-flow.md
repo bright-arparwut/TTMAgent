@@ -21,7 +21,10 @@ flowchart TD
     DET --> TF{"Tongue found?"}
     TF -->|no| RETAKE["Thai retake guidance<br/>turn not recorded"]
     RETAKE --> END2([End])
-    TF -->|yes| VD["VisionDescriber &rarr; Tongue Description"]
+    TF -->|crop returned| SAVE["Persist Tongue Photo<br/>(ADR 0007, gate-independent)"]
+    SAVE --> PG{"Passed confidence gate?"}
+    PG -->|no| RETAKE
+    PG -->|yes| VD["VisionDescriber &rarr; Tongue Description<br/>(patched into the saved photo)"]
     VD --> INJECT["Description injected as text turn"]
     INJECT --> LOCK
 
@@ -39,7 +42,8 @@ flowchart TD
         AGENT -->|call tool| TOOLS["search_health_records /<br/>get_health_record_by_date (read-only)"]
         TOOLS --> AGENT
         AGENT -->|answer| REPLY["Reply in Thai"]
-        REPLY --> APPADV["Append advisor turn to Working Buffer"]
+        REPLY --> MENU["Parse Topic Menu block<br/>(ADR 0006): visible text +<br/>Quick Reply topics"]
+        MENU --> APPADV["Append RAW advisor turn<br/>(menu block included)<br/>to Working Buffer"]
     end
 
     LOCK --> STALE
@@ -48,7 +52,7 @@ flowchart TD
     classDef deterministic fill:#e6f0fa,stroke:#2b6cb0
     classDef llmscored fill:#fdf3e0,stroke:#b7791f
     classDef agentic fill:#f3e8fd,stroke:#6b46c1
-    class TF,STALE deterministic
+    class TF,PG,STALE,MENU deterministic
     class GATE llmscored
     class AGENT agentic
 ```
@@ -74,14 +78,27 @@ runs: close a stale [Consultation](../CONTEXT.md) if one is waiting,
 load the [Working Buffer](../CONTEXT.md)'s prior turns, append the new
 turn, retrieve context, run the Advisor with the prior turns replayed as
 message history ([ADR 0005](adr/0005-working-buffer-replay.md), capped
-by config), reply in Thai.
+by config), reply in Thai. The reply's trailing `[หัวข้อ]` block, if any,
+becomes [Topic Menu](../CONTEXT.md) Quick Reply buttons
+([ADR 0006](adr/0006-topic-menu-delimiter-protocol.md)); the raw reply --
+block included -- is what the Working Buffer stores, so "ข้อสอง" still
+resolves after the buttons disappear.
 
 **`image`** — tongue detection is a deterministic pipeline step that runs
 *before* the agent ([ADR 0001](adr/0001-two-model-pipeline.md)): the
 [Vision Describer](../CONTEXT.md) only describes; the Advisor makes the
 [Tongue Assessment](../CONTEXT.md). Detection and crop run server-side in
 a Roboflow workflow ([ADR 0004](adr/0004-serverless-workflow-crop.md));
-the confidence gate stays in app code. No detected tongue → retake
+the confidence gate stays in app code.
+Every returned crop -- gate-passed or not -- is persisted as a
+[Tongue Photo](../CONTEXT.md) in the standalone `tongue_photos` collection
+([ADR 0007](adr/0007-tongue-photo-dataset-and-echo.md)), outside the memory
+lifecycle. Gate-passed crops are echoed back beside the Assessment as a LINE
+ImageMessage (Quick Reply rides on the image); the URL is a self-hosted
+capability URL, `GET /tongue-photos/{photo_id}`, and delivery degrades one
+rung at a time down to plain text -- the image never costs the user their
+Assessment.
+No detected tongue → retake
 guidance, never an Assessment, and the turn is not recorded. A detector
 or describer *failure* (outage, timeout) instead sends a Thai
 system-hiccup message — an outage is never presented as a bad photo.

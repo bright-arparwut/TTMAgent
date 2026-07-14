@@ -83,6 +83,7 @@ async def test_returns_cropped_tongue_with_confidence_on_detection():
 
     assert isinstance(result, CroppedTongue)
     assert result.confidence == 0.92
+    assert result.passed_gate is True
     assert result.image.size == (16, 16)
     assert recorded["workspace_name"] == "arparwuts-workspace"
     assert recorded["workflow_id"] == "tongue-detect-crop"
@@ -95,10 +96,16 @@ async def test_returns_none_when_workflow_finds_no_tongue():
     assert await detector.detect_and_crop(_jpeg_bytes()) is None
 
 
-async def test_returns_none_when_best_confidence_below_threshold():
+async def test_below_threshold_crop_is_returned_with_passed_gate_false():
+    # ADR 0007: the crop is kept for threshold-calibration analysis; the
+    # caller (dispatcher) is responsible for treating it like a retake.
     detector, _ = _detector_returning(_response([_prediction(0.3)], [_crop()]))
 
-    assert await detector.detect_and_crop(_jpeg_bytes()) is None
+    result = await detector.detect_and_crop(_jpeg_bytes())
+
+    assert isinstance(result, CroppedTongue)
+    assert result.passed_gate is False
+    assert result.confidence == 0.3
 
 
 async def test_picks_crop_paired_with_highest_confidence_prediction():

@@ -22,12 +22,18 @@ class TongueDetectionError(Exception):
 
 
 class CroppedTongue(BaseModel):
-    """A tongue photo cropped server-side by the Roboflow workflow."""
+    """A tongue photo cropped server-side by the Roboflow workflow.
+
+    passed_gate: whether confidence cleared the app-side threshold. Below-
+    gate crops are still returned for dataset capture (ADR 0007); callers
+    must treat passed_gate=False like "no tongue" in the user-facing flow.
+    """
 
     model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
 
     image: Image.Image
     confidence: float
+    passed_gate: bool
 
 
 class TongueDetector:
@@ -86,11 +92,11 @@ class TongueDetector:
                 range(len(predictions)), key=lambda i: predictions[i]["confidence"]
             )
             best = predictions[best_index]
-            if best["confidence"] < self._settings.roboflow_confidence_threshold:
-                return None
-
             return CroppedTongue(
-                image=decode_crop(crops[best_index]), confidence=best["confidence"]
+                image=decode_crop(crops[best_index]),
+                confidence=best["confidence"],
+                passed_gate=best["confidence"]
+                >= self._settings.roboflow_confidence_threshold,
             )
         except TongueDetectionError:
             raise

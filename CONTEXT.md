@@ -36,6 +36,10 @@ _Avoid_: image caption, image analysis
 The specific kind of Assessment produced from a detected-and-cropped tongue photo: shape, color, and texture/coating interpreted through the TTM corpus. The only kind of visual Assessment the advisor performs; images without a detected tongue get guidance to retake, never an Assessment.
 _Avoid_: tongue diagnosis, image analysis
 
+**Tongue Photo**:
+The kept record of a crop produced by Tongue Detection — the research dataset, and the photo "stapled to the chart" as provenance for a Tongue Assessment. Every crop is kept, including ones the confidence gate rejected (marked as rejected; those are never described, never assessed, and never shown back). A gate-passed Tongue Photo pairs the crop with the detector's confidence and the Tongue Description made from it, and is echoed back to the user after the Assessment reply. Deliberately outside Consultation memory: it survives regardless of the Relevance Gate, is not part of the Working Buffer or Health Record lifecycle, and is never written to the Health Profile. Users are told at first contact that photos are kept for research.
+_Avoid_: profile image, user image, chat attachment, image log
+
 **Consultation**:
 A bounded episode of interaction between a user and the advisor, analogous to one doctor visit. Closed by an inactivity gap, at which point it passes the Relevance Gate: clinically relevant Consultations are summarized into a Health Record entry; the rest (memes, greetings, off-topic chat) are discarded. A user has many Consultations over time.
 _Avoid_: session, chat, thread
@@ -59,6 +63,10 @@ _Avoid_: patient profile, user profile, patient record
 **Profile Updater**:
 The deterministic step at Consultation close that folds a gate-passed Health Record entry into the Health Profile as precise item-level changes — never a rewrite of the whole sheet. LLM-scored but code-triggered, like the Relevance Gate; the Advisor cannot invoke it.
 _Avoid_: memory tool, save tool, profile agent
+
+**Topic Menu**:
+The short list of follow-up topics the Advisor offers after a reply, shown to the user as tappable buttons rather than text. Each topic is a drill-down into content the Advisor deliberately held back to keep the reply to one phone screen; it may also include an intake item from the Health Profile's missing-information list, making that intake user-initiated. Part of the advisor turn in the Working Buffer, so the offer survives even after the buttons disappear from the chat. Never accompanies a red-flag escalation. Distinct from an intake question: the menu offers what the *user* may ask next, an intake question asks for the user's own information.
+_Avoid_: quick replies (the transport, not the concept), suggested questions, follow-up list
 
 **Ongoing Complaint**:
 An open item on the Health Profile tracking a condition across Consultations (e.g. persistent insomnia), like a doctor's follow-up list. Cleared when the user reports it resolved.

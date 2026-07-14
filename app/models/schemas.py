@@ -48,6 +48,32 @@ class TongueDescription(BaseModel):
     quality: Literal["clear", "blurry", "partial", "poor_lighting"]
 
 
+class TonguePhoto(BaseModel):
+    """One Roboflow crop persisted for the thesis dataset (ADR 0007).
+
+    Deliberately outside the memory architecture: survives Consultation
+    close and gate-failed discards. `image` is raw JPEG bytes (stored as
+    BSON Binary, never base64). `description` stays None until the Vision
+    Describer returns -- a null description marks a describer-stage failure.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    photo_id: str
+    user_id: str
+    image: bytes
+    captured_at: datetime
+    confidence: float
+    passed_gate: bool
+    line_message_id: str
+    description: TongueDescription | None = None
+
+    @field_validator("captured_at")
+    @classmethod
+    def _assume_utc_when_naive(cls, value: datetime) -> datetime:
+        return _utc_when_naive(value)
+
+
 class TongueAssessment(BaseModel):
     """The Advisor Model's TTM-grounded interpretation of a Tongue Description."""
 
