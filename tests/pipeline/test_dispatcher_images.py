@@ -94,7 +94,7 @@ async def test_loading_animation_failure_does_not_abort_turn(monkeypatch):
     messenger.show_loading = failing_loading
 
     async def ok_detect(self, image_bytes):
-        return CroppedTongue(image=_pil_image(), confidence=0.9)
+        return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
         return _FakeDescription()
@@ -140,11 +140,33 @@ async def test_no_tongue_still_sends_retake_guidance(monkeypatch):
     assert consultation_inputs == []
 
 
+async def test_below_gate_crop_sends_retake_and_never_describes(monkeypatch):
+    # ADR 0007: rejected crops are never described, assessed, or echoed --
+    # the user-facing retake flow is unchanged.
+    messenger, consultation_inputs = _patch_common(monkeypatch)
+
+    async def below_gate_detect(self, image_bytes):
+        return CroppedTongue(image=_pil_image(), confidence=0.3, passed_gate=False)
+
+    async def exploding_describe(self, image):
+        raise AssertionError("below-gate crop must never reach the describer")
+
+    monkeypatch.setattr(_StubDetector, "detect_and_crop", below_gate_detect, raising=False)
+    monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
+    monkeypatch.setattr(_StubDescriber, "describe", exploding_describe, raising=False)
+    monkeypatch.setattr(dispatcher, "VisionDescriber", _StubDescriber)
+
+    await dispatcher.handle_image_message(_event(), _settings())
+
+    assert messenger.sent == [dispatcher.RETAKE_GUIDANCE]
+    assert consultation_inputs == []
+
+
 async def test_describer_error_sends_system_hiccup(monkeypatch):
     messenger, consultation_inputs = _patch_common(monkeypatch)
 
     async def ok_detect(self, image_bytes):
-        return CroppedTongue(image=_pil_image(), confidence=0.9)
+        return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def failing_describe(self, image):
         raise RuntimeError("vision model outage")
@@ -164,7 +186,7 @@ async def test_happy_path_runs_consultation_with_description(monkeypatch):
     messenger, consultation_inputs = _patch_common(monkeypatch)
 
     async def ok_detect(self, image_bytes):
-        return CroppedTongue(image=_pil_image(), confidence=0.9)
+        return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
         return _FakeDescription()

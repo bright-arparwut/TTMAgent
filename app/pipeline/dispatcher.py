@@ -78,7 +78,7 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
         cropped = await detector.detect_and_crop(image_bytes)
 
         description = None
-        if cropped is not None:
+        if cropped is not None and cropped.passed_gate:
             describer = VisionDescriber(settings)
             description = await describer.describe(cropped.image)
     except Exception:
@@ -92,9 +92,10 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
         )
         return
 
-    if cropped is None:
-        # No tongue detected: guidance only, never a Tongue Assessment, and
-        # not recorded in the working buffer -- see CONTEXT.md -> Tongue Assessment.
+    if cropped is None or not cropped.passed_gate:
+        # No tongue, or detected but below the confidence gate: guidance
+        # only, never a Tongue Assessment, and not recorded in the working
+        # buffer -- see CONTEXT.md -> Tongue Assessment and ADR 0007.
         await messenger.reply_or_push(
             reply_token=event.reply_token, user_id=user_id, text=RETAKE_GUIDANCE
         )
