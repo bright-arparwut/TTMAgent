@@ -1,3 +1,5 @@
+import pytest
+
 from app.config import Settings
 from app.line.messaging import LineMessenger, build_text_message
 
@@ -56,3 +58,45 @@ async def test_reply_or_push_falls_back_to_push_with_topics():
     )
 
     assert pushed == [("U1", "คำตอบ", ("หัวข้อหนึ่ง",))]
+
+
+async def test_push_failure_with_topics_degrades_to_plain_text():
+    # A Quick Reply payload LINE rejects must never cost the user the reply
+    # itself: one retry without topics, same text.
+    messenger = LineMessenger(_settings())
+    calls = []
+
+    async def failing_reply(reply_token, text, topics=()):
+        raise RuntimeError("reply token expired")
+
+    async def flaky_push(user_id, text, topics=()):
+        calls.append((user_id, text, tuple(topics)))
+        if topics:
+            raise RuntimeError("400 invalid quickReply")
+
+    messenger.reply = failing_reply
+    messenger.push = flaky_push
+
+    await messenger.reply_or_push(
+        reply_token="R1", user_id="U1", text="คำตอบ", topics=("หัวข้อหนึ่ง",)
+    )
+
+    assert calls == [("U1", "คำตอบ", ("หัวข้อหนึ่ง",)), ("U1", "คำตอบ", ())]
+
+
+async def test_push_failure_without_topics_still_propagates():
+    # Plain-text failures keep their pre-existing behavior: the exception
+    # reaches the caller instead of being swallowed here.
+    messenger = LineMessenger(_settings())
+
+    async def failing_reply(reply_token, text, topics=()):
+        raise RuntimeError("reply token expired")
+
+    async def failing_push(user_id, text, topics=()):
+        raise RuntimeError("LINE push outage")
+
+    messenger.reply = failing_reply
+    messenger.push = failing_push
+
+    with pytest.raises(RuntimeError, match="LINE push outage"):
+        await messenger.reply_or_push(reply_token="R1", user_id="U1", text="คำตอบ")

@@ -4,7 +4,7 @@ either side alone breaks the menu silently -- these tests fail loudly
 instead."""
 
 from app.advisor.prompts import SYSTEM_PROMPT
-from app.advisor.topic_menu import TOPIC_MENU_MARKER, split_topic_menu
+from app.advisor.topic_menu import MAX_TOPIC_CHARS, MAX_TOPICS, TOPIC_MENU_MARKER, split_topic_menu
 
 
 def test_prompt_shows_the_marker_as_a_standalone_line():
@@ -35,3 +35,10 @@ def test_the_prompts_own_example_block_parses_into_its_topics():
 
 def test_prompt_forbids_menus_on_red_flag_escalations():
     assert "NEVER attach a Topic Menu to a red-flag escalation" in SYSTEM_PROMPT
+
+
+def test_prompt_teaches_the_code_owned_limits():
+    # The caps live in code (ADR 0006); the prompt teaches them as prose.
+    # Pin the numbers so changing a constant can't drift silently.
+    assert f"2 to {MAX_TOPICS} topics" in SYSTEM_PROMPT
+    assert f"at most {MAX_TOPIC_CHARS} Thai characters" in SYSTEM_PROMPT
