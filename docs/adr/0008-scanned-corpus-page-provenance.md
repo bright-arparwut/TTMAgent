@@ -11,13 +11,14 @@ The first corpus book is the Thai translation of 中医临床舌诊 ("การ�
 - **Provenance must survive retrieval.** Metadata that stops at the vector store is invisible to the model: `retrieve_passages` previously returned bare `page_content`. Formatting the source tag into the passage text is what lets the Advisor cite without new plumbing.
 - **Deterministic chunk IDs make re-ingest an upsert.** OCR corrections are expected (spot-checks against the physical book); re-running ingest with `<book_id>:p<page>:para<paragraph>` IDs updates chunks in place instead of duplicating them.
 - **Front matter is excluded from the corpus.** Prefaces, imprint, and table of contents are not advice-grounding material, and their unnumbered pages would collide with printed body pages 3–16 in the ID scheme. They are kept in a separate JSONL under a distinct `book_id` and normally not ingested.
+- **The corpus JSONL is committed to this private repo.** Initially kept out of git for copyright reasons; the owner decided to commit it (a purchased copy digitized for thesis use, repo is private). Standing constraint: the repo must never be made public and `corpus/` must never be copied into a public repo.
 - **Faithful transcription, no editorial fixes.** The book's own typos (e.g. "อุณภูมิ") are transcribed as printed — a citation should match what the reader finds on the page. The one exception: Chinese characters referenced inline by the Thai text itself (ลิ้น "รูปตัว 人") are kept, because dropping them breaks the sentence they anchor.
 
 ## Considered and rejected
 
 - **Tesseract/dedicated OCR engines**: weak on Thai diacritics and useless for the two-column Thai/Chinese separation; a vision LLM handles both and reads the corner page numbers in the same pass.
 - **Markdown + header-based chunking (the original path)**: kept working for born-digital sources, but it cannot express page/paragraph provenance; scanned books go through the JSONL path.
-- **Storing the corpus in git**: the digitized text is copyrighted; `corpus/` is gitignored and the JSONL is transferred out-of-band.
+- **Keeping the corpus out of git entirely** (the initial position): transferring the JSONL out-of-band on every deploy adds friction for a single-owner private repo; superseded by the commit-to-private-repo decision above.
 
 ## Consequences
 

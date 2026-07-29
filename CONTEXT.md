@@ -13,7 +13,7 @@ What the bot is — an assistant that gives traditional wellness assessments and
 _Avoid_: doctor bot, diagnosis bot, medical chatbot
 
 **TTM Corpus**:
-The knowledge base every Assessment must be grounded in — digitized reference books embedded into the local Chroma store. Currently one book: the Thai translation of 中医临床舌诊 ("การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น", Hu Zhen), digitized from a scanned PDF at paragraph level with book/page/paragraph provenance so retrieved passages carry a source tag the Advisor cites back to users (ADR 0008). The corpus text is copyrighted and lives only in the gitignored `corpus/` folder — never in git. Multiple books can coexist in the one collection, distinguished by `book_id`.
+The knowledge base every Assessment must be grounded in — digitized reference books embedded into the local Chroma store. Currently one book: the Thai translation of 中医临床舌诊 ("การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น", Hu Zhen), digitized from a scanned PDF at paragraph level with book/page/paragraph provenance so retrieved passages carry a source tag the Advisor cites back to users (ADR 0008). The corpus text is copyrighted; it is committed under `corpus/` on the owner's decision because this repo is private (a purchased copy digitized for thesis use) — the repo must never be made public and `corpus/` must never be copied into a public one. Multiple books can coexist in the one collection, distinguished by `book_id`.
 _Avoid_: knowledge base, training data, the documents
 
 **Assessment**:

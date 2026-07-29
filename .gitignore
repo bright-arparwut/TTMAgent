@@ -219,5 +219,6 @@ __marimo__/
 
 # Project-specific
 data/chroma/
-# Digitized book text (copyrighted) -- pdf_ocr output consumed by ingest
-corpus/
+# NOTE: corpus/ holds digitized copyrighted book text, committed on the
+# owner's decision because this repo is private. Never make this repo
+# public or copy corpus/ into a public one.
