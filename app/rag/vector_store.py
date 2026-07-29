@@ -15,8 +15,9 @@ logger = logging.getLogger(__name__)
 @lru_cache
 def get_vector_store() -> Chroma:
     """Embedded Chroma store persisted to a local folder -- no separate
-    Docker service, no MongoDB Atlas dependency. See
-    docs/adr and CONTEXT.md for why one TTM book doesn't need more than this.
+    Docker service, no MongoDB Atlas dependency. A thesis-scale corpus of a
+    few books doesn't need more than this; see CONTEXT.md (TTM Corpus) and
+    docs/adr/0008-scanned-corpus-page-provenance.md.
     """
     settings = get_settings()
     return Chroma(

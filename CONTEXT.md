@@ -12,6 +12,10 @@ _Avoid_: Thai healthcare, healthcare (implies modern clinical medicine)
 What the bot is — an assistant that gives traditional wellness assessments and advice grounded in the TTM corpus. It never claims modern medical diagnosis and recommends seeing a doctor for anything clinically serious.
 _Avoid_: doctor bot, diagnosis bot, medical chatbot
 
+**TTM Corpus**:
+The knowledge base every Assessment must be grounded in — digitized reference books embedded into the local Chroma store. Currently one book: the Thai translation of 中医临床舌诊 ("การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น", Hu Zhen), digitized from a scanned PDF at paragraph level with book/page/paragraph provenance so retrieved passages carry a source tag the Advisor cites back to users (ADR 0008). The corpus text is copyrighted and lives only in the gitignored `corpus/` folder — never in git. Multiple books can coexist in the one collection, distinguished by `book_id`.
+_Avoid_: knowledge base, training data, the documents
+
 **Assessment**:
 The bot's TTM-grounded interpretation of a user's condition (e.g., from a tongue photo or described symptoms). Deliberately not "diagnosis" in the clinical/legal sense.
 _Avoid_: diagnosis, medical diagnosis
