@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 
 from linebot.v3.webhooks import FollowEvent, MessageEvent
 
+from app.advisor.citation import split_citation
 from app.advisor.graph import build_advisor_agent, run_advisor
 from app.advisor.tools import build_health_record_tools
 from app.advisor.topic_menu import ParsedReply, split_topic_menu
@@ -56,12 +57,16 @@ async def handle_text_message(event: MessageEvent, settings: Settings) -> None:
     async with user_queue.lock_for(user_id):
         parsed = await _run_consultation_turn(user_id, event.message.text, settings)
 
+    # Like the Topic Menu, the citation split is transport-only: the raw
+    # reply in the Working Buffer keeps the (อ้างอิง: ...) line inline.
+    body, citation = split_citation(parsed.visible_text)
     messenger = LineMessenger(settings)
     await messenger.reply_or_push(
         reply_token=event.reply_token,
         user_id=user_id,
-        text=parsed.visible_text,
+        text=body,
         topics=parsed.topics,
+        citation=citation,
     )
 
 
@@ -125,12 +130,14 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
     async with user_queue.lock_for(user_id):
         parsed = await _run_consultation_turn(user_id, turn_text, settings)
 
+    body, citation = split_citation(parsed.visible_text)
     await messenger.reply_or_push(
         reply_token=event.reply_token,
         user_id=user_id,
-        text=parsed.visible_text,
+        text=body,
         topics=parsed.topics,
         image_url=_photo_url(photo_id, settings),
+        citation=citation,
     )
 
 

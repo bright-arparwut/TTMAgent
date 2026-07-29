@@ -36,7 +36,9 @@ class _FakeMessenger:
     async def download_content(self, message_id) -> bytes:
         return b"fake-image-bytes"
 
-    async def reply_or_push(self, *, reply_token, user_id, text, topics=(), image_url=None) -> None:
+    async def reply_or_push(
+        self, *, reply_token, user_id, text, topics=(), image_url=None, citation=None
+    ) -> None:
         self.sent.append(text)
         self.images.append(image_url)
 

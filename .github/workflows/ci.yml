@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # Exactly the locked dependency set -- a PR that forgets to commit
+      # uv.lock alongside pyproject.toml fails here instead of on deploy.
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Lint
+        run: uv run ruff check .
+
+      # No network or API keys needed: the suite mocks LINE, Mongo, and
+      # every model slot, and never loads the embedding model.
+      - name: Tests
+        run: uv run pytest -q

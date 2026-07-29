@@ -9,6 +9,8 @@ tests/advisor/test_prompt_topic_menu_contract.py green against both.
 import re
 from dataclasses import dataclass
 
+from app.advisor.citation import is_citation_line
+
 TOPIC_MENU_MARKER = "[หัวข้อ]"
 # LINE Quick Reply hard caps are 13 items / 20-char labels; we cap topics
 # lower by design and rely on this (the SDK does not validate locally).
@@ -61,6 +63,11 @@ def _last_marker_line(lines: list[str]) -> int | None:
 def _parse_topics(lines: list[str]) -> tuple[str, ...]:
     topics = []
     for line in lines:
+        # The prompt puts the citation line BEFORE the menu block, but a
+        # model that misorders them must not turn its citation into a
+        # truncated Quick Reply button.
+        if is_citation_line(line):
+            continue
         item = _ITEM_PREFIX.sub("", line.strip(), count=1).strip()
         if item:
             topics.append(item[:MAX_TOPIC_CHARS])
