@@ -7,6 +7,8 @@ from linebot.v3.messaging import (
     AsyncMessagingApi,
     AsyncMessagingApiBlob,
     Configuration,
+    FlexContainer,
+    FlexMessage,
     ImageMessage,
     MessageAction,
     PushMessageRequest,
@@ -17,7 +19,11 @@ from linebot.v3.messaging import (
     TextMessage,
 )
 
+from app.advisor.citation import inline_citation
 from app.config import Settings
+
+# LINE caps a Flex message's altText (the notification/chat-list preview)
+ALT_TEXT_MAX_CHARS = 400
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +47,41 @@ def build_text_message(text: str, topics: Sequence[str] = ()) -> TextMessage:
     return TextMessage(text=text, quickReply=_quick_reply(topics))
 
 
+def build_citation_message(text: str, citation: str, topics: Sequence[str] = ()) -> FlexMessage:
+    """Render a reply as a Flex bubble with its source in a footer strip.
+
+    The citation (book title + page/paragraph, parsed from the Advisor's
+    trailing `(อ้างอิง: ...)` line) sits under a separator in small grey
+    type, so the answer reads clean and the provenance reads as a
+    footnote. altText is what LINE shows in notifications and the chat
+    list, where Flex content is invisible.
+    """
+    bubble = {
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {"type": "text", "text": text, "wrap": True, "size": "md"},
+                {"type": "separator", "margin": "lg"},
+                {
+                    "type": "text",
+                    "text": f"📖 {citation}",
+                    "wrap": True,
+                    "size": "xs",
+                    "color": "#8C8C8C",
+                    "margin": "md",
+                },
+            ],
+        },
+    }
+    return FlexMessage(
+        altText=text[:ALT_TEXT_MAX_CHARS],
+        contents=FlexContainer.from_dict(bubble),
+        quickReply=_quick_reply(topics),
+    )
+
+
 def build_image_message(image_url: str, topics: Sequence[str] = ()) -> ImageMessage:
     """A LINE ImageMessage is two public HTTPS URLs LINE's servers fetch --
     bytes cannot be pushed (ADR 0007). One JPEG serves both slots (crops sit
@@ -54,10 +95,17 @@ def build_image_message(image_url: str, topics: Sequence[str] = ()) -> ImageMess
     )
 
 
-def _build_messages(text: str, topics: Sequence[str], image_url: str | None) -> list:
+def _build_messages(
+    text: str, topics: Sequence[str], image_url: str | None, citation: str | None
+) -> list:
+    def lead(lead_topics: Sequence[str] = ()) -> TextMessage | FlexMessage:
+        if citation is None:
+            return build_text_message(text, lead_topics)
+        return build_citation_message(text, citation, lead_topics)
+
     if image_url is None:
-        return [build_text_message(text, topics)]
-    return [build_text_message(text), build_image_message(image_url, topics)]
+        return [lead(topics)]
+    return [lead(), build_image_message(image_url, topics)]
 
 
 class LineMessenger:
@@ -87,12 +135,14 @@ class LineMessenger:
         text: str,
         topics: Sequence[str] = (),
         image_url: str | None = None,
+        citation: str | None = None,
     ) -> None:
         async with self._client() as client:
             api = AsyncMessagingApi(client)
             await api.reply_message(
                 ReplyMessageRequest(
-                    replyToken=reply_token, messages=_build_messages(text, topics, image_url)
+                    replyToken=reply_token,
+                    messages=_build_messages(text, topics, image_url, citation),
                 )
             )
 
@@ -102,11 +152,14 @@ class LineMessenger:
         text: str,
         topics: Sequence[str] = (),
         image_url: str | None = None,
+        citation: str | None = None,
     ) -> None:
         async with self._client() as client:
             api = AsyncMessagingApi(client)
             await api.push_message(
-                PushMessageRequest(to=user_id, messages=_build_messages(text, topics, image_url))
+                PushMessageRequest(
+                    to=user_id, messages=_build_messages(text, topics, image_url, citation)
+                )
             )
 
     async def reply_or_push(
@@ -117,40 +170,43 @@ class LineMessenger:
         text: str,
         topics: Sequence[str] = (),
         image_url: str | None = None,
+        citation: str | None = None,
     ) -> None:
         """Attempt the reply token; degrade one rung at a time (ADR 0007):
-        reply [text, image+topics] -> push [text, image+topics] ->
-        push [text+topics] -> push [text]. The image (then the Quick Reply)
-        is shed before the text is ever at risk -- the same degrade-to-text
-        philosophy as ADR 0006.
+        reply [flex/text, image+topics] -> push [flex/text, image+topics] ->
+        push [flex/text+topics] -> push [plain text]. The image, then the
+        Quick Reply and Flex styling, are shed before the text is ever at
+        risk -- the same degrade-to-text philosophy as ADR 0006. The final
+        plain-text rung folds the citation back inline so the source is
+        never lost with the styling.
         """
         try:
-            await self.reply(reply_token, text, topics, image_url)
+            await self.reply(reply_token, text, topics, image_url, citation)
             return
         except Exception:
             logger.warning("LINE reply failed for user %s; falling back to push", user_id)
         try:
-            await self.push(user_id, text, topics, image_url)
+            await self.push(user_id, text, topics, image_url, citation)
             return
         except Exception:
-            if image_url is None and not topics:
+            if image_url is None and not topics and citation is None:
                 raise
             logger.warning(
                 "LINE push failed for user %s; degrading payload", user_id, exc_info=True
             )
         if image_url is not None:
             try:
-                await self.push(user_id, text, topics)
+                await self.push(user_id, text, topics, citation=citation)
                 return
             except Exception:
-                if not topics:
+                if not topics and citation is None:
                     raise
                 logger.warning(
                     "LINE push without image failed for user %s; retrying as plain text",
                     user_id,
                     exc_info=True,
                 )
-        await self.push(user_id, text)
+        await self.push(user_id, inline_citation(text, citation))
 
     async def download_content(self, message_id: str) -> bytes:
         """Fetch an image/media attachment's bytes from LINE's content API."""

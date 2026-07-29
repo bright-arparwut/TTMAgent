@@ -31,7 +31,7 @@ class _FakeMessenger:
     def __init__(self) -> None:
         self.sent: list[tuple[str, tuple[str, ...]]] = []
 
-    async def reply_or_push(self, *, reply_token, user_id, text, topics=()) -> None:
+    async def reply_or_push(self, *, reply_token, user_id, text, topics=(), citation=None) -> None:
         self.sent.append((text, tuple(topics)))
 
 
