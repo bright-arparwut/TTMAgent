@@ -26,8 +26,29 @@ def get_vector_store() -> Chroma:
     )
 
 
+def _format_passage(document) -> str:
+    """Prefix a retrieved chunk with its source tag so the Advisor can cite it.
+
+    JSONL-ingested chunks (scanned books, see app.rag.pdf_ocr) carry
+    book/page/paragraph provenance; Markdown-ingested chunks carry section
+    headers. Chunks with neither pass through untagged.
+    """
+    metadata = document.metadata or {}
+    if "page" in metadata:
+        title = metadata.get("book_title") or metadata.get("book_id", "")
+        tag = f"[{title} หน้า {metadata['page']} ย่อหน้าที่ {metadata['paragraph']}]"
+        return f"{tag}\n{document.page_content}"
+
+    headers = [metadata[key] for key in ("chapter", "section", "subsection") if metadata.get(key)]
+    if headers:
+        return f"[{' > '.join(headers)}]\n{document.page_content}"
+    return document.page_content
+
+
 async def retrieve_passages(query: str) -> list[str]:
     """Top-k similarity search over the TTM corpus for one Advisor turn.
+    Each passage is prefixed with a source tag (book / page / paragraph)
+    so the Advisor can tell the user where its advice comes from.
 
     When the corpus has never been ingested (no persist dir), skip retrieval
     entirely: building the store would load the multi-GB embedding model --
@@ -44,4 +65,4 @@ async def retrieve_passages(query: str) -> list[str]:
 
     store = get_vector_store()
     documents = await store.asimilarity_search(query, k=settings.rag_top_k)
-    return [document.page_content for document in documents]
+    return [_format_passage(document) for document in documents]

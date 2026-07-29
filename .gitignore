@@ -219,3 +219,5 @@ __marimo__/
 
 # Project-specific
 data/chroma/
+# Digitized book text (copyrighted) -- pdf_ocr output consumed by ingest
+corpus/

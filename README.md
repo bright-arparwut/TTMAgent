@@ -29,13 +29,31 @@ webhook URL in the LINE Developers Console.
 
 ## Ingest the TTM corpus
 
-Digitize the purchased TTM book into Markdown with `#`/`##`/`###` section headers, then:
+For a scanned book (PDF), transcribe it first — each page image goes through the
+Vision Describer model slot (handles Thai and mixed-in Chinese), producing one
+JSONL record per paragraph with book/page/paragraph provenance:
+
+```bash
+uv run python -m app.rag.pdf_ocr path/to/book.pdf \
+    --book-id tamra-ttm --book-title "ตำราแพทย์แผนไทย"
+uv run python -m app.rag.ingest corpus/tamra-ttm.jsonl
+```
+
+Spot-check the JSONL against the scan before ingesting (OCR is not perfect).
+Re-running either command is safe: `pdf_ocr` skips pages already transcribed,
+and JSONL chunks use deterministic IDs so re-ingesting updates in place.
+Retrieved passages carry a `[book title หน้า X ย่อหน้าที่ Y]` source tag that
+the Advisor cites back to the user.
+
+A book already digitized to Markdown with `#`/`##`/`###` section headers still
+works, with section-header (not page) provenance:
 
 ```bash
 uv run python -m app.rag.ingest path/to/ttm_book.md
 ```
 
-This embeds the corpus into the local Chroma store at `CHROMA_PERSIST_DIR` using BGE-M3.
+Both paths embed the corpus into the local Chroma store at `CHROMA_PERSIST_DIR`
+using BGE-M3 (multilingual — Thai and Chinese embed fine in one collection).
 
 ## Project layout
 
@@ -47,7 +65,7 @@ app/
   pipeline/       # per-user serialization, dispatcher tying the turn together
   vision/         # Roboflow tongue detector, Vision Describer
   advisor/        # config-selected chat model factory, system prompt, LangGraph tool loop, Health Record tools
-  rag/            # BGE-M3 embeddings, Chroma vector store, corpus ingestion script
+  rag/            # BGE-M3 embeddings, Chroma vector store, scanned-book OCR + corpus ingestion scripts
   memory/         # MongoDB client, working buffer, Health Record repository, Relevance Gate summarizer
   models/         # shared pydantic schemas
 ```
