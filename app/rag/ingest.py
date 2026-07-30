@@ -6,13 +6,14 @@ Usage:
 
 Two input formats:
 
-- `.jsonl` -- one record per paragraph, as produced by `app.rag.pdf_ocr`
-  from a scanned book: {"book_id", "book_title", "page", "paragraph",
-  "text", ...}. Each paragraph becomes a chunk whose metadata carries the
-  book/page/paragraph provenance, stored under a deterministic ID
-  (`<book_id>:p<page>:para<paragraph>`) so re-running ingest updates
-  chunks in place instead of duplicating them. Oversized paragraphs are
-  split by size; every piece keeps the full provenance metadata.
+- `.jsonl` -- one record per paragraph, as produced by `app.rag.pdf_ocr` or
+  `app.rag.corpus_merge` from a scanned book: {"book_id", "book_title",
+  "page", "paragraph", "text", ...}. Each paragraph becomes a chunk whose
+  metadata carries the book/page/paragraph provenance, stored under a
+  deterministic ID (`<book_id>:p<page>:para<paragraph>`) so re-running
+  ingest updates chunks in place instead of duplicating them. Oversized
+  paragraphs are split by size; every piece keeps the full provenance
+  metadata.
 
 - `.md` -- a book digitized to Markdown with `#`/`##`/`###` section
   headers. Chunks by the section structure first, then by size, so each

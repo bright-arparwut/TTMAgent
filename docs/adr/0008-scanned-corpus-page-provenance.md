@@ -1,6 +1,6 @@
 # TTM Corpus: scanned-book digitization with page/paragraph provenance
 
-The [TTM Corpus](../../CONTEXT.md) is digitized from scanned book PDFs at **paragraph granularity**, with every chunk carrying `book_id`, `book_title`, the **printed** page number, and the 1-based paragraph number on that page. The pipeline is two one-off CLIs: `app.rag.pdf_ocr` renders each PDF page and has a vision model transcribe it into paragraph-level JSONL, and `app.rag.ingest` embeds that JSONL into Chroma under deterministic IDs (`<book_id>:p<page>:para<paragraph>`). `retrieve_passages` prefixes every retrieved chunk with a source tag (`[ชื่อตำรา หน้า X ย่อหน้าที่ Y]`) and the Advisor's system prompt requires a trailing `(อ้างอิง: …)` line citing only tags actually provided.
+The [TTM Corpus](../../CONTEXT.md) is digitized from scanned book PDFs at **paragraph granularity**, with every chunk carrying `book_id`, `book_title`, the **printed** page number, and the 1-based paragraph number on that page. The pipeline is three one-off CLIs: `app.rag.pdf_ocr` renders each PDF page and has a vision model transcribe it into paragraph-level JSONL, `app.rag.corpus_merge` assembles per-page transcription JSON from parallel vision sub-agents into that same JSONL format, and `app.rag.ingest` embeds the JSONL into Chroma under deterministic IDs (`<book_id>:p<page>:para<paragraph>`). `retrieve_passages` prefixes every retrieved chunk with a source tag (`[ชื่อตำรา หน้า X ย่อหน้าที่ Y]`) and the Advisor's system prompt requires a trailing `(อ้างอิง: …)` line citing only tags actually provided.
 
 The first corpus book is the Thai translation of 中医临床舌诊 ("การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น", Hu Zhen, Chulalongkorn University Press) — a two-column layout with Thai on the left and Chinese on the right; only the Thai column is transcribed. Books two and three — "ทฤษฎีพื้นฐานการแพทย์แผนจีน" (นพ.โกวิท คัมภีรภาพ, `tcm-basic-theory`) and "วิถีแห่งธรรมชาติกับธาตุทั้งสี่" (อนุสรณ์ วรมงคล, `four-elements`) — are single-column Thai scans digitized by parallel vision sub-agents (a transcribe pass, then an independent verify pass against the same page images) and assembled by `app.rag.corpus_merge`, which turns per-page transcription JSON into this record format. Both are partial scans: printed pages missing from the scan simply never appear in the corpus.
 
@@ -24,7 +24,7 @@ One JSONL line per paragraph, UTF-8, exactly these keys:
 | `paragraph` | 1-based paragraph position on that printed page; headings and figure captions count; a paragraph continuing from the previous page is paragraph 1 of its page | chunk metadata (source tag) + ID |
 | `text` | The paragraph exactly as printed (Thai column only for this book) | chunk text (embedded) |
 
-Chunk ID: `<book_id>:p<page>:para<paragraph>`, with a `:c<n>` suffix only when an oversized paragraph is size-split. `app.rag.pdf_ocr` and `app.rag.ingest` are the producing/consuming halves of this format; their docstrings restate it.
+Chunk ID: `<book_id>:p<page>:para<paragraph>`, with a `:c<n>` suffix only when an oversized paragraph is size-split. `app.rag.pdf_ocr` and `app.rag.corpus_merge` are the producing halves of this format, and `app.rag.ingest` is the consuming half; their docstrings restate it.
 
 ## Why
 
