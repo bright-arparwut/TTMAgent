@@ -4,6 +4,28 @@ The [TTM Corpus](../../CONTEXT.md) is digitized from scanned book PDFs at **para
 
 The first corpus book is the Thai translation of 中医临床舌诊 ("การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น", Hu Zhen, Chulalongkorn University Press) — a two-column layout with Thai on the left and Chinese on the right; only the Thai column is transcribed.
 
+## Record format
+
+One JSONL line per paragraph, UTF-8, exactly these keys:
+
+```json
+{"book_id": "tcm-tongue-diagnosis",
+ "book_title": "การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น",
+ "page": 98, "pdf_page": 113, "paragraph": 3,
+ "text": "การที่ลิ้นไม่มีฝ้าและมีรอยแตกอย่างเห็นได้ชัด ..."}
+```
+
+| Field | Meaning | Where it goes at ingest |
+|---|---|---|
+| `book_id` | Stable slug, unique per book; also distinguishes books inside the one `ttm_corpus` collection | chunk metadata + ID prefix |
+| `book_title` | The title the Advisor cites to users | chunk metadata (source tag) |
+| `page` | The **printed** page number (citation authority — see Why) | chunk metadata (source tag) + ID |
+| `pdf_page` | 1-based page index in the scanned PDF, kept to trace a record back to the scan | not ingested |
+| `paragraph` | 1-based paragraph position on that printed page; headings and figure captions count; a paragraph continuing from the previous page is paragraph 1 of its page | chunk metadata (source tag) + ID |
+| `text` | The paragraph exactly as printed (Thai column only for this book) | chunk text (embedded) |
+
+Chunk ID: `<book_id>:p<page>:para<paragraph>`, with a `:c<n>` suffix only when an oversized paragraph is size-split. `app.rag.pdf_ocr` and `app.rag.ingest` are the producing/consuming halves of this format; their docstrings restate it.
+
 ## Why
 
 - **Paragraph as the chunk unit, not fixed-size splits.** The paragraph is the smallest unit a citation names; a chunk that crosses a paragraph boundary makes "ย่อหน้าที่ N" ambiguous. Paragraphs in this book fit comfortably in one chunk; the rare oversized paragraph is size-split with every piece keeping the same page/paragraph metadata (ID suffix `:c<n>`).
