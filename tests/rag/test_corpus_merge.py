@@ -100,6 +100,14 @@ def test_validate_records_flags_empty_text_bad_keys_and_gaps():
             "pdf_page": 4,
             "paragraph": 1,
             "text": "ค",
+        },
+        {
+            "book_id": "b",
+            "book_title": "ชื่อ",
+            "page": 1,
+            "pdf_page": 5,
+            "paragraph": 1,
+            "text": "ง",
             "extra": 1,
         },
     ]
@@ -107,7 +115,7 @@ def test_validate_records_flags_empty_text_bad_keys_and_gaps():
     assert any("empty text" in e for e in errors)
     assert any("paragraph" in e for e in errors)  # 1 then 3: not contiguous
     assert any("keys" in e for e in errors)
-    assert any("book_id" in e for e in errors)
+    assert any("book_id/book_title mismatch" in e for e in errors)
 
 
 def test_validate_records_flags_page_going_backwards():
