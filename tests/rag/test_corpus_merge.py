@@ -29,10 +29,16 @@ def test_split_runs_separates_leading_and_trailing_unnumbered_pages():
     assert [p.pdf_page for p in back] == [6]
 
 
-def test_assign_printed_pages_uses_printed_number_and_interpolates_from_preceding():
+def test_assign_printed_pages_uses_printed_number_and_interpolates_within_a_run():
     body = [page(10, 15, ["ก"]), page(11, None, ["ข"]), page(12, 17, ["ค"])]
     assigned = assign_printed_pages(body)
     assert [(pdf, printed) for pdf, printed, _ in assigned] == [(10, 15), (11, 16), (12, 17)]
+
+
+def test_assign_printed_pages_anchors_a_gap_straddling_page_to_the_following_run():
+    body = [page(52, 74, ["ก"]), page(53, None, ["เปิดบท"]), page(54, 86, ["ข"])]
+    assigned = assign_printed_pages(body)
+    assert [(pdf, printed) for pdf, printed, _ in assigned] == [(52, 74), (53, 85), (54, 86)]
 
 
 def test_assign_printed_pages_interpolates_from_following_when_no_preceding_number():

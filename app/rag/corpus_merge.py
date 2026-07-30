@@ -65,7 +65,12 @@ def split_runs(pages: list[PageFile]) -> tuple[list[PageFile], list[PageFile], l
 
 
 def assign_printed_pages(body: list[PageFile]) -> list[tuple[int, int, list[str]]]:
-    """Resolve each body page to its printed number, interpolating unnumbered pages."""
+    """Resolve each body page to its printed number, interpolating unnumbered pages.
+
+    Unnumbered body pages anchor to the nearest following numbered page's offset,
+    since scan gaps typically precede chapter openers. If no following page exists,
+    fall back to the nearest preceding page.
+    """
     known_offsets = {
         p.pdf_page: p.printed_page_number - p.pdf_page
         for p in body
@@ -76,8 +81,9 @@ def assign_printed_pages(body: list[PageFile]) -> list[tuple[int, int, list[str]
         if page_file.printed_page_number is not None:
             printed = page_file.printed_page_number
         else:
+            following = [pdf for pdf in known_offsets if pdf > page_file.pdf_page]
             preceding = [pdf for pdf in known_offsets if pdf < page_file.pdf_page]
-            anchor = max(preceding) if preceding else min(known_offsets)
+            anchor = min(following) if following else max(preceding)
             printed = page_file.pdf_page + known_offsets[anchor]
         assigned.append((page_file.pdf_page, printed, page_file.paragraphs))
     return assigned
