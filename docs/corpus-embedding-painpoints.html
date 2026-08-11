@@ -186,7 +186,14 @@
     border-radius: 10px; padding: .7rem .85rem .6rem; background: var(--surface);
     transition: border-color .3s, background .3s;
   }
-  .chunk-card .c-text { font-size: .92rem; min-height: 3.1em; }
+  .chunk-card .c-json {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: .73rem; line-height: 1.7; color: var(--ink-2);
+    background: var(--code-bg); border-radius: 8px; padding: .5rem .65rem;
+    white-space: pre-wrap; word-break: break-word; min-height: 4.6em;
+  }
+  .chunk-card .c-json .j-k { color: var(--muted); }
+  .chunk-card .c-json .j-t { color: var(--ink); font-weight: 600; }
   .chunk-card .c-meta { font-size: .72rem; color: var(--muted); margin-top: .45rem; }
   .kind-badge {
     display: inline-flex; align-items: center; gap: .35rem;
@@ -280,6 +287,7 @@
     border-radius: 8px; padding: .25rem .7rem; font-size: .8rem; background: var(--surface);
   }
   .dup-chip b { color: var(--crit); font-variant-numeric: tabular-nums; }
+  .dup-chip .chip-src { display: block; font-size: .68rem; color: var(--muted); margin-top: .05rem; }
 
   /* dense/sparse panels */
   .ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -380,7 +388,7 @@
   <section class="panel" id="pain1">
     <p class="sec-eyebrow">ปัญหาที่ 1 · โครงสร้างข้อมูล</p>
     <h2>ทุกอย่างถูกเก็บเป็น “ย่อหน้า” เหมือนกันหมด — ไม่มีฟิลด์ <code>kind</code></h2>
-    <p class="sec-note">ตอน OCR (<span class="mono">app/rag/pdf_ocr.py</span>) หัวข้อบท เลขหัวข้อย่อย ป้ายในแผนภาพ และเนื้อหาจริง ถูกยุบเป็น <code>paragraph</code> ชนิดเดียวกัน ระบบจึงแยกไม่ออกว่า chunk ไหนควร embed, ควรรวมกับใคร, หรือควรใช้เป็น metadata — ลองเปิดสวิตช์ดูว่า 4 chunk จริงข้างล่างนี้ต่างชนิดกันแค่ไหน</p>
+    <p class="sec-note">ตอน OCR (<span class="mono">app/rag/pdf_ocr.py</span>) หัวข้อบท เลขหัวข้อย่อย ป้ายในแผนภาพ และเนื้อหาจริง ถูกยุบเป็น <code>paragraph</code> ชนิดเดียวกัน ระบบจึงแยกไม่ออกว่า chunk ไหนควร embed, ควรรวมกับใคร, หรือควรใช้เป็น metadata — ด้านล่างคือ record ดิบ 4 รายการจากไฟล์ <span class="mono">corpus/tcm-basic-theory.jsonl</span> ตามที่เก็บอยู่จริง (ตัดคีย์ <span class="mono">book_title</span> / <span class="mono">pdf_page</span> ออกเพื่อความกระชับ) ลองเปิดสวิตช์ดูว่าจริง ๆ แล้วมันต่างชนิดกันแค่ไหน</p>
 
     <div class="btn-row">
       <label class="switch">
@@ -392,28 +400,28 @@
 
     <div class="chunk-grid" id="chunkGrid">
       <div class="chunk-card" data-kind="heading">
-        <div class="c-text">“บทนำ”</div>
+        <div class="c-json">{<span class="j-k">"book_id"</span>: "tcm-basic-theory", <span class="j-k">"page"</span>: 1, <span class="j-k">"paragraph"</span>: 2, <span class="j-k">"text"</span>: <span class="j-t">"บทนำ"</span>}</div>
         <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
         <div class="c-path">heading_path: (หัวข้อบท — เป็นรากของ path)</div>
-        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 1 ย่อหน้า 2</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 1 ย่อหน้าที่ 2</div>
       </div>
       <div class="chunk-card" data-kind="heading">
-        <div class="c-text">“1. การสร้าง”</div>
+        <div class="c-json">{<span class="j-k">"book_id"</span>: "tcm-basic-theory", <span class="j-k">"page"</span>: 86, <span class="j-k">"paragraph"</span>: 2, <span class="j-k">"text"</span>: <span class="j-t">"1. การสร้าง"</span>}</div>
         <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
         <div class="c-path">heading_path: ก. ลมปราณหยวน &gt; 1. การสร้าง</div>
-        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้า 2</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้าที่ 2</div>
       </div>
       <div class="chunk-card" data-kind="caption">
-        <div class="c-text">“ไม้ น้ำ ไฟ | โลหะ ดิน”</div>
+        <div class="c-json">{<span class="j-k">"book_id"</span>: "tcm-basic-theory", <span class="j-k">"page"</span>: 26, <span class="j-k">"paragraph"</span>: 5, <span class="j-k">"text"</span>: <span class="j-t">"ไม้ น้ำ ไฟ | โลหะ ดิน"</span>}</div>
         <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
         <div class="c-path">heading_path: ปัญจธาตุ (ป้ายจากแผนภาพ)</div>
-        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 26 ย่อหน้า 5</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 26 ย่อหน้าที่ 5</div>
       </div>
       <div class="chunk-card" data-kind="body">
-        <div class="c-text">“สารจำเป็นมี 2 ชนิด คือ สารจำเป็นที่สร้างก่อนคลอด และสารจำเป็นที่สร้างหลังคลอด”</div>
+        <div class="c-json">{<span class="j-k">"book_id"</span>: "tcm-basic-theory", <span class="j-k">"page"</span>: 86, <span class="j-k">"paragraph"</span>: 3, <span class="j-k">"text"</span>: <span class="j-t">"สารจำเป็นมี 2 ชนิด คือ สารจำเป็นที่สร้างก่อนคลอด และสารจำเป็นที่สร้างหลังคลอด"</span>}</div>
         <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
         <div class="c-path">heading_path: สารจำเป็น &gt; 1. การสร้าง</div>
-        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้า 3</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้าที่ 3</div>
       </div>
     </div>
     <div class="legend-row" id="kindLegend" hidden>
@@ -438,17 +446,17 @@
       <div class="mini-card">
         <div class="m-path">ก. ลมปราณหยวน &gt; 3. หน้าที่ทางสรีรวิทยา</div>
         “- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ”
-        <div class="m-meta">หน้า 91 ย่อหน้า 5 — ไม่มีคำว่า “ลมปราณหยวน” ในตัว chunk</div>
+        <div class="m-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 91 ย่อหน้าที่ 5 — ไม่มีคำว่า “ลมปราณหยวน” ในตัว chunk</div>
       </div>
       <div class="mini-card">
         <div class="m-path">ค. ลมปราณอิ๋ง &gt; 3. หน้าที่ทางสรีรวิทยา</div>
         “- หล่อเลี้ยงอวัยวะและเนื้อเยื่อต่างๆ ให้ทำงานเป็นปกติ …”
-        <div class="m-meta">หน้า 92 ย่อหน้า 8 — ไม่มีคำว่า “ลมปราณอิ๋ง”</div>
+        <div class="m-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 92 ย่อหน้าที่ 8 — ไม่มีคำว่า “ลมปราณอิ๋ง”</div>
       </div>
       <div class="mini-card">
         <div class="m-path">ง. ลมปราณเว่ย</div>
         “ทำให้เจ็บป่วยจากสาเหตุของโรคภายนอกได้ง่าย”
-        <div class="m-meta">หน้า 93 ย่อหน้า 1 — ไม่มีคำว่า “ลมปราณเว่ย”</div>
+        <div class="m-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 93 ย่อหน้าที่ 1 — ไม่มีคำว่า “ลมปราณเว่ย”</div>
       </div>
     </div>
 
@@ -461,10 +469,10 @@
 
     <div class="two-col">
       <div>
-        <p class="chart-title">ข้อความที่ถูกส่งเข้าโมเดล embedding (chunk หน้า 91 ย่อหน้า 5)</p>
+        <p class="chart-title">ข้อความที่ถูกส่งเข้าโมเดล embedding (chunk จากทฤษฎีพื้นฐานการแพทย์แผนจีน หน้า 91 ย่อหน้าที่ 5)</p>
         <div class="embed-box" id="embedBox"><span class="prefix">ก. ลมปราณหยวน &gt; 3. หน้าที่ทางสรีรวิทยา
 </span>- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ</div>
-        <p class="embed-caption">metadata สำหรับอ้างอิง (หน้า 91 ย่อหน้า 5) <b>ไม่เปลี่ยน</b> — เปลี่ยนเฉพาะข้อความที่ใช้คำนวณเวกเตอร์</p>
+        <p class="embed-caption">metadata สำหรับอ้างอิง (ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 91 ย่อหน้าที่ 5) <b>ไม่เปลี่ยน</b> — เปลี่ยนเฉพาะข้อความที่ใช้คำนวณเวกเตอร์</p>
       </div>
       <div>
         <p class="chart-title">อันดับการค้นคืน (dense similarity — จำลอง)</p>
@@ -485,10 +493,10 @@
     <p class="sec-note"><b>ปัญหาที่ 3:</b> หัวข้อสั้น ๆ ถูก embed ซ้ำเป็นเวกเตอร์เหมือนกันหลายตัว (ข้อมูลจริงด้านล่าง) และป้ายแผนภาพอย่าง “ไม้ น้ำ ไฟ | โลหะ ดิน” คือ “คีย์เวิร์ดล้วน ไม่มีเนื้อหา” ซึ่งชนะ dense similarity ได้ง่ายมาก <b>ปัญหาที่ 4:</b> bi-encoder ให้คะแนน query กับ chunk แยกกัน จึงแยก “ป้ายที่คีย์เวิร์ดตรง” ออกจาก “คำตอบจริง” ไม่ได้ — cross-encoder ที่อ่านทั้งคู่พร้อมกันแยกได้</p>
 
     <div class="dup-chips">
-      <span class="dup-chip">“1. การสร้าง” <b>×6</b> <span style="color:var(--muted)">(หน้า 86, 90, 91, 92, 92, 93)</span></span>
-      <span class="dup-chip">“2. ตำแหน่งการไหลเวียน” <b>×4</b></span>
-      <span class="dup-chip">“3. หน้าที่ทางสรีรวิทยา” <b>×4</b></span>
-      <span class="dup-chip">“ไม้ น้ำ ไฟ | โลหะ ดิน” <b>×4</b> <span style="color:var(--muted)">(หน้า 26, 27, 28, 28)</span></span>
+      <span class="dup-chip">“1. การสร้าง” <b>×6</b> <span style="color:var(--muted)">(หน้า 86, 90, 91, 92, 92, 93)</span><span class="chip-src">ทฤษฎีพื้นฐานการแพทย์แผนจีน</span></span>
+      <span class="dup-chip">“2. ตำแหน่งการไหลเวียน” <b>×4</b> <span style="color:var(--muted)">(หน้า 90, 91, 92, 92)</span><span class="chip-src">ทฤษฎีพื้นฐานการแพทย์แผนจีน</span></span>
+      <span class="dup-chip">“3. หน้าที่ทางสรีรวิทยา” <b>×4</b> <span style="color:var(--muted)">(หน้า 91, 91, 92, 92)</span><span class="chip-src">ทฤษฎีพื้นฐานการแพทย์แผนจีน</span></span>
+      <span class="dup-chip">“ไม้ น้ำ ไฟ | โลหะ ดิน” <b>×4</b> <span style="color:var(--muted)">(หน้า 26, 27, 28, 28)</span><span class="chip-src">ทฤษฎีพื้นฐานการแพทย์แผนจีน</span></span>
     </div>
 
     <p><span class="qchip">ธาตุไฟกับธาตุน้ำสัมพันธ์กันยังไง</span></p>
@@ -893,7 +901,7 @@ function makeRankList(hostId, items, opts) {
     var main = document.createElement("div"); main.className = "rk-main";
     var tx = document.createElement("div"); tx.className = "rk-text" + (it.gen ? " gen" : "");
     tx.textContent = it.text; tx.title = it.text; main.appendChild(tx);
-    var mt = document.createElement("div"); mt.className = "rk-meta"; mt.textContent = it.meta; main.appendChild(mt);
+    var mt = document.createElement("div"); mt.className = "rk-meta"; mt.textContent = it.meta; mt.title = it.meta; main.appendChild(mt);
     el.appendChild(main);
     var tag = document.createElement("span"); tag.className = "rk-tag";
     tag.textContent = it.tag === "junk" ? "✕ junk" : (it.tag === "ans" ? "✓ ตอบคำถาม" : "อื่น ๆ");
@@ -947,10 +955,10 @@ function makeRankList(hostId, items, opts) {
 /* ---------- Pain 2 list ---------- */
 (function () {
   var items = [
-    { id: "T",  tag: "ans", text: "- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ", meta: "หน้า 91 ย่อหน้า 5 · chunk เป้าหมาย (ใต้หัวข้อ ก. ลมปราณหยวน > 3. หน้าที่ทางสรีรวิทยา)" },
-    { id: "C1", tag: "gen", text: "ลมปราณหยวนเป็นลมปราณที่สำคัญที่สุดในร่างกาย", meta: "หน้า 90 ย่อหน้า 10 · เอ่ยชื่อแต่ไม่ตอบ “หน้าที่”" },
-    { id: "C2", tag: "gen", text: "ลมปราณแบ่งเป็น 4 ชนิด ตามแหล่งกำเนิด ตำแหน่งที่อยู่ และหน้าที่ทางสรีรวิทยา คือ ลมปราณหยวน ลมปราณจง ลมปราณอิ๋ง และลมปราณเว่ย", meta: "หน้า 90 ย่อหน้า 8 · รายชื่อชนิด ไม่ใช่หน้าที่" },
-    { id: "C3", tag: "gen", text: "ลมปราณหยวนกระตุ้นการเจริญเติบโตของร่างกาย สร้างความอบอุ่นและกระตุ้นการ…", meta: "หน้า 91 ย่อหน้า 7 · ประโยคสรุปท้ายหัวข้อ" }
+    { id: "T",  tag: "ans", text: "- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 91 ย่อหน้าที่ 5 · chunk เป้าหมาย (ใต้หัวข้อ ก. ลมปราณหยวน > 3. หน้าที่ทางสรีรวิทยา)" },
+    { id: "C1", tag: "gen", text: "ลมปราณหยวนเป็นลมปราณที่สำคัญที่สุดในร่างกาย", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 90 ย่อหน้าที่ 10 · เอ่ยชื่อแต่ไม่ตอบ “หน้าที่”" },
+    { id: "C2", tag: "gen", text: "ลมปราณแบ่งเป็น 4 ชนิด ตามแหล่งกำเนิด ตำแหน่งที่อยู่ และหน้าที่ทางสรีรวิทยา คือ ลมปราณหยวน ลมปราณจง ลมปราณอิ๋ง และลมปราณเว่ย", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 90 ย่อหน้าที่ 8 · รายชื่อชนิด ไม่ใช่หน้าที่" },
+    { id: "C3", tag: "gen", text: "ลมปราณหยวนกระตุ้นการเจริญเติบโตของร่างกาย สร้างความอบอุ่นและกระตุ้นการ…", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 91 ย่อหน้าที่ 7 · ประโยคสรุปท้ายหัวข้อ" }
   ];
   var apply = makeRankList("p2rank", items, {
     cutAfter: 3, cutLabel: "· · ·  chunk อื่นอีกหลายสิบตัว  · · ·"
@@ -977,12 +985,12 @@ function makeRankList(hostId, items, opts) {
 /* ---------- Pain 3+4 list ---------- */
 (function () {
   var items = [
-    { id: "L1", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 26 ย่อหน้า 5 · ป้ายจากแผนภาพ — คีย์เวิร์ดล้วน ไม่มีเนื้อหา" },
-    { id: "L2", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 27 ย่อหน้า 1 · เวกเตอร์ซ้ำตัวที่ 2" },
-    { id: "L3", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 28 ย่อหน้า 1 · เวกเตอร์ซ้ำตัวที่ 3" },
-    { id: "L4", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 28 ย่อหน้า 4 · เวกเตอร์ซ้ำตัวที่ 4" },
-    { id: "A1", tag: "ans",  text: "น้ำข่มไฟ คือ น้ำจากไตขึ้นไปควบคุมไฟที่หัวใจ ไม่ให้ร้อนแรงเกินไป", meta: "หน้า 30 ย่อหน้า 16 · คำตอบตรงคำถาม" },
-    { id: "A2", tag: "ans",  text: "น้ำ ไม้ และไฟ ยังมีความสัมพันธ์เชิงลบ คือ น้ำข่มไฟ จึงเห็นได้ว่าความสัมพันธ์เชิงบวกจะต้องมีความสัมพันธ์เชิงลบเข้ามาเกี่ยวข้อง …", meta: "หน้า 26 ย่อหน้า 3 · คำตอบเชิงอธิบาย (281 ตัวอักษร)" },
+    { id: "L1", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 26 ย่อหน้าที่ 5 · ป้ายจากแผนภาพ — คีย์เวิร์ดล้วน ไม่มีเนื้อหา" },
+    { id: "L2", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 27 ย่อหน้าที่ 1 · เวกเตอร์ซ้ำตัวที่ 2" },
+    { id: "L3", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 28 ย่อหน้าที่ 1 · เวกเตอร์ซ้ำตัวที่ 3" },
+    { id: "L4", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 28 ย่อหน้าที่ 4 · เวกเตอร์ซ้ำตัวที่ 4" },
+    { id: "A1", tag: "ans",  text: "น้ำข่มไฟ คือ น้ำจากไตขึ้นไปควบคุมไฟที่หัวใจ ไม่ให้ร้อนแรงเกินไป", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 30 ย่อหน้าที่ 16 · คำตอบตรงคำถาม" },
+    { id: "A2", tag: "ans",  text: "น้ำ ไม้ และไฟ ยังมีความสัมพันธ์เชิงลบ คือ น้ำข่มไฟ จึงเห็นได้ว่าความสัมพันธ์เชิงบวกจะต้องมีความสัมพันธ์เชิงลบเข้ามาเกี่ยวข้อง …", meta: "ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 26 ย่อหน้าที่ 3 · คำตอบเชิงอธิบาย (281 ตัวอักษร)" },
     { id: "M1", tag: "gen", gen: true, text: "(chunk ที่รวมป้าย “ไม้ น้ำ ไฟ | โลหะ ดิน” เข้ากับย่อหน้าอธิบายแผนภาพแล้ว)", meta: "ผลจาก heuristic รวม label — ป้ายไม่เป็นเวกเตอร์เดี่ยวอีกต่อไป" },
     { id: "F2", tag: "gen", gen: true, text: "(ย่อหน้าอื่นเรื่องความสัมพันธ์ปัญจธาตุ — คล้ายเชิงความหมายแต่ไม่ตอบคำถาม)", meta: "ตัวแทน chunk ทั่วไปในหมวดปัญจธาตุ" },
     { id: "F3", tag: "gen", gen: true, text: "(ย่อหน้าอื่นเรื่องธาตุทั้งห้า)", meta: "ตัวแทน chunk ทั่วไปในหมวดปัญจธาตุ" }
