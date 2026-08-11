@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pain Points: การจัดรูปแบบข้อความจากหนังสือ → Embedding และการค้นคืน</title>
+<style>
+  /*
+    Token plan (reference dataviz palette, validated light+dark)
+    - page plane / chart surface / hairline chrome are quiet neutrals;
+      the only loud things are the data marks.
+    - categorical slots: s1 blue, s2 orange, s3 aqua (validated order).
+    - status critical = the "junk" zone; never reused as a series color.
+    - dark mode is its own selected steps, not an automatic flip.
+  */
+  :root {
+    color-scheme: light;
+    --page:      #f9f9f7;
+    --surface:   #fcfcfb;
+    --ink:       #0b0b0b;
+    --ink-2:     #52514e;
+    --muted:     #898781;
+    --grid:      #e1e0d9;
+    --baseline:  #c3c2b7;
+    --border:    rgba(11,11,11,.10);
+    --s1:        #2a78d6;
+    --s2:        #eb6834;
+    --s3:        #1baf7a;
+    --crit:      #d03b3b;
+    --good:      #006300;
+    --gray-mark: #d6d5cd;
+    --code-bg:   #f0efec;
+    --tint-s1:   rgba(42,120,214,.10);
+    --tint-crit: rgba(208,59,59,.08);
+    --tint-good: rgba(12,163,12,.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:      #0d0d0d;
+      --surface:   #1a1a19;
+      --ink:       #ffffff;
+      --ink-2:     #c3c2b7;
+      --muted:     #898781;
+      --grid:      #2c2c2a;
+      --baseline:  #383835;
+      --border:    rgba(255,255,255,.10);
+      --s1:        #3987e5;
+      --s2:        #d95926;
+      --s3:        #199e70;
+      --crit:      #d03b3b;
+      --good:      #0ca30c;
+      --gray-mark: #3d3d3a;
+      --code-bg:   #242423;
+      --tint-s1:   rgba(57,135,229,.14);
+      --tint-crit: rgba(208,59,59,.12);
+      --tint-good: rgba(12,163,12,.12);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:      #0d0d0d;
+    --surface:   #1a1a19;
+    --ink:       #ffffff;
+    --ink-2:     #c3c2b7;
+    --muted:     #898781;
+    --grid:      #2c2c2a;
+    --baseline:  #383835;
+    --border:    rgba(255,255,255,.10);
+    --s1:        #3987e5;
+    --s2:        #d95926;
+    --s3:        #199e70;
+    --crit:      #d03b3b;
+    --good:      #0ca30c;
+    --gray-mark: #3d3d3a;
+    --code-bg:   #242423;
+    --tint-s1:   rgba(57,135,229,.14);
+    --tint-crit: rgba(208,59,59,.12);
+    --tint-good: rgba(12,163,12,.12);
+  }
+
+  * { box-sizing: border-box; }
+  html { max-width: 100%; }
+  body {
+    margin: 0;
+    padding: 2.2rem 1.1rem 4rem;
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Noto Sans Thai', 'Sarabun', 'Leelawadee UI', 'Thonburi',
+                 system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .page { max-width: 66rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+
+  /* ---------- header ---------- */
+  header.top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .eyebrow { margin: 0 0 .2rem; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font-size: 1.55rem; line-height: 1.35; font-weight: 700; }
+  .lede { margin: .5rem 0 0; max-width: 46rem; color: var(--ink-2); font-size: .95rem; }
+  .theme-btn {
+    flex: none; margin-top: .2rem;
+    border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
+    border-radius: 999px; padding: .35rem .9rem; font: inherit; font-size: .8rem; cursor: pointer;
+  }
+  .theme-btn:hover { color: var(--ink); }
+
+  /* ---------- generic panels ---------- */
+  section.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem 1.6rem;
+  }
+  section.panel > h2 { margin: 0 0 .15rem; font-size: 1.18rem; font-weight: 700; }
+  .sec-eyebrow { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 .3rem; }
+  .sec-note { color: var(--ink-2); font-size: .92rem; margin: .3rem 0 1rem; max-width: 52rem; }
+  .scrollx { overflow-x: auto; }
+  .sim-badge {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .72rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px; padding: .1rem .6rem;
+    white-space: nowrap;
+  }
+  .sim-badge::before { content: "≈"; font-weight: 700; }
+
+  /* ---------- stat tiles ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; margin-bottom: 1.2rem; }
+  .tile { border: 1px solid var(--border); border-radius: 12px; padding: .8rem .95rem .7rem; background: var(--surface); }
+  .tile .t-label { font-size: .74rem; color: var(--ink-2); }
+  .tile .t-value { font-size: 1.85rem; font-weight: 600; line-height: 1.2; margin-top: .1rem; }
+  .tile .t-sub { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+  .tile.crit .t-value { color: var(--crit); }
+  .tile.crit { background: var(--tint-crit); }
+
+  /* ---------- charts ---------- */
+  .chart-wrap { position: relative; }
+  .chart-title { font-size: .86rem; font-weight: 600; margin: 0 0 .1rem; }
+  .chart-sub { font-size: .74rem; color: var(--muted); margin: 0 0 .5rem; }
+  svg text { font-family: inherit; }
+  .tip {
+    position: fixed; z-index: 30; pointer-events: none;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.14);
+    padding: .4rem .6rem; font-size: .78rem; line-height: 1.45;
+    max-width: 260px; display: none;
+  }
+  .tip b { font-size: .88rem; }
+  .tip .tl { color: var(--ink-2); }
+
+  details.tableview { margin-top: .7rem; }
+  details.tableview summary { cursor: pointer; font-size: .78rem; color: var(--ink-2); }
+  table.data { border-collapse: collapse; font-size: .82rem; margin-top: .5rem; min-width: 480px; }
+  table.data th, table.data td { padding: .3rem .7rem; border-bottom: 1px solid var(--grid); text-align: left; }
+  table.data th { color: var(--ink-2); font-weight: 600; font-size: .74rem; }
+  table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ---------- pill / toggle buttons ---------- */
+  .btn-row { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; margin: .6rem 0 1rem; }
+  .pill {
+    border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
+    font: inherit; font-size: .82rem; border-radius: 999px; padding: .32rem .85rem; cursor: pointer;
+  }
+  .pill:hover { color: var(--ink); }
+  .pill[aria-pressed="true"] { background: var(--s1); border-color: var(--s1); color: #fff; font-weight: 600; }
+  .qchip {
+    display: inline-block; background: var(--tint-s1); border: 1px solid var(--border);
+    border-radius: 8px; padding: .25rem .7rem; font-size: .88rem; font-weight: 600;
+  }
+  .qchip::before { content: "คำถาม: "; font-weight: 400; color: var(--ink-2); font-size: .78rem; }
+
+  /* switch */
+  .switch { display: inline-flex; align-items: center; gap: .55rem; cursor: pointer; font-size: .88rem; font-weight: 600; user-select: none; }
+  .switch input { position: absolute; opacity: 0; }
+  .switch .track { width: 40px; height: 22px; border-radius: 999px; background: var(--gray-mark); position: relative; transition: background .2s; flex: none; }
+  .switch .track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .switch input:checked + .track { background: var(--s1); }
+  .switch input:checked + .track::after { left: 21px; }
+  .switch input:focus-visible + .track { outline: 2px solid var(--s1); outline-offset: 2px; }
+
+  /* ---------- pain 1 cards ---------- */
+  .chunk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .8rem; }
+  .chunk-card {
+    border: 1px solid var(--border); border-left: 4px solid var(--baseline);
+    border-radius: 10px; padding: .7rem .85rem .6rem; background: var(--surface);
+    transition: border-color .3s, background .3s;
+  }
+  .chunk-card .c-text { font-size: .92rem; min-height: 3.1em; }
+  .chunk-card .c-meta { font-size: .72rem; color: var(--muted); margin-top: .45rem; }
+  .kind-badge {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .72rem; font-weight: 600; color: var(--ink-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: .06rem .55rem; margin-top: .5rem;
+  }
+  .kind-badge .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--baseline); flex: none; }
+  .kinds-on .chunk-card[data-kind="heading"] { border-left-color: var(--s1); background: var(--tint-s1); }
+  .kinds-on .chunk-card[data-kind="caption"] { border-left-color: var(--s2); }
+  .kinds-on .chunk-card[data-kind="body"]    { border-left-color: var(--s3); }
+  .kinds-on .chunk-card[data-kind="heading"] .dot { background: var(--s1); }
+  .kinds-on .chunk-card[data-kind="caption"] .dot { background: var(--s2); }
+  .kinds-on .chunk-card[data-kind="body"]    .dot { background: var(--s3); }
+  .chunk-card .c-path { display: none; font-size: .72rem; color: var(--ink-2); margin-top: .35rem; }
+  .kinds-on .chunk-card .c-path { display: block; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: .9rem; font-size: .76rem; color: var(--ink-2); margin-top: .8rem; }
+  .legend-row .key { display: inline-flex; align-items: center; gap: .4rem; }
+  .legend-row .sw { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+  /* ---------- embed box (pain 2) ---------- */
+  .embed-box {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: .8rem .95rem; font-size: .9rem; white-space: pre-wrap; word-break: break-word;
+  }
+  .embed-box .prefix { background: var(--tint-s1); border-radius: 4px; padding: 0 .25rem; font-weight: 600; display: none; }
+  .embed-box.with-prefix .prefix { display: inline; }
+  .embed-caption { font-size: .74rem; color: var(--muted); margin-top: .4rem; }
+  .two-col { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.25fr); gap: 1.2rem; align-items: start; }
+  @media (max-width: 780px) { .two-col { grid-template-columns: 1fr; } }
+
+  .mini-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .7rem; margin: .8rem 0 1rem; }
+  .mini-card { border: 1px solid var(--border); border-radius: 10px; padding: .6rem .8rem; font-size: .82rem; }
+  .mini-card .m-path { font-size: .7rem; color: var(--s1); font-weight: 600; }
+  .mini-card .m-meta { font-size: .7rem; color: var(--muted); margin-top: .3rem; }
+
+  /* ---------- ranked list ---------- */
+  .rank-wrap { position: relative; transition: height .45s ease; }
+  .rk-item {
+    position: absolute; left: 0; right: 0; height: 52px;
+    display: flex; align-items: center; gap: .7rem;
+    border: 1px solid var(--border); border-radius: 10px; background: var(--surface);
+    padding: 0 .8rem; transition: top .45s ease, opacity .35s ease;
+  }
+  .rk-item.hidden { opacity: 0; pointer-events: none; }
+  .rk-item .rk-rank { flex: none; width: 1.4rem; text-align: center; font-weight: 700; font-size: .95rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .rk-item .rk-main { flex: 1 1 auto; min-width: 0; }
+  .rk-item .rk-text { font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rk-item .rk-text.gen { color: var(--muted); font-style: italic; }
+  .rk-item .rk-meta { font-size: .68rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rk-item .rk-score { flex: none; width: 3.4rem; text-align: right; font-variant-numeric: tabular-nums; font-size: .82rem; font-weight: 600; }
+  .rk-item .rk-bar { flex: none; width: 54px; height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; }
+  .rk-item .rk-bar i { display: block; height: 100%; border-radius: 3px; background: var(--gray-mark); transition: width .45s ease, background .3s; }
+  .rk-item .rk-tag { flex: none; font-size: .68rem; font-weight: 700; border-radius: 999px; padding: .04rem .5rem; white-space: nowrap; }
+  .rk-item[data-tag="junk"] { border-left: 4px solid var(--crit); }
+  .rk-item[data-tag="junk"] .rk-tag { color: var(--crit); background: var(--tint-crit); }
+  .rk-item[data-tag="ans"] { border-left: 4px solid var(--good); }
+  .rk-item[data-tag="ans"] .rk-tag { color: var(--good); background: var(--tint-good); }
+  .rk-item[data-tag="ans"] .rk-bar i { background: var(--s1); }
+  .rk-item[data-tag="gen"] { border-left: 4px solid var(--baseline); }
+  .rk-item[data-tag="gen"] .rk-tag { color: var(--muted); }
+  .rk-cut {
+    position: absolute; left: 0; right: 0; height: 26px;
+    display: flex; align-items: center; gap: .6rem;
+    color: var(--muted); font-size: .7rem; transition: top .45s ease;
+  }
+  .rk-cut::before, .rk-cut::after { content: ""; flex: 1; border-top: 1px solid var(--grid); }
+  .stage-note { font-size: .85rem; color: var(--ink-2); margin: .2rem 0 .8rem; min-height: 2.4em; max-width: 50rem; }
+  .stage-note b { color: var(--ink); }
+
+  /* ---------- proposal box ---------- */
+  .proposal {
+    margin-top: 1.2rem; border: 1px solid var(--border); border-left: 4px solid var(--s1);
+    border-radius: 10px; padding: .75rem 1rem; background: var(--tint-s1);
+    font-size: .9rem;
+  }
+  .proposal .p-label { font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--s1); margin-bottom: .15rem; }
+  code, .mono {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: .86em; background: var(--code-bg); border-radius: 4px; padding: .05em .3em;
+  }
+  pre.code {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: .8rem 1rem; overflow-x: auto; font-size: .82rem; line-height: 1.55;
+  }
+  pre.code code { background: none; padding: 0; }
+
+  /* dup chips (pain 3) */
+  .dup-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0 1rem; }
+  .dup-chip {
+    border: 1px solid var(--border); border-left: 3px solid var(--crit);
+    border-radius: 8px; padding: .25rem .7rem; font-size: .8rem; background: var(--surface);
+  }
+  .dup-chip b { color: var(--crit); font-variant-numeric: tabular-nums; }
+
+  /* dense/sparse panels */
+  .ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 720px) { .ds-grid { grid-template-columns: 1fr; } }
+  .ds-panel { border: 1px solid var(--border); border-radius: 10px; padding: .7rem .8rem .4rem; }
+  .ds-panel h4 { margin: 0 0 .1rem; font-size: .84rem; display: flex; align-items: center; gap: .45rem; }
+  .ds-panel h4 .sw { width: 11px; height: 11px; border-radius: 3px; }
+  .ds-cap { font-size: .8rem; color: var(--ink-2); margin-top: .8rem; max-width: 50rem; }
+
+  /* vector demo */
+  .vec-grid { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; gap: 1.2rem; align-items: start; }
+  @media (max-width: 720px) { .vec-grid { grid-template-columns: 1fr; } }
+  .vec-read td.win { font-weight: 700; }
+  .vec-read tr.winner { background: var(--tint-good); }
+  .vec-explain { font-size: .86rem; color: var(--ink-2); margin-top: .6rem; min-height: 3.2em; max-width: 40rem; }
+
+  /* summary table */
+  .impact-dots { display: inline-flex; gap: 3px; margin-right: .4rem; vertical-align: middle; }
+  .impact-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--grid); }
+  .impact-dots i.on { background: var(--s1); }
+  .impact-dots.eff i.on { background: var(--ink-2); }
+  .group-tag { font-size: .68rem; font-weight: 700; border-radius: 999px; padding: .05rem .55rem; white-space: nowrap; border: 1px solid var(--border); color: var(--ink-2); }
+
+  footer { color: var(--muted); font-size: .76rem; max-width: 52rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rk-item, .rk-cut, .rank-wrap, .rk-item .rk-bar i, .switch .track, .switch .track::after { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">TTMAgent · RAG pipeline · corpus/*.jsonl → BGE-M3 → Chroma</p>
+      <h1>6 จุดอ่อนของเส้นทาง “หนังสือ → chunk → embedding → การค้นคืน” และข้อเสนอแก้ไข</h1>
+      <p class="lede">ทุกตัวเลขสถิติของ corpus ในหน้านี้คำนวณจากไฟล์จริง (<span class="mono">corpus/*.jsonl</span> ไม่รวมไฟล์ front-matter) และตัวอย่าง chunk ทุกชิ้นคัดมาจากข้อมูลจริง ส่วน <b>คะแนนความคล้าย</b> ในเดโมทุกตัวเป็น<b>แบบจำลองเพื่อการอธิบาย</b> (ไม่ได้รันโมเดลจริงในหน้านี้)</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button">ธีม: อัตโนมัติ</button>
+  </header>
+
+  <!-- ================= OVERVIEW ================= -->
+  <section class="panel" id="overview">
+    <p class="sec-eyebrow">ภาพรวม corpus</p>
+    <h2>chunk 1 ใน 8 สั้นจนไม่มีเนื้อหา</h2>
+    <p class="sec-note">corpus เนื้อหาหลักมี 3 ไฟล์ รวม 1,862 chunk — แต่ 240 chunk (12.9%) ยาวไม่เกิน 25 ตัวอักษร ซึ่งเกือบทั้งหมดคือหัวข้อ เลขข้อ หรือป้ายจากแผนภาพ ที่ถูกเก็บเป็น “ย่อหน้า” แล้วกลายเป็นเวกเตอร์เต็มตัวใน Chroma</p>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="t-label">chunk ทั้งหมด (เนื้อหาหลัก)</div>
+        <div class="t-value">1,862</div>
+        <div class="t-sub">3 ไฟล์ · ไม่รวม front-matter</div>
+      </div>
+      <div class="tile crit">
+        <div class="t-label">chunk ≤ 25 ตัวอักษร</div>
+        <div class="t-value">240</div>
+        <div class="t-sub">หัวข้อ / เลขข้อ / ป้ายแผนภาพ</div>
+      </div>
+      <div class="tile crit">
+        <div class="t-label">สัดส่วน junk</div>
+        <div class="t-value">12.9%</div>
+        <div class="t-sub">ของเวกเตอร์ทั้งหมดใน store</div>
+      </div>
+      <div class="tile">
+        <div class="t-label">rag_top_k</div>
+        <div class="t-value">5</div>
+        <div class="t-sub">app/config.py — ที่นั่งมีแค่ 5</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <p class="chart-title">การกระจายความยาว chunk (ตัวอักษร) — ข้อมูลจริงทั้ง 1,862 chunk</p>
+      <p class="chart-sub">ช่วงละ 50 ตัวอักษร · แถบแรกแยกส่วน ≤25 ตัวอักษร (สีแดง = โซน junk)</p>
+      <div class="scrollx"><div id="histChart" style="min-width:700px"></div></div>
+      <div class="legend-row">
+        <span class="key"><span class="sw" style="background:var(--crit)"></span> ≤ 25 ตัวอักษร (junk, 240 chunk)</span>
+        <span class="key"><span class="sw" style="background:var(--s1)"></span> chunk อื่น ๆ</span>
+      </div>
+      <details class="tableview">
+        <summary>ดูเป็นตาราง (histogram + สถิติรายไฟล์)</summary>
+        <div class="scrollx"><table class="data" id="histTable"></table></div>
+        <div class="scrollx">
+        <table class="data">
+          <thead><tr><th>ไฟล์</th><th class="num">chunk</th><th class="num">median (ตัวอักษร)</th><th class="num">≤25 ตัวอักษร</th><th class="num">&gt;800 ตัวอักษร</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">tcm-basic-theory</td><td class="num">1,080</td><td class="num">116</td><td class="num">136 (12.6%)</td><td class="num">2</td></tr>
+            <tr><td class="mono">tcm-tongue-diagnosis</td><td class="num">621</td><td class="num">87</td><td class="num">84 (13.5%)</td><td class="num">13</td></tr>
+            <tr><td class="mono">four-elements</td><td class="num">161</td><td class="num">224</td><td class="num">20 (12.4%)</td><td class="num">4</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= PAIN 1 ================= -->
+  <section class="panel" id="pain1">
+    <p class="sec-eyebrow">ปัญหาที่ 1 · โครงสร้างข้อมูล</p>
+    <h2>ทุกอย่างถูกเก็บเป็น “ย่อหน้า” เหมือนกันหมด — ไม่มีฟิลด์ <code>kind</code></h2>
+    <p class="sec-note">ตอน OCR (<span class="mono">app/rag/pdf_ocr.py</span>) หัวข้อบท เลขหัวข้อย่อย ป้ายในแผนภาพ และเนื้อหาจริง ถูกยุบเป็น <code>paragraph</code> ชนิดเดียวกัน ระบบจึงแยกไม่ออกว่า chunk ไหนควร embed, ควรรวมกับใคร, หรือควรใช้เป็น metadata — ลองเปิดสวิตช์ดูว่า 4 chunk จริงข้างล่างนี้ต่างชนิดกันแค่ไหน</p>
+
+    <div class="btn-row">
+      <label class="switch">
+        <input type="checkbox" id="kindToggle">
+        <span class="track" aria-hidden="true"></span>
+        เปิดฟิลด์ <code>kind</code> (ตามข้อเสนอ)
+      </label>
+    </div>
+
+    <div class="chunk-grid" id="chunkGrid">
+      <div class="chunk-card" data-kind="heading">
+        <div class="c-text">“บทนำ”</div>
+        <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
+        <div class="c-path">heading_path: (หัวข้อบท — เป็นรากของ path)</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 1 ย่อหน้า 2</div>
+      </div>
+      <div class="chunk-card" data-kind="heading">
+        <div class="c-text">“1. การสร้าง”</div>
+        <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
+        <div class="c-path">heading_path: ก. ลมปราณหยวน &gt; 1. การสร้าง</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้า 2</div>
+      </div>
+      <div class="chunk-card" data-kind="caption">
+        <div class="c-text">“ไม้ น้ำ ไฟ | โลหะ ดิน”</div>
+        <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
+        <div class="c-path">heading_path: ปัญจธาตุ (ป้ายจากแผนภาพ)</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 26 ย่อหน้า 5</div>
+      </div>
+      <div class="chunk-card" data-kind="body">
+        <div class="c-text">“สารจำเป็นมี 2 ชนิด คือ สารจำเป็นที่สร้างก่อนคลอด และสารจำเป็นที่สร้างหลังคลอด”</div>
+        <span class="kind-badge"><span class="dot"></span><span class="kb-text">paragraph</span></span>
+        <div class="c-path">heading_path: สารจำเป็น &gt; 1. การสร้าง</div>
+        <div class="c-meta">ทฤษฎีพื้นฐานการแพทย์แผนจีน · หน้า 86 ย่อหน้า 3</div>
+      </div>
+    </div>
+    <div class="legend-row" id="kindLegend" hidden>
+      <span class="key"><span class="sw" style="background:var(--s1)"></span> heading — หัวข้อ/หัวข้อย่อย</span>
+      <span class="key"><span class="sw" style="background:var(--s2)"></span> caption — ป้าย/คำบรรยายแผนภาพ</span>
+      <span class="key"><span class="sw" style="background:var(--s3)"></span> body — เนื้อหาจริง</span>
+    </div>
+
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 1</div>
+      เพิ่มฟิลด์ <code>kind</code> (<code>heading</code> / <code>body</code> / <code>table_row</code> / <code>caption</code> / <code>list_item</code>) และ <code>heading_path</code> ลงใน schema <code>PageTranscription</code> ที่ <code>app/rag/pdf_ocr.py</code> — ให้ขั้น OCR ติดป้ายชนิดมาตั้งแต่ต้นทาง (ต้อง OCR ใหม่ จึงเป็นการลงทุนระยะยาวที่ปลดล็อกข้อ 2 และ 3 แบบถาวร)
+    </div>
+  </section>
+
+  <!-- ================= PAIN 2 ================= -->
+  <section class="panel" id="pain2">
+    <p class="sec-eyebrow">ปัญหาที่ 2 · บริบทหาย</p>
+    <h2>chunk ไม่รู้จักหัวข้อของตัวเอง — คำตอบจริงจึง “ค้นไม่เจอ”</h2>
+    <p class="sec-note">หนังสือเขียนแบบอิงหัวข้อ: ใต้หัวข้อ “ก. ลมปราณหยวน &gt; 3. หน้าที่ทางสรีรวิทยา” เนื้อหาเป็น bullet ที่ไม่เอ่ยชื่อ “ลมปราณหยวน” เลย พอ embed เฉพาะ <code>text</code> เวกเตอร์ของ bullet จึงไม่เฉียดใกล้คำถามที่ระบุชื่อหัวข้อ ตัวอย่างจริงจากหน้า 90–93:</p>
+
+    <div class="mini-cards">
+      <div class="mini-card">
+        <div class="m-path">ก. ลมปราณหยวน &gt; 3. หน้าที่ทางสรีรวิทยา</div>
+        “- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ”
+        <div class="m-meta">หน้า 91 ย่อหน้า 5 — ไม่มีคำว่า “ลมปราณหยวน” ในตัว chunk</div>
+      </div>
+      <div class="mini-card">
+        <div class="m-path">ค. ลมปราณอิ๋ง &gt; 3. หน้าที่ทางสรีรวิทยา</div>
+        “- หล่อเลี้ยงอวัยวะและเนื้อเยื่อต่างๆ ให้ทำงานเป็นปกติ …”
+        <div class="m-meta">หน้า 92 ย่อหน้า 8 — ไม่มีคำว่า “ลมปราณอิ๋ง”</div>
+      </div>
+      <div class="mini-card">
+        <div class="m-path">ง. ลมปราณเว่ย</div>
+        “ทำให้เจ็บป่วยจากสาเหตุของโรคภายนอกได้ง่าย”
+        <div class="m-meta">หน้า 93 ย่อหน้า 1 — ไม่มีคำว่า “ลมปราณเว่ย”</div>
+      </div>
+    </div>
+
+    <p><span class="qchip">ลมปราณหยวนทำหน้าที่อะไร</span></p>
+    <div class="btn-row" role="group" aria-label="สลับก่อน/หลัง">
+      <button class="pill" id="p2before" aria-pressed="true" type="button">ปัจจุบัน — embed เฉพาะ text</button>
+      <button class="pill" id="p2after" aria-pressed="false" type="button">ข้อเสนอ — embed heading_path + text</button>
+      <span class="sim-badge">คะแนนจำลองเพื่อการอธิบาย</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <p class="chart-title">ข้อความที่ถูกส่งเข้าโมเดล embedding (chunk หน้า 91 ย่อหน้า 5)</p>
+        <div class="embed-box" id="embedBox"><span class="prefix">ก. ลมปราณหยวน &gt; 3. หน้าที่ทางสรีรวิทยา
+</span>- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ</div>
+        <p class="embed-caption">metadata สำหรับอ้างอิง (หน้า 91 ย่อหน้า 5) <b>ไม่เปลี่ยน</b> — เปลี่ยนเฉพาะข้อความที่ใช้คำนวณเวกเตอร์</p>
+      </div>
+      <div>
+        <p class="chart-title">อันดับการค้นคืน (dense similarity — จำลอง)</p>
+        <div class="rank-wrap" id="p2rank"></div>
+      </div>
+    </div>
+
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 2</div>
+      ตอน ingest (<code>app/rag/ingest.py</code>) เปลี่ยนข้อความที่ส่งเข้าโมเดลเป็น <code>f"{heading_path}\n{text}"</code> โดย metadata การอ้างอิง (<code>page</code> / <code>paragraph</code>) คงเดิมทุกประการ — คำตอบที่เป็น bullet ใต้หัวข้อจะกลับมาค้นเจอด้วยคำถามที่เอ่ยชื่อหัวข้อ
+    </div>
+  </section>
+
+  <!-- ================= PAIN 3 + 4 ================= -->
+  <section class="panel" id="pain34">
+    <p class="sec-eyebrow">ปัญหาที่ 3 และ 4 · junk แย่งที่นั่ง + ไม่มีกรรมการตัดสิน</p>
+    <h2>เวกเตอร์ขยะ 240 ตัวแย่งที่นั่ง top-k — และไม่มี reranker มาช่วยจัดอันดับใหม่</h2>
+    <p class="sec-note"><b>ปัญหาที่ 3:</b> หัวข้อสั้น ๆ ถูก embed ซ้ำเป็นเวกเตอร์เหมือนกันหลายตัว (ข้อมูลจริงด้านล่าง) และป้ายแผนภาพอย่าง “ไม้ น้ำ ไฟ | โลหะ ดิน” คือ “คีย์เวิร์ดล้วน ไม่มีเนื้อหา” ซึ่งชนะ dense similarity ได้ง่ายมาก <b>ปัญหาที่ 4:</b> bi-encoder ให้คะแนน query กับ chunk แยกกัน จึงแยก “ป้ายที่คีย์เวิร์ดตรง” ออกจาก “คำตอบจริง” ไม่ได้ — cross-encoder ที่อ่านทั้งคู่พร้อมกันแยกได้</p>
+
+    <div class="dup-chips">
+      <span class="dup-chip">“1. การสร้าง” <b>×6</b> <span style="color:var(--muted)">(หน้า 86, 90, 91, 92, 92, 93)</span></span>
+      <span class="dup-chip">“2. ตำแหน่งการไหลเวียน” <b>×4</b></span>
+      <span class="dup-chip">“3. หน้าที่ทางสรีรวิทยา” <b>×4</b></span>
+      <span class="dup-chip">“ไม้ น้ำ ไฟ | โลหะ ดิน” <b>×4</b> <span style="color:var(--muted)">(หน้า 26, 27, 28, 28)</span></span>
+    </div>
+
+    <p><span class="qchip">ธาตุไฟกับธาตุน้ำสัมพันธ์กันยังไง</span></p>
+    <div class="btn-row" role="group" aria-label="ขั้นของการแก้ไข">
+      <button class="pill stage-btn" data-stage="0" aria-pressed="true" type="button">A · ปัจจุบัน (dense อย่างเดียว)</button>
+      <button class="pill stage-btn" data-stage="1" aria-pressed="false" type="button">B · รวม label เข้า body (ข้อเสนอ 3)</button>
+      <button class="pill stage-btn" data-stage="2" aria-pressed="false" type="button">C · + cross-encoder reranker (ข้อเสนอ 4)</button>
+      <span class="sim-badge">คะแนนจำลองเพื่อการอธิบาย</span>
+    </div>
+    <p class="stage-note" id="stageNote"></p>
+    <div class="rank-wrap" id="p34rank"></div>
+
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 3</div>
+      เพิ่ม heuristic ใน <code>load_jsonl</code> (<code>app/rag/ingest.py</code>): chunk ที่เป็นหัวข้อ/ป้ายล้วน (สั้น, ขึ้นต้นด้วยเลขข้อ, ไม่มีประโยค) ให้<b>รวมเข้ากับ chunk เนื้อหาถัดไป</b>แทนการเป็นเวกเตอร์เดี่ยว — ทำได้ทันทีวันนี้โดยไม่ต้องแตะ OCR (แค่รัน ingest ใหม่)
+    </div>
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 4</div>
+      ใน <code>retrieve_passages</code> (<code>app/rag/vector_store.py</code>): ดึง dense มา <code>k=30</code> → ให้ cross-encoder ให้คะแนน (query, chunk) เป็นคู่ → เลือก top 5 — <b>ไม่ต้อง ingest ใหม่เลย</b> ใช้ได้กับ index ปัจจุบันทันที
+    </div>
+  </section>
+
+  <!-- ================= PAIN 5 ================= -->
+  <section class="panel" id="pain5">
+    <p class="sec-eyebrow">ปัญหาที่ 5 · ทิ้งอาวุธที่มีอยู่แล้ว</p>
+    <h2>ใช้ dense อย่างเดียว — ทั้งที่ BGE-M3 คำนวณ sparse ให้ฟรีอยู่แล้ว</h2>
+    <p class="sec-note">ศัพท์เฉพาะทางหลายคำโผล่ใน corpus แค่ 1–2 chunk (ข้อมูลจริงด้านล่าง) — คำแบบนี้ sparse/BM25 “ล็อกเป้า” ได้ทันทีด้วยการจับคำตรงตัว ส่วน dense ต้องงมจากย่อหน้าที่ความหมายคล้ายกันเป็นสิบ ๆ ย่อหน้า BGE-M3 ผลิต sparse weights ออกมาใน forward pass เดียวกับ dense อยู่แล้ว แต่โค้ดปัจจุบันทิ้งมันไป</p>
+
+    <div class="chart-wrap">
+      <p class="chart-title">จำนวน chunk (จากทั้งหมด 1,862) ที่มีคำนี้อยู่จริง — ข้อมูลจริง</p>
+      <div class="scrollx"><div id="termChart" style="min-width:460px; max-width:640px"></div></div>
+    </div>
+
+    <div class="btn-row" role="group" aria-label="เลือกคำถามตัวอย่าง" style="margin-top:1.1rem">
+      <button class="pill q5-btn" data-q="0" aria-pressed="true" type="button">“กฎเซียงเฉิงคืออะไร”</button>
+      <button class="pill q5-btn" data-q="1" aria-pressed="false" type="button">“ลมปราณเว่ยคืออะไร”</button>
+      <span class="sim-badge">คะแนนจำลองเพื่อการอธิบาย (normalize เป็น 0–1)</span>
+    </div>
+
+    <div class="ds-grid">
+      <div class="ds-panel">
+        <h4><span class="sw" style="background:var(--s1)"></span>Dense (เวกเตอร์ความหมาย)</h4>
+        <p class="chart-sub">คะแนนจำลอง · แถบสี = chunk คำตอบจริง, แถบเทา = chunk อื่น</p>
+        <div id="denseChart"></div>
+      </div>
+      <div class="ds-panel">
+        <h4><span class="sw" style="background:var(--s2)"></span>Sparse (BM25 / lexical)</h4>
+        <p class="chart-sub">คะแนนจำลอง · แถบสี = chunk คำตอบจริง, แถบเทา = chunk อื่น</p>
+        <div id="sparseChart"></div>
+      </div>
+    </div>
+    <p class="ds-cap" id="dsCaption"></p>
+
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 5</div>
+      เก็บ sparse weights ของ BGE-M3 ไว้ตอน ingest แล้วทำ hybrid retrieval (dense + sparse ถ่วงน้ำหนัก) ใน <code>retrieve_passages</code> (<code>app/rag/vector_store.py</code>) — ได้ผลแรงสุดกับศัพท์เฉพาะที่พบน้อยครั้ง และคู่คำที่ต่างกันพยางค์เดียวอย่าง “ลมปราณอิ๋ง” vs “ลมปราณเว่ย”
+    </div>
+  </section>
+
+  <!-- ================= PAIN 6 ================= -->
+  <section class="panel" id="pain6">
+    <p class="sec-eyebrow">ปัญหาที่ 6 · สมมติฐานที่ไม่มีเทสคุ้มกัน</p>
+    <h2>ไม่มีอะไรยืนยันว่าเวกเตอร์ถูก normalize — แล้ว Chroma ก็จัดอันดับด้วย L2</h2>
+    <p class="sec-note"><span class="mono">app/rag/embeddings.py</span> สร้าง <code>HuggingFaceEmbeddings</code> โดยไม่ตั้ง <code>encode_kwargs={"normalize_embeddings": True}</code> และ <span class="mono">app/rag/vector_store.py</span> สร้าง Chroma โดยไม่ตั้ง <code>collection_metadata={"hnsw:space": "cosine"}</code> → ใช้ L2 (ค่า default) ถ้าเวกเตอร์ยาวไม่เท่ากับ 1 การจัดอันดับด้วย L2 จะ<b>ไม่เท่ากับ</b> cosine เพราะความยาวเวกเตอร์ปนเข้ามาในระยะ — เชื่อว่า bge-m3 normalize ให้อยู่แล้ว (มี Normalize module ในตัว) แต่ยังไม่มีเทสยืนยันสักบรรทัด</p>
+
+    <div class="vec-grid">
+      <div>
+        <div id="vecSvg" role="img" aria-label="แผนภาพเวกเตอร์: เอกสาร A ชี้ทิศเดียวกับ q แต่สั้น เอกสาร B ชี้เฉียงออกไปแต่ยาว"></div>
+        <div class="btn-row" role="group" aria-label="เลือก metric">
+          <button class="pill metric-btn" data-m="l2" aria-pressed="true" type="button">ระยะ L2 (default ปัจจุบัน)</button>
+          <button class="pill metric-btn" data-m="cos" aria-pressed="false" type="button">Cosine similarity</button>
+        </div>
+        <label class="switch" style="font-size:.84rem">
+          <input type="checkbox" id="normToggle">
+          <span class="track" aria-hidden="true"></span>
+          normalize เวกเตอร์ให้ยาว 1 ก่อนเก็บ
+        </label>
+      </div>
+      <div>
+        <p class="chart-title">คำถาม q เทียบเอกสาร A (ทิศเกือบตรงกัน, เวกเตอร์สั้น) และ B (ทิศเฉียงออก 22°, เวกเตอร์ยาว)</p>
+        <div class="scrollx">
+        <table class="data vec-read" id="vecTable">
+          <thead><tr><th>เอกสาร</th><th class="num">มุมห่างจาก q</th><th class="num">ความยาว</th><th class="num" id="vecMetricHead">ระยะ L2</th><th>อันดับ</th></tr></thead>
+          <tbody>
+            <tr id="rowA"><td><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s1);margin-right:.35rem"></span>A — ทิศตรงคำถาม</td><td class="num">3°</td><td class="num" id="lenA">0.45</td><td class="num win" id="valA"></td><td id="rankA"></td></tr>
+            <tr id="rowB"><td><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--s2);margin-right:.35rem"></span>B — ทิศเฉียงออก</td><td class="num">22°</td><td class="num" id="lenB">1.15</td><td class="num win" id="valB"></td><td id="rankB"></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="vec-explain" id="vecExplain"></p>
+        <p class="chart-title" style="margin-top:.8rem">เทสกันเหตุ (1 บรรทัด assert):</p>
+<pre class="code"><code># tests/rag/test_vector_store.py
+def test_query_embedding_is_unit_length():
+    vec = get_embeddings().embed_query("ลมปราณ")
+    assert abs(sum(x * x for x in vec) ** 0.5 - 1.0) &lt; 1e-3</code></pre>
+      </div>
+    </div>
+
+    <div class="proposal">
+      <div class="p-label">ข้อเสนอ 6</div>
+      เพิ่มเทสข้างบนใน <code>tests/rag/test_vector_store.py</code> — ต้นทุนแทบเป็นศูนย์ ถ้าเทสผ่าน = ยืนยันว่า L2 กับ cosine ให้อันดับเดียวกันจริง ถ้าไม่ผ่าน = จับบั๊กการจัดอันดับที่มองไม่เห็นด้วยตาได้ก่อนขึ้น production (แล้วค่อยตั้ง <code>normalize_embeddings=True</code> / <code>hnsw:space=cosine</code> ให้ชัดเจน)
+    </div>
+  </section>
+
+  <!-- ================= SUMMARY ================= -->
+  <section class="panel" id="summary">
+    <p class="sec-eyebrow">สรุป</p>
+    <h2>จัดลำดับข้อเสนอทั้ง 6 ตามความคุ้มค่า (ผลกระทบ ÷ ความพยายาม)</h2>
+    <p class="sec-note">กลุ่ม 1–3 = แก้ที่ corpus/ingest (ต้องรัน ingest ใหม่) · กลุ่ม 4–5 = แก้ที่ retrieval · กลุ่ม 6 = เทสกันเหตุ (safety net)</p>
+    <div class="scrollx">
+    <table class="data" style="min-width:760px">
+      <thead>
+        <tr><th>ลำดับแนะนำ</th><th>ข้อเสนอ</th><th>แก้ที่ไฟล์ / ฟังก์ชัน</th><th>กลุ่ม</th><th>ผลกระทบ</th><th>ความพยายาม</th><th class="num">ingest ใหม่?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td>รวม chunk หัวข้อ/ป้ายเข้ากับเนื้อหาถัดไป (ปัญหา 3)</td>
+          <td class="mono">app/rag/ingest.py · load_jsonl</td>
+          <td><span class="group-tag">corpus/ingest</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>สูง</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i></i><i></i></span>ต่ำ</td>
+          <td class="num">ใช่</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td>เพิ่ม cross-encoder reranker: k=30 → top 5 (ปัญหา 4)</td>
+          <td class="mono">app/rag/vector_store.py · retrieve_passages</td>
+          <td><span class="group-tag">retrieval</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>สูง</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i class="on"></i><i></i></span>กลาง</td>
+          <td class="num">ไม่ต้อง</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td>เทสยืนยันว่า embedding ยาว 1 (ปัญหา 6)</td>
+          <td class="mono">tests/rag/test_vector_store.py</td>
+          <td><span class="group-tag">safety test</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i></i><i></i></span>ต่ำ (แต่กันเหตุร้ายแรง)</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i></i><i></i></span>ต่ำมาก</td>
+          <td class="num">ไม่ต้อง</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td>embed <span class="mono">heading_path + text</span> (ปัญหา 2)</td>
+          <td class="mono">app/rag/ingest.py</td>
+          <td><span class="group-tag">corpus/ingest</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>สูง</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i class="on"></i><i></i></span>กลาง</td>
+          <td class="num">ใช่</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td>hybrid dense + sparse จาก BGE-M3 (ปัญหา 5)</td>
+          <td class="mono">app/rag/vector_store.py (+ เก็บ sparse ตอน ingest)</td>
+          <td><span class="group-tag">retrieval</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i class="on"></i><i></i></span>กลาง–สูง</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i class="on"></i><i class="on"></i></span>กลาง–สูง</td>
+          <td class="num">ใช่</td>
+        </tr>
+        <tr>
+          <td class="num">6</td>
+          <td>เพิ่มฟิลด์ <span class="mono">kind</span> + <span class="mono">heading_path</span> ใน OCR schema (ปัญหา 1)</td>
+          <td class="mono">app/rag/pdf_ocr.py · PageTranscription</td>
+          <td><span class="group-tag">corpus/ingest</span></td>
+          <td><span class="impact-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>สูง (ปลดล็อกข้ออื่นถาวร)</td>
+          <td><span class="impact-dots eff"><i class="on"></i><i class="on"></i><i class="on"></i></span>สูง (OCR ใหม่ทั้งเล่ม)</td>
+          <td class="num">ใช่</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <footer>
+    สถิติ corpus ทั้งหมด (1,862 chunk · 240 chunk ≤25 ตัวอักษร · histogram · จำนวนคำเฉพาะ) คำนวณจาก <span class="mono">corpus/*.jsonl</span> จริง ณ วันที่ 11 ส.ค. 2026 · ตัวอย่างข้อความคัดจากหนังสือแบบสั้นเท่าที่จำเป็น (เนื้อหาหนังสือมีลิขสิทธิ์) · คะแนนความคล้าย/อันดับในเดโมทุกตัวเป็นแบบจำลองเพื่อการอธิบาย ไม่ได้มาจากการรันโมเดลจริง
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Theme toggle: auto -> light -> dark
+   ============================================================ */
+(function () {
+  var btn = document.getElementById("themeBtn");
+  var modes = ["auto", "light", "dark"];
+  var labels = { auto: "ธีม: อัตโนมัติ", light: "ธีม: สว่าง", dark: "ธีม: มืด" };
+  var cur = "auto";
+  try { cur = localStorage.getItem("pp-theme") || "auto"; } catch (e) {}
+  if (modes.indexOf(cur) === -1) cur = "auto";
+  function apply(m) {
+    cur = m;
+    if (m === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", m);
+    btn.textContent = labels[m];
+    try { localStorage.setItem("pp-theme", m); } catch (e) {}
+  }
+  btn.addEventListener("click", function () {
+    apply(modes[(modes.indexOf(cur) + 1) % modes.length]);
+  });
+  apply(cur);
+})();
+
+/* ============================================================
+   Shared tooltip
+   ============================================================ */
+var tip = document.getElementById("tip");
+function showTip(html, x, y) {
+  tip.innerHTML = "";
+  html.forEach(function (part) {
+    var el = document.createElement(part.b ? "b" : "span");
+    el.className = part.cls || "";
+    el.textContent = part.t;
+    tip.appendChild(el);
+    tip.appendChild(document.createElement("br"));
+  });
+  tip.style.display = "block";
+  var w = tip.offsetWidth, h = tip.offsetHeight;
+  var px = Math.min(x + 14, window.innerWidth - w - 8);
+  var py = y - h - 12; if (py < 8) py = y + 16;
+  tip.style.left = px + "px"; tip.style.top = py + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+var SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs, parent) {
+  var el = document.createElementNS(SVGNS, tag);
+  for (var k in attrs) el.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(el);
+  return el;
+}
+/* rounded top only (columns) */
+function roundedTopPath(x, y, w, h, r) {
+  if (h <= 0) return "";
+  r = Math.min(r, h, w / 2);
+  return "M" + x + "," + (y + h) +
+         " L" + x + "," + (y + r) +
+         " Q" + x + "," + y + " " + (x + r) + "," + y +
+         " L" + (x + w - r) + "," + y +
+         " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) +
+         " L" + (x + w) + "," + (y + h) + " Z";
+}
+/* rounded right end only (horizontal bars) */
+function roundedRightPath(x, y, w, h, r) {
+  if (w <= 0) return "";
+  r = Math.min(r, w, h / 2);
+  return "M" + x + "," + y +
+         " L" + (x + w - r) + "," + y +
+         " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) +
+         " L" + (x + w) + "," + (y + h - r) +
+         " Q" + (x + w) + "," + (y + h) + " " + (x + w - r) + "," + (y + h) +
+         " L" + x + "," + (y + h) + " Z";
+}
+
+/* ============================================================
+   Histogram — real bins computed from corpus/*.jsonl
+   bin width 50 chars; first bin split into <=25 (junk) / 26-50
+   ============================================================ */
+var HIST = [
+  { label: "1–50",    n: 545, junk: 240 },
+  { label: "51–100",  n: 324 },
+  { label: "101–150", n: 208 },
+  { label: "151–200", n: 181 },
+  { label: "201–250", n: 114 },
+  { label: "251–300", n: 127 },
+  { label: "301–350", n: 83 },
+  { label: "351–400", n: 63 },
+  { label: "401–450", n: 47 },
+  { label: "451–500", n: 45 },
+  { label: "501–550", n: 30 },
+  { label: "551–600", n: 25 },
+  { label: "601–650", n: 23 },
+  { label: "651–700", n: 11 },
+  { label: "701–750", n: 11 },
+  { label: "751–800", n: 6 },
+  { label: ">800",    n: 19, open: true }
+];
+var TOTAL = 1862;
+
+(function drawHist() {
+  var host = document.getElementById("histChart");
+  var mL = 46, mR = 20, mT = 14, mB = 34;
+  var band = 36, plotH = 230;
+  var W = mL + HIST.length * band + mR, H = mT + plotH + mB;
+  var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, width: "100%", role: "img",
+    "aria-label": "Histogram ความยาว chunk: แถบแรก (1-50 ตัวอักษร) สูงสุด 545 chunk ในนั้น 240 chunk ยาวไม่เกิน 25 ตัวอักษร" });
+  host.appendChild(svg);
+  var maxV = 560;
+  function yOf(v) { return mT + plotH - (v / maxV) * plotH; }
+
+  /* gridlines + y ticks */
+  [0, 100, 200, 300, 400, 500].forEach(function (v) {
+    var y = yOf(v);
+    svgEl("line", { x1: mL, x2: mL + HIST.length * band, y1: y, y2: y,
+      stroke: v === 0 ? "var(--baseline)" : "var(--grid)", "stroke-width": 1 }, svg);
+    svgEl("text", { x: mL - 7, y: y + 4, "text-anchor": "end", "font-size": 11,
+      fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, svg).textContent = String(v);
+  });
+  /* x boundary labels every 200 chars (4 bands); the 800 edge is skipped so
+     it doesn't collide with the ">800" open-bin label */
+  [0, 4, 8, 12].forEach(function (i) {
+    var x = mL + i * band;
+    svgEl("text", { x: x, y: mT + plotH + 18, "text-anchor": "middle", "font-size": 11,
+      fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, svg).textContent = String(i * 50);
+  });
+  svgEl("text", { x: mL + 16.5 * band, y: mT + plotH + 18, "text-anchor": "middle",
+    "font-size": 11, fill: "var(--muted)" }, svg).textContent = ">800";
+  svgEl("text", { x: mL + (HIST.length * band) / 2, y: H - 4, "text-anchor": "middle",
+    "font-size": 11, fill: "var(--muted)" }, svg).textContent = "ความยาว chunk (ตัวอักษร)";
+  svgEl("text", { x: 12, y: mT - 2, "font-size": 11, fill: "var(--muted)" }, svg).textContent = "chunk";
+
+  var barW = 24; /* cap thickness; band leftover is air */
+  HIST.forEach(function (b, i) {
+    var x = mL + i * band + (band - barW) / 2;
+    var g = svgEl("g", { tabindex: 0, role: "img",
+      "aria-label": b.label + " ตัวอักษร: " + b.n + " chunk" +
+        (b.junk ? " (ในนั้น junk ≤25 ตัวอักษร " + b.junk + " chunk)" : "") }, svg);
+    if (b.junk) {
+      /* stacked: junk (critical) at baseline, rest above, 2px surface gap */
+      var junkH = (b.junk / maxV) * plotH;
+      var restH = ((b.n - b.junk) / maxV) * plotH - 2;
+      svgEl("rect", { x: x, y: yOf(b.junk), width: barW, height: junkH, fill: "var(--crit)" }, g);
+      svgEl("path", { d: roundedTopPath(x, yOf(b.n), barW, restH, 4), fill: "var(--s1)" }, g);
+      /* selective direct label: the extreme bar only (junk detail lives in
+         legend + tooltip + table view) */
+      svgEl("text", { x: x + barW / 2, y: yOf(b.n) - 5, "text-anchor": "middle",
+        "font-size": 11, "font-weight": 600, fill: "var(--ink)",
+        style: "font-variant-numeric:tabular-nums" }, g).textContent = "545";
+    } else {
+      svgEl("path", { d: roundedTopPath(x, yOf(b.n), barW, (b.n / maxV) * plotH, 4),
+        fill: "var(--s1)" }, g);
+    }
+    /* invisible fat hit target */
+    var hit = svgEl("rect", { x: mL + i * band, y: mT, width: band, height: plotH + 10,
+      fill: "transparent" }, g);
+    function tipRows() {
+      var rows = [{ t: b.n + " chunk (" + (100 * b.n / TOTAL).toFixed(1) + "%)", b: true },
+                  { t: b.label + " ตัวอักษร", cls: "tl" }];
+      if (b.junk) rows.push({ t: "junk ≤25 ตัวอักษร: " + b.junk + " chunk", cls: "tl" });
+      return rows;
+    }
+    hit.addEventListener("pointermove", function (ev) { showTip(tipRows(), ev.clientX, ev.clientY); });
+    hit.addEventListener("pointerleave", hideTip);
+    g.addEventListener("focus", function () {
+      var r = g.getBoundingClientRect();
+      showTip(tipRows(), r.left + r.width / 2, r.top);
+    });
+    g.addEventListener("blur", hideTip);
+  });
+
+  /* table view */
+  var tbl = document.getElementById("histTable");
+  var thead = document.createElement("thead");
+  thead.innerHTML = "<tr><th>ช่วงความยาว (ตัวอักษร)</th><th class='num'>chunk</th><th class='num'>%</th></tr>";
+  tbl.appendChild(thead);
+  var tb = document.createElement("tbody");
+  HIST.forEach(function (b) {
+    var tr = document.createElement("tr");
+    function td(txt, num) { var d = document.createElement("td"); if (num) d.className = "num"; d.textContent = txt; tr.appendChild(d); }
+    td(b.label + (b.junk ? "  (ในนั้น ≤25: " + b.junk + ")" : ""));
+    td(String(b.n), true);
+    td((100 * b.n / TOTAL).toFixed(1) + "%", true);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+})();
+
+/* ============================================================
+   Pain 1 — kind toggle
+   ============================================================ */
+(function () {
+  var toggle = document.getElementById("kindToggle");
+  var grid = document.getElementById("chunkGrid");
+  var legend = document.getElementById("kindLegend");
+  var kindNames = { heading: "heading", caption: "caption", body: "body" };
+  toggle.addEventListener("change", function () {
+    grid.classList.toggle("kinds-on", toggle.checked);
+    legend.hidden = !toggle.checked;
+    grid.querySelectorAll(".chunk-card").forEach(function (card) {
+      var kb = card.querySelector(".kb-text");
+      kb.textContent = toggle.checked ? kindNames[card.dataset.kind] : "paragraph";
+    });
+  });
+})();
+
+/* ============================================================
+   Ranked-list engine (shared by pain 2 and pain 3+4)
+   ============================================================ */
+function makeRankList(hostId, items, opts) {
+  var host = document.getElementById(hostId);
+  var rowH = 58, cutH = 30;
+  var cutAfter = opts.cutAfter;
+  var els = {};
+  items.forEach(function (it) {
+    var el = document.createElement("div");
+    el.className = "rk-item hidden";
+    el.dataset.tag = it.tag;
+    var rank = document.createElement("span"); rank.className = "rk-rank"; el.appendChild(rank);
+    var main = document.createElement("div"); main.className = "rk-main";
+    var tx = document.createElement("div"); tx.className = "rk-text" + (it.gen ? " gen" : "");
+    tx.textContent = it.text; tx.title = it.text; main.appendChild(tx);
+    var mt = document.createElement("div"); mt.className = "rk-meta"; mt.textContent = it.meta; main.appendChild(mt);
+    el.appendChild(main);
+    var tag = document.createElement("span"); tag.className = "rk-tag";
+    tag.textContent = it.tag === "junk" ? "✕ junk" : (it.tag === "ans" ? "✓ ตอบคำถาม" : "อื่น ๆ");
+    el.appendChild(tag);
+    var bar = document.createElement("span"); bar.className = "rk-bar";
+    var fill = document.createElement("i"); bar.appendChild(fill); el.appendChild(bar);
+    var sc = document.createElement("span"); sc.className = "rk-score"; el.appendChild(sc);
+    host.appendChild(el);
+    els[it.id] = { el: el, rank: rank, score: sc, fill: fill };
+  });
+  var cut = document.createElement("div");
+  cut.className = "rk-cut"; cut.textContent = opts.cutLabel;
+  host.appendChild(cut);
+
+  return function apply(stage) {
+    var seen = {};
+    var y = 0;
+    stage.top.forEach(function (s, i) {
+      var e = els[s.id]; seen[s.id] = true;
+      e.el.classList.remove("hidden");
+      e.el.style.top = y + "px";
+      e.rank.textContent = String(i + 1);
+      e.score.textContent = s.score.toFixed(2);
+      e.fill.style.width = Math.round(s.score * 100) + "%";
+      y += rowH;
+    });
+    /* pad cut position to cutAfter rows even if fewer shown */
+    var cutY = Math.max(y, cutAfter * rowH);
+    cut.style.top = cutY + "px";
+    y = cutY + cutH;
+    (stage.below || []).forEach(function (s) {
+      var e = els[s.id]; seen[s.id] = true;
+      e.el.classList.remove("hidden");
+      e.el.style.top = y + "px";
+      e.rank.textContent = s.rankLabel || "–";
+      e.score.textContent = s.score.toFixed(2);
+      e.fill.style.width = Math.round(s.score * 100) + "%";
+      y += rowH;
+    });
+    items.forEach(function (it) {
+      if (!seen[it.id]) {
+        var e = els[it.id];
+        e.el.classList.add("hidden");
+        e.el.style.top = (cutY + cutH) + "px";
+      }
+    });
+    host.style.height = y + "px";
+  };
+}
+
+/* ---------- Pain 2 list ---------- */
+(function () {
+  var items = [
+    { id: "T",  tag: "ans", text: "- สร้างความอบอุ่นและกระตุ้นการทำงานของอวัยวะต่างๆ", meta: "หน้า 91 ย่อหน้า 5 · chunk เป้าหมาย (ใต้หัวข้อ ก. ลมปราณหยวน > 3. หน้าที่ทางสรีรวิทยา)" },
+    { id: "C1", tag: "gen", text: "ลมปราณหยวนเป็นลมปราณที่สำคัญที่สุดในร่างกาย", meta: "หน้า 90 ย่อหน้า 10 · เอ่ยชื่อแต่ไม่ตอบ “หน้าที่”" },
+    { id: "C2", tag: "gen", text: "ลมปราณแบ่งเป็น 4 ชนิด ตามแหล่งกำเนิด ตำแหน่งที่อยู่ และหน้าที่ทางสรีรวิทยา คือ ลมปราณหยวน ลมปราณจง ลมปราณอิ๋ง และลมปราณเว่ย", meta: "หน้า 90 ย่อหน้า 8 · รายชื่อชนิด ไม่ใช่หน้าที่" },
+    { id: "C3", tag: "gen", text: "ลมปราณหยวนกระตุ้นการเจริญเติบโตของร่างกาย สร้างความอบอุ่นและกระตุ้นการ…", meta: "หน้า 91 ย่อหน้า 7 · ประโยคสรุปท้ายหัวข้อ" }
+  ];
+  var apply = makeRankList("p2rank", items, {
+    cutAfter: 3, cutLabel: "· · ·  chunk อื่นอีกหลายสิบตัว  · · ·"
+  });
+  var stages = [
+    { top: [ { id: "C1", score: 0.71 }, { id: "C2", score: 0.69 }, { id: "C3", score: 0.68 } ],
+      below: [ { id: "T", score: 0.31, rankLabel: "≈40" } ] },
+    { top: [ { id: "T", score: 0.74 }, { id: "C1", score: 0.71 }, { id: "C2", score: 0.69 } ],
+      below: [ { id: "C3", score: 0.68, rankLabel: "4" } ] }
+  ];
+  var box = document.getElementById("embedBox");
+  var bBefore = document.getElementById("p2before"), bAfter = document.getElementById("p2after");
+  function set(i) {
+    apply(stages[i]);
+    box.classList.toggle("with-prefix", i === 1);
+    bBefore.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    bAfter.setAttribute("aria-pressed", i === 1 ? "true" : "false");
+  }
+  bBefore.addEventListener("click", function () { set(0); });
+  bAfter.addEventListener("click", function () { set(1); });
+  set(0);
+})();
+
+/* ---------- Pain 3+4 list ---------- */
+(function () {
+  var items = [
+    { id: "L1", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 26 ย่อหน้า 5 · ป้ายจากแผนภาพ — คีย์เวิร์ดล้วน ไม่มีเนื้อหา" },
+    { id: "L2", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 27 ย่อหน้า 1 · เวกเตอร์ซ้ำตัวที่ 2" },
+    { id: "L3", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 28 ย่อหน้า 1 · เวกเตอร์ซ้ำตัวที่ 3" },
+    { id: "L4", tag: "junk", text: "ไม้ น้ำ ไฟ | โลหะ ดิน", meta: "หน้า 28 ย่อหน้า 4 · เวกเตอร์ซ้ำตัวที่ 4" },
+    { id: "A1", tag: "ans",  text: "น้ำข่มไฟ คือ น้ำจากไตขึ้นไปควบคุมไฟที่หัวใจ ไม่ให้ร้อนแรงเกินไป", meta: "หน้า 30 ย่อหน้า 16 · คำตอบตรงคำถาม" },
+    { id: "A2", tag: "ans",  text: "น้ำ ไม้ และไฟ ยังมีความสัมพันธ์เชิงลบ คือ น้ำข่มไฟ จึงเห็นได้ว่าความสัมพันธ์เชิงบวกจะต้องมีความสัมพันธ์เชิงลบเข้ามาเกี่ยวข้อง …", meta: "หน้า 26 ย่อหน้า 3 · คำตอบเชิงอธิบาย (281 ตัวอักษร)" },
+    { id: "M1", tag: "gen", gen: true, text: "(chunk ที่รวมป้าย “ไม้ น้ำ ไฟ | โลหะ ดิน” เข้ากับย่อหน้าอธิบายแผนภาพแล้ว)", meta: "ผลจาก heuristic รวม label — ป้ายไม่เป็นเวกเตอร์เดี่ยวอีกต่อไป" },
+    { id: "F2", tag: "gen", gen: true, text: "(ย่อหน้าอื่นเรื่องความสัมพันธ์ปัญจธาตุ — คล้ายเชิงความหมายแต่ไม่ตอบคำถาม)", meta: "ตัวแทน chunk ทั่วไปในหมวดปัญจธาตุ" },
+    { id: "F3", tag: "gen", gen: true, text: "(ย่อหน้าอื่นเรื่องธาตุทั้งห้า)", meta: "ตัวแทน chunk ทั่วไปในหมวดปัญจธาตุ" }
+  ];
+  var apply = makeRankList("p34rank", items, {
+    cutAfter: 5, cutLabel: "ขีดจำกัด rag_top_k = 5 — ใต้เส้นนี้ LLM ไม่มีวันเห็น"
+  });
+  var stages = [
+    { top: [ { id: "L1", score: 0.62 }, { id: "L2", score: 0.62 }, { id: "L3", score: 0.61 }, { id: "L4", score: 0.61 }, { id: "A1", score: 0.58 } ],
+      below: [ { id: "A2", score: 0.55, rankLabel: "6" }, { id: "F2", score: 0.54, rankLabel: "7" } ],
+      note: "ป้ายแผนภาพซ้ำ 4 ตัว (คีย์เวิร์ด “น้ำ/ไฟ” ตรงเป๊ะ) กิน 4 จาก 5 ที่นั่ง — คำตอบเชิงอธิบาย (หน้า 26 ย่อหน้า 3) หลุด top-k ไปเลย",
+      noteHTML: "<b>A · ปัจจุบัน:</b> ป้ายแผนภาพซ้ำ 4 ตัว (คีย์เวิร์ด “น้ำ/ไฟ” ตรงเป๊ะ) กิน 4 จาก 5 ที่นั่ง — คำตอบเชิงอธิบายหลุด top-k" },
+    { top: [ { id: "M1", score: 0.60 }, { id: "A1", score: 0.58 }, { id: "F2", score: 0.56 }, { id: "A2", score: 0.55 }, { id: "F3", score: 0.53 } ],
+      below: [],
+      noteHTML: "<b>B · รวม label เข้า body (ข้อเสนอ 3):</b> junk หายจาก index — คำตอบทั้งสองเข้ามาอยู่ใน top-5 แต่ dense ยังเรียงให้ chunk ที่ “คล้ายเชิงความหมาย” อยู่อันดับ 1" },
+    { top: [ { id: "A1", score: 0.97 }, { id: "A2", score: 0.91 }, { id: "M1", score: 0.45 }, { id: "F2", score: 0.31 }, { id: "F3", score: 0.20 } ],
+      below: [],
+      noteHTML: "<b>C · + reranker (ข้อเสนอ 4):</b> cross-encoder อ่าน (คำถาม, chunk) พร้อมกันเป็นคู่ → คำตอบจริงขึ้นอันดับ 1–2 อย่างขาดลอย (คะแนนคอลัมน์ขวาเปลี่ยนเป็น rerank score)" }
+  ];
+  var note = document.getElementById("stageNote");
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".stage-btn"));
+  function set(i) {
+    apply(stages[i]);
+    note.innerHTML = stages[i].noteHTML;
+    btns.forEach(function (b, j) { b.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () { set(parseInt(b.dataset.stage, 10)); });
+  });
+  set(0);
+})();
+
+/* ============================================================
+   Pain 5 — term counts (real) + dense vs sparse (simulated)
+   ============================================================ */
+function hbarChart(host, rows, color, opts) {
+  opts = opts || {};
+  host.innerHTML = "";
+  var mL = 8, mR = opts.mR || 46, mT = 4, rowH = 40, barH = 14, labelH = 15;
+  var W = opts.width || 420;
+  var H = mT + rows.length * rowH + 18;
+  var maxV = opts.max || 1;
+  var plotW = W - mL - mR;
+  var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, width: "100%", role: "img",
+    "aria-label": opts.aria || "bar chart" });
+  host.appendChild(svg);
+  /* axis gridlines at 0 / mid / max */
+  [0, maxV / 2, maxV].forEach(function (v) {
+    var x = mL + (v / maxV) * plotW;
+    svgEl("line", { x1: x, x2: x, y1: mT, y2: mT + rows.length * rowH,
+      stroke: v === 0 ? "var(--baseline)" : "var(--grid)", "stroke-width": 1 }, svg);
+    svgEl("text", { x: x, y: mT + rows.length * rowH + 13, "text-anchor": "middle",
+      "font-size": 10, fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, svg)
+      .textContent = opts.intTicks ? String(Math.round(v)) : v.toFixed(1);
+  });
+  rows.forEach(function (r, i) {
+    var y = mT + i * rowH;
+    var g = svgEl("g", { tabindex: 0, role: "img", "aria-label": r.label + ": " + r.fmt }, svg);
+    var lab = svgEl("text", { x: mL, y: y + labelH - 3, "font-size": 11.5,
+      fill: r.hl ? "var(--ink)" : "var(--ink-2)", "font-weight": r.hl ? 700 : 400 }, g);
+    lab.textContent = r.label.length > 58 ? r.label.slice(0, 57) + "…" : r.label;
+    var w = (r.v / maxV) * plotW;
+    svgEl("path", { d: roundedRightPath(mL, y + labelH + 2, Math.max(w, 2), barH, 4),
+      fill: r.hl ? color : "var(--gray-mark)" }, g);
+    var vt = svgEl("text", { x: mL + Math.max(w, 2) + 6, y: y + labelH + 13,
+      "font-size": 11, fill: "var(--ink)", "font-weight": 600,
+      style: "font-variant-numeric:tabular-nums" }, g);
+    vt.textContent = r.fmt;
+    var hit = svgEl("rect", { x: 0, y: y, width: W, height: rowH, fill: "transparent" }, g);
+    hit.addEventListener("pointermove", function (ev) {
+      showTip([{ t: r.fmt, b: true }, { t: r.label, cls: "tl" }], ev.clientX, ev.clientY);
+    });
+    hit.addEventListener("pointerleave", hideTip);
+    g.addEventListener("focus", function () {
+      var rc = g.getBoundingClientRect();
+      showTip([{ t: r.fmt, b: true }, { t: r.label, cls: "tl" }], rc.left + 60, rc.top);
+    });
+    g.addEventListener("blur", hideTip);
+  });
+}
+
+/* real term counts */
+hbarChart(document.getElementById("termChart"), [
+  { label: "เซียงเฉิง (กฎความสัมพันธ์เชิงกดขี่)", v: 1, fmt: "1 chunk", hl: true },
+  { label: "เซียงเซิง (กฎความสัมพันธ์เชิงบวก)", v: 1, fmt: "1 chunk", hl: true },
+  { label: "เซียงเค่อ (กฎความสัมพันธ์เชิงลบ)", v: 1, fmt: "1 chunk", hl: true },
+  { label: "ถานจง (จุดกลางทรวงอก)", v: 2, fmt: "2 chunk", hl: true },
+  { label: "ลมปราณอิ๋ง", v: 7, fmt: "7 chunk", hl: true },
+  { label: "ลมปราณเว่ย", v: 12, fmt: "12 chunk", hl: true }
+], "var(--s1)", { max: 12, intTicks: true, width: 460, mR: 66,
+  aria: "จำนวน chunk ที่มีศัพท์เฉพาะแต่ละคำ: เซียงเฉิง 1, เซียงเซิง 1, เซียงเค่อ 1, ถานจง 2, ลมปราณอิ๋ง 7, ลมปราณเว่ย 12 จากทั้งหมด 1862 chunk" });
+
+/* dense vs sparse simulated queries */
+var Q5 = [
+  {
+    dense: [
+      { label: "2.1 กฎความสัมพันธ์เชิงบวก (เซียงเซิง) — หน้า 23", v: 0.58, fmt: "0.58" },
+      { label: "2.2 กฎความสัมพันธ์เชิงลบ (เซียงเค่อ) — หน้า 24", v: 0.57, fmt: "0.57" },
+      { label: "(ย่อหน้าอื่นเรื่องปัญจธาตุ — คล้ายความหมาย)", v: 0.55, fmt: "0.55" },
+      { label: "2.3 กฎความสัมพันธ์เชิงกดขี่ (เซียงเฉิง) — หน้า 27", v: 0.54, fmt: "0.54", hl: true }
+    ],
+    sparse: [
+      { label: "2.3 กฎความสัมพันธ์เชิงกดขี่ (เซียงเฉิง) — หน้า 27", v: 1.0, fmt: "1.00", hl: true },
+      { label: "2.1 กฎความสัมพันธ์เชิงบวก (เซียงเซิง) — หน้า 23", v: 0.07, fmt: "0.07" },
+      { label: "2.2 กฎความสัมพันธ์เชิงลบ (เซียงเค่อ) — หน้า 24", v: 0.06, fmt: "0.06" },
+      { label: "(ย่อหน้าอื่น — ไม่มีคำว่า “เซียงเฉิง”)", v: 0.03, fmt: "0.03" }
+    ],
+    cap: "คำว่า “เซียงเฉิง” อยู่ใน chunk เดียวจากทั้งหมด 1,862 — sparse จับคำตรงตัวแล้วล็อกเป้าได้ทันที ส่วน dense ต้องงมจากย่อหน้าปัญจธาตุที่ความหมายคล้ายกันราว ๆ 50 ย่อหน้า (ชื่อกฎทั้งสามต่างกันแค่พยางค์เดียว ความหมายเวกเตอร์จึงเกาะกลุ่มกันหมด)"
+  },
+  {
+    dense: [
+      { label: "ลมปราณเว่ยไหลเวียนอยู่ภายนอกเส้นลมปราณ … — หน้า 92", v: 0.84, fmt: "0.84", hl: true },
+      { label: "ลมปราณอิ๋งไหลเวียนอยู่ภายในเส้นลมปราณ … — หน้า 92", v: 0.83, fmt: "0.83" },
+      { label: "ลมปราณแบ่งเป็น 4 ชนิด … — หน้า 90", v: 0.80, fmt: "0.80" },
+      { label: "(ย่อหน้าอื่นเรื่องลมปราณ)", v: 0.77, fmt: "0.77" }
+    ],
+    sparse: [
+      { label: "ลมปราณเว่ยไหลเวียนอยู่ภายนอกเส้นลมปราณ … — หน้า 92", v: 0.95, fmt: "0.95", hl: true },
+      { label: "ลมปราณแบ่งเป็น 4 ชนิด … — หน้า 90", v: 0.34, fmt: "0.34" },
+      { label: "ลมปราณอิ๋งไหลเวียนอยู่ภายในเส้นลมปราณ … — หน้า 92", v: 0.08, fmt: "0.08" },
+      { label: "(ย่อหน้าอื่นเรื่องลมปราณ)", v: 0.05, fmt: "0.05" }
+    ],
+    cap: "“ลมปราณอิ๋ง” กับ “ลมปราณเว่ย” ต่างกันพยางค์เดียว — เวกเตอร์ dense แทบแยกไม่ออก (0.84 vs 0.83) แต่ sparse แยกขาด (0.95 vs 0.08) เพราะจับตัวสะกดตรง ๆ · BGE-M3 คำนวณ sparse weights มาให้แล้วใน forward pass เดียวกัน โค้ดปัจจุบันแค่ไม่ได้เก็บ"
+  }
+];
+(function () {
+  var dHost = document.getElementById("denseChart");
+  var sHost = document.getElementById("sparseChart");
+  var cap = document.getElementById("dsCaption");
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".q5-btn"));
+  function set(i) {
+    hbarChart(dHost, Q5[i].dense, "var(--s1)", { max: 1, aria: "คะแนน dense (จำลอง)" });
+    hbarChart(sHost, Q5[i].sparse, "var(--s2)", { max: 1, aria: "คะแนน sparse (จำลอง)" });
+    cap.textContent = Q5[i].cap;
+    btns.forEach(function (b, j) { b.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () { set(parseInt(b.dataset.q, 10)); });
+  });
+  set(0);
+})();
+
+/* ============================================================
+   Pain 6 — vector geometry demo
+   q = 1.0 @ 40deg ; A = 0.45 @ 43deg ; B = 1.15 @ 62deg
+   ============================================================ */
+(function () {
+  var host = document.getElementById("vecSvg");
+  var W = 330, H = 300, ox = 34, oy = 272, U = 150;
+  var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, width: "100%" });
+  host.appendChild(svg);
+  var qA = 40 * Math.PI / 180, aA = 43 * Math.PI / 180, bA = 62 * Math.PI / 180;
+  var vecs = {
+    q: { ang: qA, len: 1.0, color: "var(--ink)" },
+    A: { ang: aA, len: 0.45, color: "var(--s1)" },
+    B: { ang: bA, len: 1.15, color: "var(--s2)" }
+  };
+  /* chrome: axes + unit circle */
+  svgEl("line", { x1: ox, y1: oy, x2: W - 6, y2: oy, stroke: "var(--baseline)", "stroke-width": 1 }, svg);
+  svgEl("line", { x1: ox, y1: oy, x2: ox, y2: 8, stroke: "var(--baseline)", "stroke-width": 1 }, svg);
+  svgEl("path", { d: "M " + (ox + U) + " " + oy + " A " + U + " " + U + " 0 0 0 " + ox + " " + (oy - U),
+    fill: "none", stroke: "var(--grid)", "stroke-width": 1 }, svg);
+  svgEl("text", { x: ox + U + 3, y: oy - 8, "font-size": 10, fill: "var(--muted)" }, svg)
+    .textContent = "‖v‖ = 1";
+  var lines = {}, dots = {}, labels = {};
+  ["q", "A", "B"].forEach(function (k) {
+    var v = vecs[k];
+    lines[k] = svgEl("line", { x1: ox, y1: oy, stroke: v.color,
+      "stroke-width": k === "q" ? 2.5 : 2, "stroke-linecap": "round" }, svg);
+    /* surface ring under the tip dot */
+    dots[k + "r"] = svgEl("circle", { r: 6.5, fill: "var(--surface)" }, svg);
+    dots[k] = svgEl("circle", { r: 4.5, fill: v.color }, svg);
+    labels[k] = svgEl("text", { "font-size": 12, "font-weight": 600, fill: "var(--ink)" }, svg);
+    labels[k].textContent = k === "q" ? "q (คำถาม)" : k;
+  });
+  /* label offsets keep q/A readable even when A converges onto q (normalized) */
+  labels.A.setAttribute("text-anchor", "end");
+  function place(norm) {
+    ["q", "A", "B"].forEach(function (k) {
+      var v = vecs[k];
+      var L = (norm && k !== "q") ? 1.0 : v.len; /* q is already length 1 */
+      var x = ox + Math.cos(v.ang) * L * U, y = oy - Math.sin(v.ang) * L * U;
+      lines[k].setAttribute("x2", x); lines[k].setAttribute("y2", y);
+      dots[k + "r"].setAttribute("cx", x); dots[k + "r"].setAttribute("cy", y);
+      dots[k].setAttribute("cx", x); dots[k].setAttribute("cy", y);
+      if (k === "q")      { labels.q.setAttribute("x", x + 9); labels.q.setAttribute("y", y + 15); }
+      else if (k === "A") { labels.A.setAttribute("x", x - 8); labels.A.setAttribute("y", y - 7); }
+      else                { labels.B.setAttribute("x", x + 9); labels.B.setAttribute("y", y - 7); }
+    });
+  }
+  function dist(l1, a1, l2, a2) {
+    return Math.sqrt(l1 * l1 + l2 * l2 - 2 * l1 * l2 * Math.cos(a1 - a2));
+  }
+  var state = { m: "l2", norm: false };
+  var valA = document.getElementById("valA"), valB = document.getElementById("valB");
+  var rankA = document.getElementById("rankA"), rankB = document.getElementById("rankB");
+  var rowA = document.getElementById("rowA"), rowB = document.getElementById("rowB");
+  var head = document.getElementById("vecMetricHead");
+  var lenA = document.getElementById("lenA"), lenB = document.getElementById("lenB");
+  var explain = document.getElementById("vecExplain");
+  function update() {
+    var la = state.norm ? 1.0 : vecs.A.len, lb = state.norm ? 1.0 : vecs.B.len;
+    lenA.textContent = la.toFixed(2); lenB.textContent = lb.toFixed(2);
+    var a, b, aWins;
+    if (state.m === "l2") {
+      a = dist(1, qA, la, aA); b = dist(1, qA, lb, bA);
+      aWins = a < b;
+      head.textContent = "ระยะ L2 (น้อย = ดี)";
+      valA.textContent = a.toFixed(3); valB.textContent = b.toFixed(3);
+    } else {
+      a = Math.cos(qA - aA); b = Math.cos(qA - bA);
+      aWins = a > b;
+      head.textContent = "cosine sim (มาก = ดี)";
+      valA.textContent = a.toFixed(3); valB.textContent = b.toFixed(3);
+    }
+    rankA.textContent = aWins ? "① ชนะ" : "②";
+    rankB.textContent = aWins ? "②" : "① ชนะ";
+    rowA.classList.toggle("winner", aWins);
+    rowB.classList.toggle("winner", !aWins);
+    if (!state.norm && state.m === "l2") {
+      explain.textContent = "L2 (ค่า default ของ Chroma ตอนนี้): B ชนะ — ทั้งที่ทิศห่างจากคำถามกว่า A เพราะเวกเตอร์ B ยาวจนปลายไปตกใกล้ปลาย q ความยาวเวกเตอร์ปนเข้ามาในระยะ = อันดับเพี้ยน";
+    } else if (!state.norm && state.m === "cos") {
+      explain.textContent = "Cosine: A ชนะ — วัดจากมุมล้วน ๆ ไม่สนความยาวเวกเตอร์ สังเกตว่าอันดับ 1 สลับตัวกับ L2 ทั้งที่ข้อมูลเดียวกันเป๊ะ";
+    } else {
+      explain.textContent = "หลัง normalize ทุกเวกเตอร์ยาว 1 (จุดปลายมาอยู่บนวงกลมหนึ่งหน่วยหมด) — L2 กับ cosine ให้อันดับตรงกันเสมอ (A ชนะ) นี่คือสมมติฐานที่เทส 1 บรรทัดจะยืนยันให้";
+    }
+    place(state.norm);
+  }
+  document.querySelectorAll(".metric-btn").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.m = b.dataset.m;
+      document.querySelectorAll(".metric-btn").forEach(function (x) {
+        x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      update();
+    });
+  });
+  document.getElementById("normToggle").addEventListener("change", function (e) {
+    state.norm = e.target.checked; update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>
