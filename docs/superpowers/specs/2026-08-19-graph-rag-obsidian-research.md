@@ -378,3 +378,184 @@ design.
 - [Kwipu — local Graph RAG over Obsidian vaults](https://github.com/benmaster82/Kwipu)
 - [Obsidian_RAG_System — wikilink graph expansion + hybrid retrieval](https://github.com/dario-marcolin/Obsidian_RAG_System)
 - [AppHerb: Language Model for Recommending Traditional Thai Medicine](https://doi.org/10.3390/ai6080170)
+
+---
+
+# Addendum, 2026-08-19: LightRAG + Neural Composer, and the two new books
+
+Written after owner feedback: interest in LightRAG (open source), two new Thai
+medical books (36 pages; ~100 pages incl. tongue analysis), and a proposal to
+give **each book its own Obsidian folder and its own GraphRAG**.
+
+## A. The toolchain question is now answered concretely
+
+[obsidian-neural-composer](https://github.com/oscampo/obsidian-neural-composer)
+(MIT) is precisely the combination in question: an Obsidian plugin that manages a
+local **LightRAG** server (`pip install "lightrag-hku[api]"`), builds a graph
+from vault notes, and chats over it. Relevant to this project:
+
+- **Gemini is a supported provider** for both LLM and embeddings — the same slot
+  already configured in `app/config.py`.
+- **Custom ontology**: domain-specific entity types are configurable
+  (Settings → Graph & Vault → Ontology). This is what makes TTM entity types
+  (สมุฏฐาน, ธาตุ, ลักษณะลิ้น) expressible rather than generic person/place/org.
+- **Citations**: every answer carries `[1]`-style citations pointing at the exact
+  notes and chunks used, with a "Context used" panel showing relevance scores.
+- **Graph visualization** in 2D/3D, and **MCP exposure** to Claude Desktop.
+
+This materially lowers the cost of *exploring* the graph, and it changes the
+recommended sequencing: the vault can be trialled before committing to a
+hand-built pipeline.
+
+### But it is an authoring tool, not the production backend
+
+A LINE webhook cannot call an Obsidian plugin. The split that works:
+
+```
+Obsidian + Neural Composer     ──►  authoring, curation, graph viz, exploration
+        │  (both talk to the same server)
+        ▼
+LightRAG server (FastAPI, REST /query, X-API-Key)
+        ▲
+        │
+app/rag/vector_store.py        ──►  production retrieval for LINE turns
+```
+
+LightRAG's own docs recommend the REST API for integration and reserve the
+embedded SDK for "embedded applications or academic research" — so `retrieve_passages`
+would POST to `/query` rather than importing LightRAG. That keeps the existing
+async FastAPI shape and keeps the graph a swappable slot, consistent with how
+this codebase already treats the Advisor Model and Vision Describer.
+
+**Unresolved and worth verifying before committing**: whether LightRAG's `/query`
+response can be made to return *chunk identifiers* rather than only synthesized
+prose. The whole citation contract (ADR 0008/0009) depends on getting back
+something that resolves to a printed page. If it cannot, the fallback is the
+Layer-1/Layer-3 design in Part 4 above, with LightRAG used for seeding only.
+
+## B. The two new books matter more than their page count suggests
+
+Corpus math after digitization:
+
+| Book | Printed pages | Tradition |
+|---|---|---|
+| `tcm-tongue-diagnosis` | 142 | Chinese (Thai translation) |
+| `tcm-basic-theory` | 92 | Chinese (Thai translation) |
+| `four-elements` | 32 | see caveat below |
+| **new — Thai medical** | **36** | **Thai (แพทย์แผนไทย)** |
+| **new — Thai medical + tongue** | **~100** | **Thai (แพทย์แผนไทย)** |
+| | **~400** | |
+
+Three consequences:
+
+1. **These are plausibly the corpus's first genuine แพทย์แผนไทย sources.**
+   `CONTEXT.md` defines the domain as Thai Traditional Medicine and explicitly
+   warns against drifting into other framings — yet two of the three current
+   books are Chinese medicine in Thai translation. That gap closes here.
+2. **The tongue book is the on-target one.** The bot's headline feature is
+   Tongue Assessment, and its only tongue source today is *Chinese* tongue
+   diagnosis. A Thai tongue-analysis text is the single most valuable addition
+   to the corpus for the feature the thesis is actually about.
+3. **It resolves a known open TODO in shipped code.** `app/memory/element.py`
+   carries a standing warning: the ธาตุเจ้าเรือน month assignments are "a
+   commonly published simplification" that "MUST be confirmed against the TTM
+   corpus before the thesis evaluation." The current corpus cannot confirm them.
+   A real แพทย์แผนไทย text can. Worth checking explicitly during digitization.
+
+### Caveat to check on `four-elements`
+
+Its headings include "Holistic Therapy", "ราศีและการบำบัด", "การแสดงออก
+(modalities) | ราศี (signs)", and "ปรัชญาเกี่ยวกับพลังงาน". That vocabulary —
+zodiac signs, modalities — reads as Western four-element/astrological holistic
+therapy rather than แพทย์แผนไทย ธาตุวิภังค์. The Thai ธาตุทั้งสี่ (ดิน น้ำ ลม ไฟ)
+and the Western four elements share names, which is exactly the trap this
+document warns about elsewhere: **same surface string, different concept.**
+
+Not asserted as settled — it needs a read of the body text. But if it holds, the
+book should be tagged as a distinct tradition and must not be allowed to
+contribute edges to ธาตุเจ้าเรือน reasoning, since `derive_element()` implements
+the *Thai medical* concept.
+
+## C. On "each book its own folder and its own GraphRAG"
+
+Half right. Splitting **folders** is fine. Splitting **graphs** defeats the
+purpose, for four reasons:
+
+1. **It removes the only thing a graph adds.** The value is the cross-book edge —
+   the Chinese book's pale-tongue sign linked to the Thai book's ธาตุ reasoning.
+   Per-book graphs can never form that edge, and cross-book synthesis is exactly
+   the multi-hop query the Advisor needs.
+2. **The arithmetic gets worse, not better.** One ~400-page graph is already
+   below the usual break-even. Five graphs of 32–142 pages each are *far* below
+   it. Five tiny graphs is strictly worse than one medium one.
+3. **The tooling does not support it.** Neural Composer is one watched folder →
+   one LightRAG instance per vault. LightRAG's server takes **one workspace at
+   startup**; multi-workspace-in-one-server is still open upstream
+   ([#2527](https://github.com/HKUDS/LightRAG/issues/2527)). Five books means
+   five server processes on five ports, and `retrieve_passages` fanning out and
+   merging by hand — reimplementing what one graph gives free.
+4. **Obsidian resolves `[[wikilinks]]` by note name, not path.** Two `ธาตุไฟ.md`
+   in two book folders make links ambiguous; Obsidian starts writing full paths
+   in, and any parser sees two nodes for one concept. That is the
+   entity-resolution failure from Part 2 — self-inflicted this time.
+
+### But the instinct behind it is correct, and it needs a different mechanism
+
+The real risk is not book mixing — it is **tradition mixing**. ธาตุทั้งสี่
+(ดิน น้ำ ลม ไฟ) in แพทย์แผนไทย is not 五行 (ไม้ ไฟ ดิน โลหะ น้ำ) in TCM. A red
+tongue may not mean the same thing in the Thai text and the Chinese one. If the
+Advisor silently blends them, the Assessment is unfounded — and for a health
+advisor that is the failure that matters.
+
+So separate by **tradition**, not by book:
+
+```yaml
+---
+id: element-fire-ttm
+type: element
+tradition: ttm          # ttm | tcm | western
+aliases: [ธาตุไฟ, ไฟ]
+sources:
+  - thai-tongue:p12:para4
+related:
+  - note: ธาตุไฟ (TCM)
+    relation: คล้ายกันแต่ไม่เท่ากัน    # explicit, never implicit
+---
+```
+
+One vault, one namespace, one graph — but every node declares its tradition, and
+cross-tradition links are **typed and deliberate**. Retrieval can then filter to
+one tradition, or bridge across with the bridge marked as such. Folders stay
+useful for organizing by concept type or by tradition; they carry no semantics.
+
+This is also the more interesting thesis result. "I built a Thai/Chinese
+tongue-diagnosis bridge ontology and measured whether bridging helps or hurts
+Assessment quality" is a contribution. Five disconnected per-book indexes is
+plumbing.
+
+## D. Revised recommendation
+
+1. **Digitize both books first** through the existing ADR 0008 pipeline
+   (`pdf_ocr` / `corpus_merge`). 136 pages, mostly machine time, and it is
+   required under every downstream option. Do proposal 1 (`kind` +
+   `heading_path`) in the same pass so these two books never need a re-OCR.
+2. **While that runs, trial Neural Composer** on the two new books as a scratch
+   vault. Low cost, and it answers empirically whether LightRAG's Thai entity
+   extraction is good enough — the open question from Part 2 that no amount of
+   reading settles.
+3. **Check the `four-elements` tradition question** and the `element.py`
+   ธาตุเจ้าเรือน assignments against the new Thai sources.
+4. **Then decide** between LightRAG-as-backend and the curated Layer-1 vault,
+   on evidence rather than on argument. The deciding test is narrow and
+   answerable: does the graph path return something that resolves to a real
+   printed page?
+
+Everything else in this document stands.
+
+## Additional sources
+
+- [obsidian-neural-composer](https://github.com/oscampo/obsidian-neural-composer) — Obsidian plugin wrapping a LightRAG server
+- [LightRAG API Server docs](https://github.com/HKUDS/LightRAG/blob/main/docs/LightRAG-API-Server.md)
+- [LightRAG Gemini workspace demo](https://github.com/HKUDS/LightRAG/blob/main/examples/lightrag_gemini_workspace_demo.py)
+- [LightRAG #2527 — workspace isolation in a single server](https://github.com/HKUDS/LightRAG/issues/2527)
+- [ธาตุทั้งสี่ ในศาสตร์แพทย์แผนไทย](https://www.ounruean-clinic.com/%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B8%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87-4/)
