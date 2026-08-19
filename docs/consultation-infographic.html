@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TTM Consultation Assistant — How a Consultation Works</title>
+<style>
+/* ============================================================
+   TTM Consultation Assistant — one-page A4 portrait infographic.
+   Self-contained: no external assets, no network, no script.
+
+   Palette (patient-chart metaphor)
+     --paper  #faf8f4  warm off-white stock
+     --rule   #d8d2c8  hairline rules
+     --ink    #2b2722  primary text
+     --muted  #6f685c  field labels, captions, annotations
+
+   Three semantic colours, reused from the project's own
+   message-flow map — fixed values, not derived from the palette:
+     deterministic               stroke #2b6cb0 / fill #e6f0fa
+     LLM-scored, code-triggered  stroke #b7791f / fill #fdf3e0
+     agentic                     stroke #6b46c1 / fill #f3e8fd
+
+   Vertical budget (mm), page is 297 tall with 6mm top/bottom pad:
+     header 15 · s1 95.5 · s2 63 · s3 75.5 · footer 22.5 · footnote 3.2
+     plus 2mm gaps (1mm before the footnote) = 283.7mm of 285mm
+     available. Section heights are fixed so the connector overlay
+     can be drawn in absolute page coordinates.
+   ============================================================ */
+
+@page { size: A4 portrait; margin: 0; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper: #faf8f4;
+  --rule:  #d8d2c8;
+  --rule2: #c3bcae;
+  --ink:   #2b2722;
+  --muted: #6f685c;
+  --det-s: #2b6cb0;  --det-f: #e6f0fa;
+  --llm-s: #b7791f;  --llm-f: #fdf3e0;
+  --agt-s: #6b46c1;  --agt-f: #f3e8fd;
+  --sans: "IBM Plex Sans Thai","Noto Sans Thai","Sarabun","Leelawadee UI",-apple-system,"Helvetica Neue",sans-serif;
+  --mono: "IBM Plex Mono","Roboto Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Thai","Sarabun",monospace;
+}
+
+html, body { background: #e9e6e0; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  padding: 6mm 7mm;
+  margin: 0 auto;
+  background: var(--paper);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; }
+}
+
+/* ---------- shared primitives ---------- */
+
+.lbl {           /* letterspaced English field label */
+  font-size: 5.6pt;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mono { font-family: var(--mono); }
+.th   { overflow-wrap: anywhere; }
+
+.box {
+  border: 0.5pt solid var(--rule2);
+  border-radius: 1mm;
+  padding: 1mm 1.4mm;
+  background: #fff;
+}
+.box > .box-t {
+  font-size: 8pt;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: .6mm;
+}
+.box > .box-sub {
+  font-size: 5.8pt;
+  color: var(--muted);
+  line-height: 1.15;
+  margin: -.3mm 0 .7mm;
+}
+.box > p {
+  font-size: 8pt;
+  line-height: 1.18;
+}
+.det { border-color: var(--det-s); background: var(--det-f); }
+.llm { border-color: var(--llm-s); background: var(--llm-f); }
+.agt { border-color: var(--agt-s); background: var(--agt-f); }
+.det > .box-t { color: #1d4f85; }
+.llm > .box-t { color: #8c5c12; }
+.agt > .box-t { color: #533597; }
+
+.tag {           /* tiny who-decides tag inside a box title row */
+  font-size: 5pt;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 0 .8mm;
+  border-radius: .6mm;
+  vertical-align: .4mm;
+  white-space: nowrap;
+}
+.det .tag { color: #1d4f85; border: 0.4pt solid var(--det-s); }
+.llm .tag { color: #8c5c12; border: 0.4pt solid var(--llm-s); }
+.agt .tag { color: #533597; border: 0.4pt solid var(--agt-s); }
+
+.note {          /* English annotation outside a box */
+  font-size: 6pt;
+  line-height: 1.22;
+  color: var(--muted);
+}
+
+/* ---------- header band ---------- */
+
+.pagehead { height: 15mm; margin-bottom: 2mm; display: flex; flex-direction: column; gap: .5mm; }
+.pagehead h1 { font-size: 13pt; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; }
+.pagehead .sub { font-size: 8pt; line-height: 1.15; color: #4a443c; }
+.legend { display: flex; gap: 3.2mm; align-items: center; margin-top: .4mm; }
+.legend-i { display: flex; align-items: center; gap: 1mm; font-size: 6.4pt; line-height: 1.1; }
+.sw { width: 2.4mm; height: 2.4mm; border-radius: .5mm; flex: 0 0 auto; }
+.sw.d { background: var(--det-f); border: 0.75pt solid var(--det-s); }
+.sw.l { background: var(--llm-f); border: 0.75pt solid var(--llm-s); }
+.sw.a { background: var(--agt-f); border: 0.75pt solid var(--agt-s); }
+.disclose { font-size: 6pt; font-style: italic; color: var(--muted); line-height: 1.1; }
+
+/* ---------- section chrome ---------- */
+
+.sec { display: flex; flex-direction: column; }
+.shead {
+  height: 4.4mm;
+  display: flex;
+  align-items: baseline;
+  gap: 1.6mm;
+  border-bottom: 0.75pt solid var(--rule2);
+  padding-bottom: .3mm;
+}
+.shead .n {
+  font-family: var(--mono);
+  font-size: 6pt;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ink);
+  border-radius: .5mm;
+  padding: 0 .9mm;
+  line-height: 1.35;
+}
+.shead .t { font-size: 9pt; font-weight: 700; letter-spacing: -.005em; }
+.shead .d { font-family: var(--mono); font-size: 6.4pt; color: var(--muted); }
+.shead .k { margin-left: auto; font-size: 6pt; font-style: italic; color: var(--muted); }
+.shead.narrow { margin-right: 14mm; }
+
+/* ---------- phone mock ---------- */
+
+.phone {
+  width: 54mm;
+  border: 0.75pt solid var(--rule2);
+  border-radius: 2mm;
+  background: #eceae5;
+  padding: 1mm 1.2mm 1.2mm;
+  display: flex;
+  flex-direction: column;
+  gap: .8mm;
+}
+.phone-top {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 0.5pt solid var(--rule);
+  padding-bottom: .45mm;
+  font-family: var(--mono); font-size: 5pt; color: var(--muted);
+}
+.row { display: flex; }
+.row.bot { justify-content: flex-start; }
+.row.user { justify-content: flex-end; }
+.bub {
+  max-width: 45mm;
+  border-radius: 1.6mm;
+  padding: .9mm 1.1mm;
+  font-size: 6.5pt;
+  line-height: 1.3;
+  border: 0.4pt solid var(--rule2);
+}
+.bub-u { background: #dcefd4; border-color: #b9d6ac; border-bottom-right-radius: .4mm; }
+.bub-b { background: #ffffff; border-bottom-left-radius: .4mm; }
+.bub-img { padding: .8mm; background: #fff; }
+.thumb { width: 11.5mm; display: block; }
+.thumb-cap { font-size: 5.4pt; color: var(--muted); text-align: center; margin-top: .3mm; }
+.cite {
+  margin-top: .9mm; padding-top: .8mm;
+  border-top: 0.5pt solid var(--rule);
+  font-size: 5.8pt; line-height: 1.22; color: #6b645a;
+}
+.chips { display: flex; flex-wrap: wrap; gap: .8mm; }
+.chip {
+  font-size: 5.5pt; line-height: 1.1;
+  border: 0.5pt solid #7aa7d4;
+  color: #23557f;
+  background: #fff;
+  border-radius: 3mm;
+  padding: .55mm 1.2mm;
+}
+
+/* ---------- section 1 ---------- */
+
+.s1 { height: 95.5mm; margin-bottom: 2mm; }
+.s1-grid { flex: 1; display: flex; gap: 2mm; padding-top: .6mm; }
+.s1-flow { width: 66mm; display: flex; flex-direction: column; justify-content: space-between; }
+.s1-side { width: 72mm; display: flex; flex-direction: column; gap: 1.2mm; }
+.vchev { height: 2mm; display: flex; justify-content: center; align-items: center; }
+
+.callout {
+  border: 0.75pt solid var(--ink);
+  border-radius: 1mm;
+  padding: 1mm 1.4mm;
+  background: transparent;
+}
+.callout .ct { font-size: 8pt; font-weight: 700; margin-bottom: .5mm; }
+.callout p { font-size: 7.4pt; line-height: 1.16; }
+
+.corpus { flex: 1; display: flex; flex-direction: column; gap: .7mm; }
+.corpus .lead { font-size: 7.2pt; line-height: 1.15; }
+table.books { width: 100%; border-collapse: collapse; }
+table.books th {
+  font-size: 5.4pt; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); text-align: left; padding: 0 0 .35mm;
+  border-bottom: 0.5pt solid var(--rule2);
+}
+table.books td {
+  vertical-align: top; padding: .45mm .8mm .45mm 0;
+  border-bottom: 0.4pt solid var(--rule);
+  font-size: 6.4pt; line-height: 1.16;
+}
+table.books td.g { width: 21mm; padding-right: 0; font-size: 6pt; color: #3d382f; }
+table.books .auth { display: block; font-size: 5.4pt; color: var(--muted); }
+.prov { font-size: 6.3pt; font-style: italic; line-height: 1.18; color: #4a443c; }
+.srctag {
+  font-family: var(--mono); font-size: 5.6pt; line-height: 1.18;
+  background: #fff; border: 0.4pt dashed var(--rule2); border-radius: .8mm;
+  padding: .5mm .8mm; overflow-wrap: anywhere;
+}
+
+/* ---------- section 2 ---------- */
+
+.s2 { height: 63mm; margin-bottom: 2mm; }
+.band { height: 28.5mm; display: flex; gap: 4.7mm; margin-top: .1mm; }
+.band .box { flex: 1; display: flex; flex-direction: column; }
+.band .box > p { font-size: 8pt; }
+.band-meta {
+  font-size: 5pt; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; line-height: 1.25; margin-bottom: .3mm;
+}
+.det .band-meta { color: var(--det-s); }
+.llm .band-meta { color: var(--llm-s); }
+
+.s2-row { height: 26mm; display: flex; gap: 4mm; margin-top: 4mm; margin-right: 14mm; }
+
+.facesheet {
+  width: 114mm;
+  border: 0.75pt solid var(--rule2);
+  background: #fff;
+  border-radius: 1mm;
+  padding: .8mm 1.4mm;
+  display: flex; flex-direction: column;
+}
+.fs-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 0.75pt solid var(--ink);
+  padding-bottom: .4mm; margin-bottom: .3mm;
+}
+.fs-head .h { font-size: 6.7pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.fs-head .u { font-family: var(--mono); font-size: 5.6pt; color: var(--muted); }
+table.fs { width: 100%; border-collapse: collapse; }
+table.fs td { border-bottom: 0.4pt solid var(--rule); padding: .18mm 0; vertical-align: baseline; }
+table.fs tr:last-child td { border-bottom: 0; }
+td.f  { width: 20mm; font-size: 5.8pt; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+td.fth{ width: 20mm; font-size: 6.4pt; font-weight: 700; color: var(--muted); text-transform: none; letter-spacing: 0; }
+td.v  { width: 31mm; font-size: 6.6pt; line-height: 1.14; }
+td.pad{ width: 2mm; }
+td.v .when { font-size: 5.4pt; color: var(--muted); }
+.fs-foot { font-size: 5.5pt; color: var(--muted); line-height: 1.1; margin-top: .15mm; }
+sup.mk { font-size: 5pt; color: var(--det-s); font-weight: 700; }
+
+.rulecall {
+  flex: 1;
+  border: 1.1pt solid var(--ink);
+  border-radius: 1mm;
+  padding: 1.4mm 1.6mm;
+  background: #fff;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.rulecall .rt { font-size: 9.5pt; font-weight: 700; line-height: 1.13; margin-bottom: .8mm; }
+.rulecall p { font-size: 7.4pt; line-height: 1.2; }
+
+/* ---------- section 3 ---------- */
+
+.s3 { height: 75.5mm; margin-bottom: 2mm; }
+.s3-grid { flex: 1; display: flex; gap: 2mm; padding-top: .6mm; }
+.s3-right { width: 126mm; display: flex; flex-direction: column; gap: .4mm; }
+.tier1 { height: 20.2mm; }
+.tier2 { height: 23mm; }
+.tvn   { height: 26.5mm; }
+
+.tier-head { display: flex; align-items: baseline; gap: 1.4mm; margin-bottom: .5mm; }
+.tier-head .tn { font-size: 8pt; font-weight: 700; }
+.tier-head .th2 { font-size: 6.2pt; color: var(--muted); font-style: italic; }
+ul.inject { list-style: none; }
+ul.inject li {
+  font-size: 8pt; line-height: 1.2;
+  padding-left: 3mm; position: relative;
+}
+ul.inject li::before {
+  content: ""; position: absolute; left: .8mm; top: 1.1mm;
+  width: 1.2mm; height: 1.2mm; border-radius: 50%;
+  background: var(--det-s);
+}
+ul.inject li b { font-weight: 700; }
+.react {
+  font-family: var(--mono); font-size: 6.2pt; line-height: 1.28;
+  background: #fff; border: 0.4pt solid #c3aee6; border-radius: .8mm;
+  padding: .7mm 1mm; overflow-wrap: anywhere; white-space: pre-wrap;
+}
+.tier2 .cap { font-size: 6.4pt; line-height: 1.18; color: #4a443c; margin-top: .6mm; }
+.tvn { border: 0.75pt solid var(--rule2); background: #fff; border-radius: 1mm; padding: .8mm 1.2mm; }
+.tvn .tt { font-size: 6pt; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-bottom: .2mm; }
+.tvn svg { display: block; width: 100%; }
+
+/* ---------- footer ---------- */
+
+.footer { height: 22.5mm; margin-bottom: 1mm; display: flex; gap: 4mm; }
+.footer .fbox {
+  flex: 1;
+  border: 0.75pt solid var(--rule2);
+  border-top: 1.5pt solid var(--ink);
+  border-radius: 0 0 1mm 1mm;
+  background: #fff;
+  padding: 1mm 1.3mm;
+}
+.footer .fbox h3 { font-size: 7.6pt; font-weight: 700; margin-bottom: .5mm; }
+.footer .fbox p { font-size: 7.5pt; line-height: 1.18; }
+.footnote { font-size: 6pt; color: var(--muted); line-height: 1.2; height: 3.2mm; }
+
+/* ---------- connector overlay ---------- */
+
+.connector {
+  position: absolute;
+  left: 0; top: 0;
+  width: 210mm; height: 297mm;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ===== drawn continuity path: Health Record store (§2) → both memory tiers (§3) ===== -->
+<svg class="connector" viewBox="0 0 210 297" aria-label="Path from the Health Record store into both memory tiers">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2b6cb0"/>
+    </marker>
+  </defs>
+  <path d="M130.1 153.4 V155.6 H196 V222.6"
+        fill="none" stroke="#2b6cb0" stroke-width="0.7" stroke-linejoin="round"/>
+  <path d="M196 200.6 H191.4" fill="none" stroke="#2b6cb0" stroke-width="0.7" marker-end="url(#ah)"/>
+  <path d="M196 222.6 H191.4" fill="none" stroke="#2b6cb0" stroke-width="0.7" marker-end="url(#ah)"/>
+  <circle cx="196" cy="200.6" r="0.85" fill="#2b6cb0"/>
+  <circle cx="130.1" cy="153.4" r="0.85" fill="#2b6cb0"/>
+  <text x="140" y="155.2" font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif"
+        font-size="2" font-style="italic" fill="#4a443c">carried into the next Consultation</text>
+  <text transform="translate(200.6,161) rotate(90)" font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif"
+        font-size="2.4" font-weight="700" letter-spacing="0.18" fill="#2b6cb0">HEALTH RECORD → BOTH TIERS</text>
+</svg>
+
+<!-- ===================== HEADER BAND ===================== -->
+<header class="pagehead">
+  <h1>TTM Consultation Assistant — How a Consultation Works</h1>
+  <p class="sub">A LINE chatbot that assesses tongue photos against a TTM corpus and carries a patient&rsquo;s record forward across visits.</p>
+  <div class="legend">
+    <span class="legend-i"><span class="sw d"></span><span><b>Deterministic</b> — decided by ordinary code</span></span>
+    <span class="legend-i"><span class="sw l"></span><span><b>LLM-scored, code-triggered</b> — code decides <i>when</i>, a model decides <i>what</i></span></span>
+    <span class="legend-i"><span class="sw a"></span><span><b>Agentic</b> — the Advisor Model&rsquo;s own choice</span></span>
+  </div>
+  <p class="disclose">All chat, photos, profile data, and passages on this page are illustrative mock-ups — not real user data and not verbatim corpus text.</p>
+</header>
+
+<!-- ===================== SECTION 1 ===================== -->
+<section class="sec s1">
+  <div class="shead">
+    <span class="n">1</span><span class="t">Consultation #1</span><span class="d">5 Aug 2026</span>
+    <span class="k">first visit — nothing is known about this user yet</span>
+  </div>
+
+  <div class="s1-grid">
+
+    <!-- left: phone mock -->
+    <div class="phone">
+      <div class="phone-top"><span>LINE · TTM Advisor</span><span>09:12</span></div>
+
+      <div class="row user"><div class="bub bub-u th" lang="th">สวัสดีค่ะ ช่วงนี้ท้องอืดบ่อยมาก กินอะไรก็ไม่ค่อยย่อย ส่งรูปลิ้นมาให้ดูนะคะ</div></div>
+
+      <div class="row user"><div class="bub bub-img">
+        <svg class="thumb" viewBox="0 0 100 130" aria-label="Illustrative drawing of a tongue with a thick white coating">
+          <path d="M50 6 C26 6 12 26 12 52 C12 80 22 104 38 118 C43 122 47 124 50 124 C53 124 57 122 62 118 C78 104 88 80 88 52 C88 26 74 6 50 6 Z" fill="#f3d2cc" stroke="#b08b86" stroke-width="1.2"/>
+          <path d="M50 13 C30 13 19 30 19 53 C19 78 28 100 42 113 C45 116 48 117 50 117 C52 117 55 116 58 113 C72 100 81 78 81 53 C81 30 70 13 50 13 Z" fill="#f7f5f1" stroke="#ddd9d1" stroke-width="0.6"/>
+          <g fill="none" stroke="#a87f79" stroke-width="1.1">
+            <path d="M14.6 33.8 Q16.6 38.2 12.6 42.6"/><path d="M12.6 42.6 Q15.3 47.3 12 52"/>
+            <path d="M12 52 Q15.25 57.15 12.5 62.3"/><path d="M12.5 62.3 Q16.15 67.25 13.8 72.2"/>
+            <path d="M13.8 72.2 Q17.9 76.85 16 81.5"/><path d="M16 81.5 Q20.5 85.9 19 90.3"/>
+            <path d="M85.4 33.8 Q83.4 38.2 87.4 42.6"/><path d="M87.4 42.6 Q84.7 47.3 88 52"/>
+            <path d="M88 52 Q84.75 57.15 87.5 62.3"/><path d="M87.5 62.3 Q83.85 67.25 86.2 72.2"/>
+            <path d="M86.2 72.2 Q82.1 76.85 84 81.5"/><path d="M84 81.5 Q79.5 85.9 81 90.3"/>
+          </g>
+          <path d="M50 20 L50 108" fill="none" stroke="#cfc9c0" stroke-width="0.7"/>
+        </svg>
+        <p class="thumb-cap">Tongue Photo · 5 Aug</p>
+      </div></div>
+
+      <div class="row bot"><div class="bub bub-b">
+        <span class="th" lang="th">จากลักษณะลิ้นที่เห็น ฝ้าลิ้นค่อนข้างหนาและออกขาว ร่วมกับอาการท้องอืดและอาหารไม่ย่อยที่เล่ามา เข้าได้กับภาวะที่ระบบย่อยอาหารทำงานได้ไม่เต็มที่ ระยะนี้แนะนำให้เลี่ยงของมัน ของเย็นจัด และของหมักดอง ดื่มน้ำอุ่น และเคี้ยวอาหารให้ละเอียดขึ้นค่ะ</span>
+        <div class="cite th" lang="th">📖 อ้างอิง: การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น หน้า 98 ย่อหน้าที่ 3</div>
+      </div></div>
+      <p class="note">Citation rendered as a LINE Flex footer, parsed out of the reply text.</p>
+
+      <div class="chips">
+        <span class="chip th" lang="th">ฝ้าลิ้นหนาบอกอะไร</span>
+        <span class="chip th" lang="th">อาหารที่ควรเลี่ยง</span>
+        <span class="chip th" lang="th">แจ้งวันเกิดเพื่อดูธาตุเจ้าเรือน</span>
+      </div>
+      <p class="note">Topic Menu — follow-ups the Advisor held back to keep the reply to one phone screen. The third is an intake item, so intake stays user-initiated.</p>
+    </div>
+
+    <!-- middle: what the system does -->
+    <div class="s1-flow">
+      <div class="box det">
+        <div class="box-t">Tongue Detection <span class="tag">deterministic</span></div>
+        <p>Roboflow serverless workflow: detect and crop, server-side. Confidence gate stays in app code. This step — not the Advisor — is the sole authority on whether a photo shows a tongue.</p>
+      </div>
+      <div class="vchev"><svg width="3mm" height="2mm" viewBox="0 0 10 7"><path d="M5 7 L0.5 1 M5 7 L9.5 1" stroke="#8d8577" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></div>
+
+      <div class="box det">
+        <div class="box-t">Tongue Photo persisted <span class="tag">deterministic</span></div>
+        <p>Every returned crop is kept, gate-passed or not. A standalone research dataset, outside Consultation memory: never written to the Health Profile, never affected by the Relevance Gate.</p>
+      </div>
+      <div class="vchev"><svg width="3mm" height="2mm" viewBox="0 0 10 7"><path d="M5 7 L0.5 1 M5 7 L9.5 1" stroke="#8d8577" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></div>
+
+      <div class="box llm">
+        <div class="box-t">Vision Describer <span class="tag">llm-scored, code-triggered</span></div>
+        <div class="box-sub">model slot — currently Gemini 2.5 Flash</div>
+        <p>Produces a Tongue Description: structured observation only — coating, body colour, texture, image-quality flag. It describes; it never assesses.</p>
+      </div>
+      <div class="vchev"><svg width="3mm" height="2mm" viewBox="0 0 10 7"><path d="M5 7 L0.5 1 M5 7 L9.5 1" stroke="#8d8577" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></div>
+
+      <div class="box agt">
+        <div class="box-t">Advisor Model <span class="tag">agentic</span></div>
+        <div class="box-sub">model slot — currently Gemini 2.5 Flash</div>
+        <p>Retrieves grounding passages, then produces the Tongue Assessment and replies in Thai.</p>
+      </div>
+    </div>
+
+    <!-- right: rule callout + corpus -->
+    <div class="s1-side">
+      <div class="callout">
+        <div class="ct">Why &ldquo;Assessment&rdquo;, and never a clinical claim</div>
+        <p>The system produces TTM-grounded interpretations for self-care. It makes no clinical determination of disease, and defers to a physician for anything clinically serious. The wording is enforced in the project&rsquo;s own ubiquitous language, not only in the user interface.</p>
+      </div>
+
+      <div class="box det corpus">
+        <div class="box-t">TTM Corpus <span class="tag">deterministic</span></div>
+        <p class="lead">3 books, one Chroma collection, BGE-M3 multilingual embeddings, paragraph-level chunks carrying book / printed page / paragraph provenance.</p>
+        <table class="books">
+          <tr><th>Book</th><th>Grounds</th></tr>
+          <tr>
+            <td class="th" lang="th">การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น<span class="auth">(Hu Zhen, Chulalongkorn University Press)</span></td>
+            <td class="g">Chinese medicine — tongue inspection</td>
+          </tr>
+          <tr>
+            <td class="th" lang="th">ทฤษฎีพื้นฐานการแพทย์แผนจีน<span class="auth">(นพ.โกวิท คัมภีรภาพ)</span></td>
+            <td class="g">Chinese medicine — basic theory</td>
+          </tr>
+          <tr>
+            <td class="th" lang="th">วิถีแห่งธรรมชาติกับธาตุทั้งสี่<span class="auth">(อนุสรณ์ วรมงคล)</span></td>
+            <td class="g">Thai four-element tradition</td>
+          </tr>
+        </table>
+        <p class="prov">Tongue-inspection knowledge in this system comes from Thai translations of Chinese medical texts. The Thai element framework comes from the third book and from ธาตุเจ้าเรือน, derived in code. Every retrieved passage is tagged with its book, so the Advisor always cites which tradition a claim rests on.</p>
+        <div class="srctag" lang="th">[การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น หน้า 98 ย่อหน้าที่ 3]</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== SECTION 2 ===================== -->
+<section class="sec s2">
+  <div class="shead narrow">
+    <span class="n">2</span><span class="t">The Consultation closes</span><span class="d">the only write path</span>
+    <span class="k">long-term memory is written here, once, and nowhere else</span>
+  </div>
+
+  <div class="band">
+    <div class="box det">
+      <div class="band-meta">Step 1 · Deterministic</div>
+      <div class="box-t">Inactivity gap &gt; 6 h</div>
+      <p>The Consultation closes lazily, on the next incoming message.</p>
+    </div>
+    <div class="box llm">
+      <div class="band-meta">Step 2 · LLM-scored, code-triggered</div>
+      <div class="box-t">Relevance Gate</div>
+      <p>Did this Consultation contain health content? Yes → summarise it into a Health Record entry. No → discard the buffer; the Health Profile is untouched.</p>
+    </div>
+    <div class="box det">
+      <div class="band-meta">Step 3 · Deterministic</div>
+      <div class="box-t">Health Record entry written</div>
+      <p>The only long-term memory. Raw transcripts are not kept — the Working Buffer is deleted at close.</p>
+    </div>
+    <div class="box llm">
+      <div class="band-meta">Step 4 · LLM-scored, code-triggered</div>
+      <div class="box-t">Profile Updater</div>
+      <p>Folds the entry into the Health Profile as item-level patches — add, update, remove. Never a rewrite of the whole sheet.</p>
+    </div>
+  </div>
+
+  <div class="s2-row">
+    <div class="facesheet">
+      <div class="fs-head"><span class="h">Health Profile — face sheet</span><span class="u">updated 2026-08-05</span></div>
+      <table class="fs">
+        <tr>
+          <td class="f">Sex</td><td class="v">F</td><td class="pad"></td>
+          <td class="f">Allergies</td><td class="v">—</td>
+        </tr>
+        <tr>
+          <td class="f">Birth date</td><td class="v mono">1998-12-04</td><td class="pad"></td>
+          <td class="f">Medications</td><td class="v">—</td>
+        </tr>
+        <tr>
+          <td class="fth th" lang="th">ธาตุเจ้าเรือน</td>
+          <td class="v th" lang="th">ดิน<sup class="mk">&#9733;</sup></td><td class="pad"></td>
+          <td class="f">Habits</td><td class="v th" lang="th">ดื่มกาแฟวันละ 2 แก้ว</td>
+        </tr>
+        <tr>
+          <td class="f">Chronic conditions</td><td class="v">—</td><td class="pad"></td>
+          <td class="f">Ongoing Complaints</td>
+          <td class="v th" lang="th">ท้องอืด อาหารไม่ย่อย <span class="when">(noted 2026-08-05)</span></td>
+        </tr>
+      </table>
+      <p class="fs-foot"><sup class="mk">&#9733;</sup> Derived deterministically from birth date in code — never set by a model. See footnote.</p>
+    </div>
+
+    <div class="rulecall">
+      <div class="rt">The Advisor has no write tools.</div>
+      <p>Long-term memory is written exactly once per Consultation, deterministically, at close. The Advisor&rsquo;s only Health Record tools are read-only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3 ===================== -->
+<section class="sec s3">
+  <div class="shead narrow">
+    <span class="n">3</span><span class="t">Consultation #2</span><span class="d">19 Aug 2026</span>
+    <span class="k">the payoff — the record comes back in two distinct tiers</span>
+  </div>
+
+  <div class="s3-grid">
+    <div class="phone">
+      <div class="phone-top"><span>LINE · TTM Advisor</span><span>18:40</span></div>
+
+      <div class="row user"><div class="bub bub-u th" lang="th">กลับมาอีกครั้งค่ะ ท้องอืดดีขึ้นบ้างแล้ว แต่ยังมีอยู่บ้างตอนเย็น ส่งรูปลิ้นมาให้ดูอีกรอบนะคะ</div></div>
+
+      <div class="row user"><div class="bub bub-img">
+        <svg class="thumb" viewBox="0 0 100 130" aria-label="Illustrative drawing of the same tongue with a thinner coating">
+          <path d="M50 6 C26 6 12 26 12 52 C12 80 22 104 38 118 C43 122 47 124 50 124 C53 124 57 122 62 118 C78 104 88 80 88 52 C88 26 74 6 50 6 Z" fill="#f3d2cc" stroke="#b08b86" stroke-width="1.2"/>
+          <path d="M50 30 C38 30 31 45 31 62 C31 79 39 95 47 103 C48.5 104.5 51.5 104.5 53 103 C61 95 69 79 69 62 C69 45 62 30 50 30 Z" fill="#f7f5f1" fill-opacity="0.72"/>
+          <path d="M50 20 L50 108" fill="none" stroke="#cfc9c0" stroke-width="0.7"/>
+        </svg>
+        <p class="thumb-cap">Tongue Photo · 19 Aug</p>
+      </div></div>
+
+      <div class="row bot"><div class="bub bub-b th" lang="th">เทียบกับครั้งก่อนเมื่อวันที่ 5 สิงหาคม ตอนนั้นฝ้าลิ้นหนาและขาวชัดกว่านี้ ตอนนี้ฝ้าบางลงและอาการท้องอืดก็ลดลง ถือว่าไปในทางที่ดีขึ้นค่ะ แนะนำให้ทำต่อเนื่อง และสังเกตอาการช่วงเย็นเป็นพิเศษนะคะ</div></div>
+    </div>
+
+    <div class="s3-right">
+
+      <div class="box det tier1">
+        <div class="tier-head">
+          <span class="tn">Tier 1 — injected automatically, every turn</span>
+          <span class="tag">deterministic</span>
+          <span class="th2">the Advisor does not ask for any of this</span>
+        </div>
+        <ul class="inject">
+          <li><b>Health Profile</b> — the whole face sheet, rendered into the prompt</li>
+          <li><b>Health Record</b> — summaries of the N most recent entries</li>
+          <li><b>Working Buffer</b> — this Consultation&rsquo;s prior turns, replayed as message history</li>
+          <li><b>TTM Corpus</b> — passages retrieved for this message</li>
+        </ul>
+      </div>
+
+      <div class="box agt tier2">
+        <div class="tier-head">
+          <span class="tn">Tier 2 — the Advisor decides it needs more</span>
+          <span class="tag">agentic</span>
+          <span class="th2">a ReAct step the Advisor chooses to take</span>
+        </div>
+        <div class="react" lang="th">search_health_records("ท้องอืด")
+→ 2026-08-05: ผู้ใช้ปรึกษาเรื่องท้องอืดและอาหารไม่ย่อย
+              ฝ้าลิ้นหนาสีขาว แนะนำเลี่ยงของมันและของเย็นจัด</div>
+        <p class="cap"><b>Read-only.</b> Used only when what was already injected is not enough. The Advisor also has <span class="mono">get_health_record_by_date</span> for a specific visit.</p>
+      </div>
+
+      <div class="tvn">
+        <div class="tt">Then vs now — the same finding, re-observed</div>
+        <svg viewBox="0 0 500 88" aria-label="The 5 August tongue drawing with labels beside the 19 August drawing">
+          <g font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif" fill="#4a443c">
+            <text x="120" y="22" font-size="9.5" text-anchor="end">coating — thick, white</text>
+            <text x="120" y="45" font-size="9.5" text-anchor="end">body colour — pale</text>
+            <text x="120" y="68" font-size="9.5" text-anchor="end">margin — scalloped</text>
+          </g>
+          <g fill="none" stroke="#8d8577" stroke-width="0.7">
+            <path d="M123 19.5 L152 26"/><path d="M123 42.5 L138 40"/><path d="M123 65.5 L139.5 56"/>
+          </g>
+
+          <!-- 5 Aug: thick white coating, scalloped margins -->
+          <g transform="translate(128,3) scale(0.6)">
+            <path d="M50 6 C26 6 12 26 12 52 C12 80 22 104 38 118 C43 122 47 124 50 124 C53 124 57 122 62 118 C78 104 88 80 88 52 C88 26 74 6 50 6 Z" fill="#f3d2cc" stroke="#b08b86" stroke-width="1.8"/>
+            <path d="M50 13 C30 13 19 30 19 53 C19 78 28 100 42 113 C45 116 48 117 50 117 C52 117 55 116 58 113 C72 100 81 78 81 53 C81 30 70 13 50 13 Z" fill="#f7f5f1" stroke="#ddd9d1" stroke-width="1"/>
+            <g fill="none" stroke="#a87f79" stroke-width="1.7">
+              <path d="M14.6 33.8 Q16.6 38.2 12.6 42.6"/><path d="M12.6 42.6 Q15.3 47.3 12 52"/>
+              <path d="M12 52 Q15.25 57.15 12.5 62.3"/><path d="M12.5 62.3 Q16.15 67.25 13.8 72.2"/>
+              <path d="M13.8 72.2 Q17.9 76.85 16 81.5"/><path d="M16 81.5 Q20.5 85.9 19 90.3"/>
+              <path d="M85.4 33.8 Q83.4 38.2 87.4 42.6"/><path d="M87.4 42.6 Q84.7 47.3 88 52"/>
+              <path d="M88 52 Q84.75 57.15 87.5 62.3"/><path d="M87.5 62.3 Q83.85 67.25 86.2 72.2"/>
+              <path d="M86.2 72.2 Q82.1 76.85 84 81.5"/><path d="M84 81.5 Q79.5 85.9 81 90.3"/>
+            </g>
+            <path d="M50 20 L50 108" fill="none" stroke="#cfc9c0" stroke-width="1.1"/>
+          </g>
+          <text x="158" y="86" font-size="10" font-weight="700" text-anchor="middle" font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif" fill="#2b2722">5 Aug</text>
+
+          <path d="M192 42 L224 42" fill="none" stroke="#2b6cb0" stroke-width="1.1" marker-end="url(#ah2)"/>
+          <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b6cb0"/></marker></defs>
+          <text x="208" y="36" font-size="8.5" text-anchor="middle" font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif" fill="#2b6cb0">14 days</text>
+
+          <!-- 19 Aug: thinner, translucent coating over the centre only, smoother margins -->
+          <g transform="translate(232,3) scale(0.6)">
+            <path d="M50 6 C26 6 12 26 12 52 C12 80 22 104 38 118 C43 122 47 124 50 124 C53 124 57 122 62 118 C78 104 88 80 88 52 C88 26 74 6 50 6 Z" fill="#f3d2cc" stroke="#b08b86" stroke-width="1.8"/>
+            <path d="M50 30 C38 30 31 45 31 62 C31 79 39 95 47 103 C48.5 104.5 51.5 104.5 53 103 C61 95 69 79 69 62 C69 45 62 30 50 30 Z" fill="#f7f5f1" fill-opacity="0.72"/>
+            <path d="M50 20 L50 108" fill="none" stroke="#cfc9c0" stroke-width="1.1"/>
+          </g>
+          <text x="262" y="86" font-size="10" font-weight="700" text-anchor="middle" font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif" fill="#2b2722">19 Aug</text>
+
+          <path d="M292 6 L292 82" stroke="#d8d2c8" stroke-width="0.8" fill="none"/>
+          <g font-family="'IBM Plex Sans Thai','Noto Sans Thai',sans-serif" fill="#2b2722">
+            <text x="302" y="24" font-size="9.5">The same finding, re-observed 14 days</text>
+            <text x="302" y="37" font-size="9.5">later — the comparison the Health</text>
+            <text x="302" y="50" font-size="9.5">Record makes possible.</text>
+            <text x="302" y="70" font-size="8.5" font-style="italic" fill="#6f685c">Illustrative drawing, not a patient photograph.</text>
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="fbox">
+    <h3>Not a clinical determination</h3>
+    <p>A TTM self-care advisor. It produces Assessments — TTM-grounded interpretations for self-care — never a clinical determination of disease, and it tells users to see a doctor for anything clinically serious.</p>
+  </div>
+  <div class="fbox">
+    <h3>Red-flag escalation</h3>
+    <p>When a red flag appears, the Advisor escalates to &ldquo;see a doctor&rdquo; and the Topic Menu is suppressed — the system never offers a browsing menu on top of an escalation.</p>
+  </div>
+  <div class="fbox">
+    <h3>Photos kept for research</h3>
+    <p>Users are told at first contact that tongue photos are kept. Every crop is retained, including ones the confidence gate rejected; rejected crops are never described, never assessed, and never shown back.</p>
+  </div>
+</footer>
+
+<p class="footnote"><sup class="mk">&#9733;</sup> <span lang="th">ธาตุเจ้าเรือน</span> is derived deterministically from birth date in code — never set by a model. The month-to-element table is being confirmed against the corpus.</p>
+
+</div>
+</body>
+</html>
