@@ -364,7 +364,10 @@ async def test_no_public_base_url_means_no_echo(monkeypatch):
     monkeypatch.setattr(_StubDescriber, "describe", ok_describe, raising=False)
     monkeypatch.setattr(dispatcher, "VisionDescriber", _StubDescriber)
 
-    await dispatcher.handle_image_message(_event(), _settings())  # default ""
+    # Set it explicitly rather than leaning on the field default: Settings reads
+    # .env (model_config env_file), so on any machine with PUBLIC_BASE_URL set --
+    # i.e. any machine running the tunnel -- the default is not "".
+    await dispatcher.handle_image_message(_event(), _settings(public_base_url=""))
 
     assert len(saved) == 1  # dataset capture is independent of the echo
     assert messenger.sent == ["คำแนะนำจากผู้ช่วย"]
