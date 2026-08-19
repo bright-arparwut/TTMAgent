@@ -1,9 +1,13 @@
 import json
+from datetime import date
 
 import pytest
 
+import scripts.build_client_record_demo as demo
+from app.memory.profile_render import _SECTIONS
 from scripts.build_client_record_demo import (
     BEGIN_MARKER,
+    CONSULTATIONS,
     END_MARKER,
     PAGE_PATH,
     build_states,
@@ -85,10 +89,46 @@ def test_inject_rejects_a_page_without_markers():
 
 def test_payload_is_a_script_tag_of_valid_json():
     payload = render_payload(build_states())
-    assert payload.startswith("<script>")
+    assert payload.startswith("<script>\nconst DATA = ")
     assert payload.rstrip().endswith("</script>")
-    body = payload[payload.index("[") : payload.rindex("]") + 1]
-    assert len(json.loads(body)) == 4
+    body = payload[len("<script>\nconst DATA = ") : payload.rindex(";\n</script>")]
+    data = json.loads(body)
+    assert len(data["states"]) == 4
+    assert data["sections"] == [list(pair) for pair in _SECTIONS]
+
+
+def test_payload_escapes_a_literal_closing_script_tag():
+    """json.dumps does not escape '<'; a literal '</script>' in any authored
+    narrative would otherwise terminate this inline script block early."""
+    states = build_states()
+    states[0]["entry"]["chief_complaint"] += "</script><script>alert(1)"
+    payload = render_payload(states)
+    assert "</script><script>alert(1)" not in payload
+    assert payload.count("<script>") == 1
+    assert payload.count("</script>") == 1
+
+
+def test_render_profile_receives_each_consultations_own_pinned_date(monkeypatch):
+    """Regression guard for the pinned `today` binding: the client is 28 at
+    every pinned consultation date *and* at today's real date, so a swap to
+    date.today() would still regenerate a byte-identical page and every other
+    test would still pass -- until the next birthday boundary. This asserts
+    the actual call arguments to render_profile() instead of trusting the
+    rendered age, so it fails immediately if the wall clock sneaks in.
+    """
+    seen_today: list[date] = []
+    original_render_profile = demo.render_profile
+
+    def spy(profile, *, today):
+        seen_today.append(today)
+        return original_render_profile(profile, today=today)
+
+    monkeypatch.setattr(demo, "render_profile", spy)
+
+    build_states()
+
+    expected = [day for c in CONSULTATIONS for day in (c.day, c.day)]
+    assert seen_today == expected
 
 
 def test_committed_page_matches_a_fresh_generation():

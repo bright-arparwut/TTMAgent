@@ -58,13 +58,25 @@ Complaint example in `CONTEXT.md`.
 | # | Date | What happens | Ops applied |
 |---|---|---|---|
 | 1 | 2 พ.ค. 2026 | First contact, แฟ้มว่าง. นอนไม่หลับ 2 สัปดาห์ ตื่นตี 3. Advisor asks วันเกิด/เพศ, prompted by the `ข้อมูลที่ยังขาด` line the renderer emits. Mentions กาแฟ 3 แก้ว/วัน | `set_birth_date` · `set_sex` · `add` habits → **h1** · `add` ongoing_complaints → **o1** |
-| 2 | 20 พ.ค. 2026 | Sends a tongue photo. The only entry with `tongue` populated. แพ้กุ้ง surfaces while discussing diet | `add` allergies → **a1** · `update` **o1** |
+| 2 | 20 พ.ค. 2026 | Sends a tongue photo. The only entry with `tongue` populated — schema-supported, but not yet written by any production code path (see caveat below) — แพ้กุ้ง surfaces while discussing diet | `add` allergies → **a1** · `update` **o1** |
 | 3 | 15 มิ.ย. 2026 | Meme + weather chat. **Relevance Gate fails** → Working Buffer deleted, no entry written, profile untouched | *(none)* |
 | 4 | 8 ก.ค. 2026 | หลับได้ตลอดคืนแล้ว. Mentions ไมเกรนตั้งแต่เด็ก and พาราเซตามอลเวลาปวดหัว | `remove` **o1** · `update` **h1** · `add` chronic_conditions → **c1** · `add` medications → **m1** |
 
 Item IDs use the real prefixes from `app/memory/health_profile.py`:
 `c` chronic_conditions, `a` allergies, `m` medications, `h` habits,
 `o` ongoing_complaints.
+
+**Caveat on consultation 2's tongue block.** `HealthRecordEntry.tongue` is
+schema-supported, but no production code path constructs a populated
+`TongueAssessment` today: `app/memory/relevance_gate.py` is the only site that
+builds a `HealthRecordEntry`, and it hardcodes `tongue=None`, because
+`ConsultationTurn` only carries `role/text/timestamp` — there is nowhere yet
+for a Tongue Assessment made during the conversation to attach to the entry
+that gets written when the consultation closes. Threading one in is a
+follow-up noted directly in `relevance_gate.py`. The page keeps consultation
+2's tongue block (it is useful to show the shape of the data once threaded
+through) but says this explicitly, with a footnote under the block, rather
+than presenting it as something the system currently produces.
 
 ### Why these four
 

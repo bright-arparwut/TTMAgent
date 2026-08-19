@@ -18,13 +18,14 @@ import sys
 from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
+from typing import Literal
 
 # Allow `import app.*` when run as `python scripts/build_client_record_demo.py`
 # (script dir, not repo root, is sys.path[0] otherwise).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.memory.health_profile import apply_ops, empty_profile  # noqa: E402
-from app.memory.profile_render import render_profile  # noqa: E402
+from app.memory.profile_render import _SECTIONS, render_profile  # noqa: E402
 from app.models.profile import LIST_FIELDS, HealthProfile, ProfileOp  # noqa: E402
 from app.models.schemas import (  # noqa: E402
     HealthRecordEntry,
@@ -48,7 +49,7 @@ class Consultation:
     index: int
     day: date
     label: str
-    kind: str  # "text" | "image" | "discarded"
+    kind: Literal["text", "image", "discarded"]
     turns: list[dict]
     has_health_content: bool
     entry: HealthRecordEntry | None
@@ -137,7 +138,7 @@ CONSULTATIONS = [
         label="2 · 20 พ.ค. 📷",
         kind="image",
         turns=[
-            {"role": "user", "text": "[ส่งรูปลิ้น]", "attachment": "tongue"},
+            {"role": "user", "text": "[ส่งรูปลิ้น]"},
             {
                 "role": "advisor",
                 "text": "จากภาพลิ้น: ลิ้นแดง ปลายลิ้นแดงจัด ฝ้าขาวบาง ผิวลิ้นค่อนข้างแห้ง "
@@ -326,9 +327,22 @@ def build_states() -> list[dict]:
 
 
 def render_payload(states: list[dict]) -> str:
-    """The data block that sits between the markers, as an inline script tag."""
-    body = json.dumps(states, ensure_ascii=False, indent=2)
-    return f"<script>\nconst STATES = {body};\n</script>"
+    """The data block that sits between the markers, as an inline script tag.
+
+    Section labels ride along here too, derived straight from the real
+    ``_SECTIONS`` in app/memory/profile_render.py rather than re-typed in the
+    page's JS, so the two panes can never disagree on a label after a
+    regenerate.
+    """
+    payload = {
+        "sections": [list(pair) for pair in _SECTIONS],
+        "states": states,
+    }
+    body = json.dumps(payload, ensure_ascii=False, indent=2)
+    # json.dumps does not escape "<"; a literal "</script>" in any authored
+    # narrative would otherwise terminate this script block early.
+    body = body.replace("<", "\\u003c")
+    return f"<script>\nconst DATA = {body};\n</script>"
 
 
 def inject(html: str, payload: str) -> str:
