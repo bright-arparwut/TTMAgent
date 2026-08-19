@@ -14,14 +14,19 @@ Run:
 """
 
 import json
+import sys
 from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
 
-from app.memory.health_profile import apply_ops, empty_profile
-from app.memory.profile_render import render_profile
-from app.models.profile import LIST_FIELDS, HealthProfile, ProfileOp
-from app.models.schemas import (
+# Allow `import app.*` when run as `python scripts/build_client_record_demo.py`
+# (script dir, not repo root, is sys.path[0] otherwise).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from app.memory.health_profile import apply_ops, empty_profile  # noqa: E402
+from app.memory.profile_render import render_profile  # noqa: E402
+from app.models.profile import LIST_FIELDS, HealthProfile, ProfileOp  # noqa: E402
+from app.models.schemas import (  # noqa: E402
     HealthRecordEntry,
     TongueAssessment,
     TongueDescription,
