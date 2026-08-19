@@ -248,8 +248,10 @@ table.books td {
   border-bottom: 0.4pt solid var(--rule);
   font-size: 6.4pt; line-height: 1.16;
 }
-table.books td.g { width: 21mm; padding-right: 0; font-size: 6pt; color: #3d382f; }
+table.books td.g { width: 25mm; padding-right: 0; font-size: 6pt; color: #3d382f; }
 table.books .auth { display: block; font-size: 5.4pt; color: var(--muted); }
+table.books td.pend { font-style: italic; color: var(--muted); }
+table.books td.g b { font-weight: 700; color: #8c5c12; }
 .prov { font-size: 6.3pt; font-style: italic; line-height: 1.18; color: #4a443c; }
 .srctag {
   font-family: var(--mono); font-size: 5.6pt; line-height: 1.18;
@@ -435,7 +437,7 @@ ul.inject li b { font-weight: 700; }
 
       <div class="row bot"><div class="bub bub-b">
         <span class="th" lang="th">จากลักษณะลิ้นที่เห็น ฝ้าลิ้นค่อนข้างหนาและออกขาว ร่วมกับอาการท้องอืดและอาหารไม่ย่อยที่เล่ามา เข้าได้กับภาวะที่ระบบย่อยอาหารทำงานได้ไม่เต็มที่ ระยะนี้แนะนำให้เลี่ยงของมัน ของเย็นจัด และของหมักดอง ดื่มน้ำอุ่น และเคี้ยวอาหารให้ละเอียดขึ้นค่ะ</span>
-        <div class="cite th" lang="th">📖 อ้างอิง: การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น หน้า 98 ย่อหน้าที่ 3</div>
+        <div class="cite th" lang="th">📖 อ้างอิง: วิถีแห่งธรรมชาติกับธาตุทั้งสี่ หน้า 39 ย่อหน้าที่ 2</div>
       </div></div>
       <p class="note">Citation rendered as a LINE Flex footer, parsed out of the reply text.</p>
 
@@ -484,24 +486,20 @@ ul.inject li b { font-weight: 700; }
 
       <div class="box det corpus">
         <div class="box-t">TTM Corpus <span class="tag">deterministic</span></div>
-        <p class="lead">3 books, one Chroma collection, BGE-M3 multilingual embeddings, paragraph-level chunks carrying book / printed page / paragraph provenance.</p>
+        <p class="lead">Thai sources only — one Chroma collection, BGE-M3 multilingual embeddings, paragraph-level chunks carrying book / printed page / paragraph provenance.</p>
         <table class="books">
           <tr><th>Book</th><th>Grounds</th></tr>
           <tr>
-            <td class="th" lang="th">การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น<span class="auth">(Hu Zhen, Chulalongkorn University Press)</span></td>
-            <td class="g">Chinese medicine — tongue inspection</td>
+            <td class="th" lang="th">วิถีแห่งธรรมชาติกับธาตุทั้งสี่<span class="auth">(อนุสรณ์ วรมงคล) — digitized, pp. 12–43, 161 paragraph chunks</span></td>
+            <td class="g">Thai four-element tradition — ธาตุเจ้าเรือน, element balance, self-care</td>
           </tr>
           <tr>
-            <td class="th" lang="th">ทฤษฎีพื้นฐานการแพทย์แผนจีน<span class="auth">(นพ.โกวิท คัมภีรภาพ)</span></td>
-            <td class="g">Chinese medicine — basic theory</td>
-          </tr>
-          <tr>
-            <td class="th" lang="th">วิถีแห่งธรรมชาติกับธาตุทั้งสี่<span class="auth">(อนุสรณ์ วรมงคล)</span></td>
-            <td class="g">Thai four-element tradition</td>
+            <td class="pend">Thai tongue-inspection source<span class="auth">not yet selected or digitized</span></td>
+            <td class="g">Tongue inspection — <b>gap</b></td>
           </tr>
         </table>
-        <p class="prov">Tongue-inspection knowledge in this system comes from Thai translations of Chinese medical texts. The Thai element framework comes from the third book and from ธาตุเจ้าเรือน, derived in code. Every retrieved passage is tagged with its book, so the Advisor always cites which tradition a claim rests on.</p>
-        <div class="srctag" lang="th">[การตรวจรักษาโรคแบบแพทย์แผนจีนโดยการวินิจฉัยโรคจากลิ้น หน้า 98 ย่อหน้าที่ 3]</div>
+        <p class="prov">The corpus is Thai-only. The element framework and ธาตุเจ้าเรือน rest on the book above, derived in code from birth date. No Thai tongue-inspection source is digitized yet, so tongue findings are currently grounded only through the element framework. Every retrieved passage is tagged with its book, so the Advisor always cites the source a claim rests on.</p>
+        <div class="srctag" lang="th">[วิถีแห่งธรรมชาติกับธาตุทั้งสี่ หน้า 39 ย่อหน้าที่ 2]</div>
       </div>
     </div>
 
