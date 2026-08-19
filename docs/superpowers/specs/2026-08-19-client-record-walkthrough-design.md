@@ -90,8 +90,9 @@ input is always *(current profile + one entry)*, never the transcript:
 [ profile before ]  +  [ record entry ]  →  [ ops ]  →  [ profile after ]
 ```
 
-Two panes with a ribbon between them, collapsing to one column under 900px
-(same breakpoint idiom as `message-flow.html`):
+Two panes with a ribbon between them, collapsing to one column under 900px.
+(`message-flow.html` stacks at 860px; this page carries three columns rather
+than two, so it needs the extra width sooner.)
 
 - **Left — "The Consultation".** LINE-style Thai chat bubbles, a divider reading
   `ปิด Consultation (เงียบเกิน 6 ชม.)`, the Relevance Gate verdict badge, then
