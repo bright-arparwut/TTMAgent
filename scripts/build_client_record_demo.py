@@ -34,8 +34,6 @@ BEGIN_MARKER = "<!-- DATA:BEGIN -->"
 END_MARKER = "<!-- DATA:END -->"
 
 CLIENT_ID = "U4af1c9b07e3d5628a1f0c4f9b6d2ae21"
-CLIENT_DISPLAY_ID = "U4af1…ae21"
-BIRTH_DATE = date(1998, 3, 14)
 
 
 @dataclass(frozen=True)
@@ -320,3 +318,34 @@ def build_states() -> list[dict]:
         )
 
     return states
+
+
+def render_payload(states: list[dict]) -> str:
+    """The data block that sits between the markers, as an inline script tag."""
+    body = json.dumps(states, ensure_ascii=False, indent=2)
+    return f"<script>\nconst STATES = {body};\n</script>"
+
+
+def inject(html: str, payload: str) -> str:
+    """Replace everything between the markers. Raises if the page lost them."""
+    start = html.find(BEGIN_MARKER)
+    end = html.find(END_MARKER)
+    if start == -1 or end == -1 or end < start:
+        raise ValueError(
+            f"page is missing the {BEGIN_MARKER} / {END_MARKER} marker pair"
+        )
+    head = html[: start + len(BEGIN_MARKER)]
+    tail = html[end:]
+    return f"{head}\n{payload}\n{tail}"
+
+
+def main() -> None:
+    page = PAGE_PATH.read_text(encoding="utf-8")
+    PAGE_PATH.write_text(
+        inject(page, render_payload(build_states())), encoding="utf-8"
+    )
+    print(f"wrote {PAGE_PATH.relative_to(REPO_ROOT)}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,14 @@
-from scripts.build_client_record_demo import build_states
+import json
+
+import pytest
+
+from scripts.build_client_record_demo import (
+    BEGIN_MARKER,
+    END_MARKER,
+    build_states,
+    inject,
+    render_payload,
+)
 
 
 def test_four_consultations_in_order():
@@ -49,3 +59,32 @@ def test_resolved_complaint_is_removed_but_its_id_is_never_reused():
     assert final["changed"]["removed"] == ["o1"]
     assert final["changed"]["updated"] == ["h1"]
     assert sorted(final["changed"]["added"]) == ["c1", "m1"]
+
+
+SKELETON = f"before\n{BEGIN_MARKER}\nold payload\n{END_MARKER}\nafter\n"
+
+
+def test_inject_replaces_everything_between_the_markers():
+    result = inject(SKELETON, "new payload")
+    assert "old payload" not in result
+    assert "new payload" in result
+    assert result.startswith("before\n")
+    assert result.endswith("after\n")
+
+
+def test_inject_is_idempotent():
+    once = inject(SKELETON, "new payload")
+    assert inject(once, "new payload") == once
+
+
+def test_inject_rejects_a_page_without_markers():
+    with pytest.raises(ValueError, match="marker"):
+        inject("<html>no markers</html>", "new payload")
+
+
+def test_payload_is_a_script_tag_of_valid_json():
+    payload = render_payload(build_states())
+    assert payload.startswith("<script>")
+    assert payload.rstrip().endswith("</script>")
+    body = payload[payload.index("[") : payload.rindex("]") + 1]
+    assert len(json.loads(body)) == 4
