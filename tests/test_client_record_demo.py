@@ -5,6 +5,7 @@ import pytest
 from scripts.build_client_record_demo import (
     BEGIN_MARKER,
     END_MARKER,
+    PAGE_PATH,
     build_states,
     inject,
     render_payload,
@@ -88,3 +89,13 @@ def test_payload_is_a_script_tag_of_valid_json():
     assert payload.rstrip().endswith("</script>")
     body = payload[payload.index("[") : payload.rindex("]") + 1]
     assert len(json.loads(body)) == 4
+
+
+def test_committed_page_matches_a_fresh_generation():
+    """Fails the moment render_profile(), the section labels, or the ID
+    prefixes change -- the only drift that can make the page lie."""
+    page = PAGE_PATH.read_text(encoding="utf-8")
+    assert inject(page, render_payload(build_states())) == page, (
+        "docs/client-record-walkthrough.html is stale; regenerate it with "
+        "`uv run python scripts/build_client_record_demo.py`"
+    )
