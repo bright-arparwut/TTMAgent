@@ -1,0 +1,5 @@
+# PROTOTYPE: the graph is rebuildable and contains copyrighted book text.
+rag_storage/
+results/graph-raw.json
+results/comparison.json
+rag_storage.crashed/

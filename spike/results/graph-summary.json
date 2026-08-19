@@ -1,0 +1,276 @@
+{
+  "entity_count": 288,
+  "relation_count": 403,
+  "relations_per_entity": 1.4,
+  "entity_types": {
+    "concept": 149,
+    "naturalobject": 37,
+    "method": 21,
+    "person": 20,
+    "location": 19,
+    "artifact": 19,
+    "event": 8,
+    "creature": 6,
+    "content": 5,
+    "other": 2,
+    "data": 1,
+    "organization": 1
+  },
+  "isolated_entities": [
+    "กำยาน",
+    "ชี่",
+    "น้ำมันหอมระเหย",
+    "น้ำหอม",
+    "บ้าน",
+    "ปราณ",
+    "พลังงานบริสุทธิ์",
+    "พ่อครัวหรือแม่ครัว",
+    "วิธีการปรุงอาหาร",
+    "อาหาร",
+    "อาหารสกัด",
+    "อาหารแช่แข็ง",
+    "เครื่องสำอาง",
+    "ไพร"
+  ],
+  "isolated_count": 14,
+  "ttm_flavoured_entity_count": 71,
+  "near_duplicates": [
+    {
+      "a": "Macrocosmos",
+      "b": "Microcosmos",
+      "similarity": 0.909
+    },
+    {
+      "a": "สังคมปัจจุบัน",
+      "b": "สังคมโลกปัจจุบัน",
+      "similarity": 0.897
+    },
+    {
+      "a": "ธาตุดินที่อ่อนไป",
+      "b": "ธาตุน้ำที่อ่อนไป",
+      "similarity": 0.875
+    },
+    {
+      "a": "นักโหราศาสตร์",
+      "b": "โหราศาสตร์",
+      "similarity": 0.87
+    },
+    {
+      "a": "ธาตุดินที่มากไป",
+      "b": "ธาตุน้ำที่มากไป",
+      "similarity": 0.867
+    },
+    {
+      "a": "ธาตุลมที่อ่อนไป",
+      "b": "ธาตุไฟที่อ่อนไป",
+      "similarity": 0.867
+    },
+    {
+      "a": "จรราศี",
+      "b": "จักรราศี",
+      "similarity": 0.857
+    },
+    {
+      "a": "ชาวตะวันตก",
+      "b": "ชาวตะวันออก",
+      "similarity": 0.857
+    },
+    {
+      "a": "ธาตุดินที่พอดี",
+      "b": "ธาตุน้ำที่พอดี",
+      "similarity": 0.857
+    },
+    {
+      "a": "ธาตุลมที่มากไป",
+      "b": "ธาตุไฟที่มากไป",
+      "similarity": 0.857
+    },
+    {
+      "a": "โลกตะวันตก",
+      "b": "โลกตะวันออก",
+      "similarity": 0.857
+    },
+    {
+      "a": "ธาตุลมที่พอดี",
+      "b": "ธาตุไฟที่พอดี",
+      "similarity": 0.846
+    },
+    {
+      "a": "ธาตุดินที่อ่อนไป",
+      "b": "ธาตุลมที่อ่อนไป",
+      "similarity": 0.839
+    },
+    {
+      "a": "ธาตุดินที่อ่อนไป",
+      "b": "ธาตุไฟที่อ่อนไป",
+      "similarity": 0.839
+    },
+    {
+      "a": "ธาตุน้ำที่อ่อนไป",
+      "b": "ธาตุลมที่อ่อนไป",
+      "similarity": 0.839
+    },
+    {
+      "a": "ธาตุน้ำที่อ่อนไป",
+      "b": "ธาตุไฟที่อ่อนไป",
+      "similarity": 0.839
+    },
+    {
+      "a": "ธาตุดินที่มากไป",
+      "b": "ธาตุลมที่มากไป",
+      "similarity": 0.828
+    },
+    {
+      "a": "ธาตุดินที่มากไป",
+      "b": "ธาตุไฟที่มากไป",
+      "similarity": 0.828
+    },
+    {
+      "a": "ธาตุน้ำที่มากไป",
+      "b": "ธาตุลมที่มากไป",
+      "similarity": 0.828
+    },
+    {
+      "a": "ธาตุน้ำที่มากไป",
+      "b": "ธาตุไฟที่มากไป",
+      "similarity": 0.828
+    },
+    {
+      "a": "ดวงอาทิตย์",
+      "b": "อาทิตย์",
+      "similarity": 0.824
+    },
+    {
+      "a": "อาทิตย์",
+      "b": "แสงอาทิตย์",
+      "similarity": 0.824
+    }
+  ],
+  "top_degree_entities": [
+    {
+      "name": "ธาตุทั้งสี่",
+      "type": "concept",
+      "degree": 26
+    },
+    {
+      "name": "โหราศาสตร์",
+      "type": "concept",
+      "degree": 26
+    },
+    {
+      "name": "การบำบัดด้วยธาตุทั้งสี่",
+      "type": "method",
+      "degree": 22
+    },
+    {
+      "name": "ธรรมชาติ",
+      "type": "concept",
+      "degree": 22
+    },
+    {
+      "name": "ดวงชะตากำเนิด",
+      "type": "concept",
+      "degree": 15
+    },
+    {
+      "name": "ราศีสิงห์",
+      "type": "concept",
+      "degree": 14
+    },
+    {
+      "name": "สิบสองราศี",
+      "type": "concept",
+      "degree": 14
+    },
+    {
+      "name": "วิธีการให้น้ำหนัก",
+      "type": "method",
+      "degree": 12
+    },
+    {
+      "name": "ดวงดาว",
+      "type": "naturalobject",
+      "degree": 11
+    },
+    {
+      "name": "ดวงอาทิตย์",
+      "type": "naturalobject",
+      "degree": 11
+    },
+    {
+      "name": "โรคในปัจจุบัน",
+      "type": "concept",
+      "degree": 11
+    },
+    {
+      "name": "ธาตุดิน",
+      "type": "concept",
+      "degree": 10
+    },
+    {
+      "name": "ธาตุไฟ",
+      "type": "concept",
+      "degree": 10
+    },
+    {
+      "name": "พลังชีวิต",
+      "type": "concept",
+      "degree": 10
+    },
+    {
+      "name": "คุณภาพของชีวิต",
+      "type": "concept",
+      "degree": 9
+    },
+    {
+      "name": "ไฟ",
+      "type": "concept",
+      "degree": 9
+    },
+    {
+      "name": "ทักษิณ ชินวัตร",
+      "type": "person",
+      "degree": 8
+    },
+    {
+      "name": "ธาตุ",
+      "type": "concept",
+      "degree": 8
+    },
+    {
+      "name": "ธาตุน้ำ",
+      "type": "concept",
+      "degree": 8
+    },
+    {
+      "name": "ธาตุลม",
+      "type": "concept",
+      "degree": 8
+    },
+    {
+      "name": "น้ำ",
+      "type": "concept",
+      "degree": 8
+    },
+    {
+      "name": "ดวงจันทร์",
+      "type": "naturalobject",
+      "degree": 7
+    },
+    {
+      "name": "ดาวเคราะห์",
+      "type": "naturalobject",
+      "degree": 7
+    },
+    {
+      "name": "ธาตุสี่ธาตุ",
+      "type": "concept",
+      "degree": 7
+    },
+    {
+      "name": "ลม",
+      "type": "concept",
+      "degree": 7
+    }
+  ]
+}
