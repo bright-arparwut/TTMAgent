@@ -1,5 +1,8 @@
-# PROTOTYPE: the graph is rebuildable and contains copyrighted book text.
+# PROTOTYPE: rag_storage/ is rebuildable from graph-raw.json and carries large
+# vector blobs, so it stays out. graph-raw.json itself IS committed -- it is the
+# only durable copy of the 288 entities / 403 relations, and re-deriving it costs
+# a full re-index. Same copyright footing as corpus/, which this private repo
+# already commits.
 rag_storage/
-results/graph-raw.json
 results/comparison.json
 rag_storage.crashed/
