@@ -1,0 +1,9 @@
+{
+  "calls": 50,
+  "failures": 0,
+  "cost_usd": 4.2671,
+  "wall_seconds_summed": 1400.8,
+  "cache_creation_tokens": 319643,
+  "cache_read_tokens": 1084547,
+  "output_tokens": 134907
+}
