@@ -6,6 +6,8 @@ project.
 
 For the design rationale, glossary, and evaluation plan, see:
 - `CONTEXT.md` -- ubiquitous language
+- `docs/architecture-overview.md` -- C4 container diagram of the whole system (thesis figure)
+- `docs/message-flow.md` -- how each message type is decided, and by whom
 - `docs/adr/` -- architecture decision records
 - `docs/design-decisions.html` -- visual overview of the pipeline and decisions
 

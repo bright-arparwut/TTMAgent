@@ -5,6 +5,8 @@ makes each decision along the way. Blue diamonds are decided by
 deterministic code, the amber diamond is code-triggered but LLM-scored,
 and the purple diamond is the Advisor Model's own agentic choice.
 The Health Profile write path is defined by [ADR 0003](adr/0003-health-profile-projection.md).
+For what is deployed and what talks to what -- rather than which branch is taken --
+see the container diagram in [architecture-overview.md](architecture-overview.md).
 
 ```mermaid
 flowchart TD
