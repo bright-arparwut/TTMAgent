@@ -177,9 +177,11 @@ def format_report(tallies: dict[str, Counter]) -> str:
 
 async def _fetch_photo_docs(settings: Settings, limit: int | None) -> list[MongoDoc]:
     """Direct Mongo read of `tongue_photos` (image + photo_id only --
-    descriptions are re-derived, never trusted from the old run). Raises
-    MongoUnavailableError rather than letting a raw connection traceback
-    stand in for an honest report."""
+    descriptions are re-derived, never trusted from the old run). Filters to
+    gate-passed photos only (ADR 0007: below-gate crops are never described
+    in production, so re-describing them would skew the acceptance metric).
+    Raises MongoUnavailableError rather than letting a raw connection
+    traceback stand in for an honest report."""
     from motor.motor_asyncio import AsyncIOMotorClient
     from pymongo.errors import PyMongoError
 
@@ -195,7 +197,7 @@ async def _fetch_photo_docs(settings: Settings, limit: int | None) -> list[Mongo
 
     try:
         cursor = client[settings.mongodb_db_name]["tongue_photos"].find(
-            {}, {"image": 1, "photo_id": 1}
+            {"passed_gate": True}, {"image": 1, "photo_id": 1}
         )
         if limit is not None:
             cursor = cursor.limit(limit)

@@ -208,6 +208,31 @@ async def test_fetch_photo_docs_reads_stored_photos_from_mongo(monkeypatch):
     assert {doc["photo_id"] for doc in docs} == {"P1", "P2"}
 
 
+async def test_fetch_photo_docs_filters_to_gate_passed_photos_only(monkeypatch):
+    """Only gate-passed photos should be fetched (ADR 0007: production
+    dispatcher never sends below-gate crops to describer, so acceptance script
+    must not re-describe them either, or the landing rate will be skewed)."""
+    import motor.motor_asyncio as motor_asyncio
+
+    fake_client = AsyncMongoMockClient()
+    monkeypatch.setattr(motor_asyncio, "AsyncIOMotorClient", lambda *a, **k: fake_client)
+    settings = _settings(mongodb_db_name="test_db_gate")
+
+    # Insert both gate-passed and below-gate photos
+    await fake_client["test_db_gate"]["tongue_photos"].insert_one(
+        {"photo_id": "PASSED", "image": _jpeg_bytes(), "passed_gate": True}
+    )
+    await fake_client["test_db_gate"]["tongue_photos"].insert_one(
+        {"photo_id": "FAILED", "image": _jpeg_bytes(), "passed_gate": False}
+    )
+
+    docs = await _fetch_photo_docs(settings, limit=None)
+
+    # Only the gate-passed photo should be returned
+    assert len(docs) == 1
+    assert docs[0]["photo_id"] == "PASSED"
+
+
 async def test_fetch_photo_docs_respects_the_limit(monkeypatch):
     import motor.motor_asyncio as motor_asyncio
 
@@ -217,7 +242,7 @@ async def test_fetch_photo_docs_respects_the_limit(monkeypatch):
 
     for photo_id in ("P1", "P2", "P3"):
         await fake_client["test_db_limit"]["tongue_photos"].insert_one(
-            {"photo_id": photo_id, "image": _jpeg_bytes()}
+            {"photo_id": photo_id, "image": _jpeg_bytes(), "passed_gate": True}
         )
 
     docs = await _fetch_photo_docs(settings, limit=2)
