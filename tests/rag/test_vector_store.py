@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 
 import app.rag.vector_store as vector_store_module
@@ -13,94 +15,297 @@ def _settings(**overrides) -> Settings:
     )
 
 
-class _FakeDocument:
-    def __init__(self, page_content: str, metadata: dict | None = None) -> None:
-        self.page_content = page_content
-        self.metadata = metadata or {}
+def _async_return(value):
+    """A zero-arg async callable returning `value` -- for monkeypatching
+    `get_rag`, which callers `await`."""
+
+    async def _inner():
+        return value
+
+    return _inner
 
 
-class _FakeStore:
-    def __init__(self, documents: list[_FakeDocument] | None = None) -> None:
-        self._documents = documents
+class _FakeTokenizer:
+    """One "token" per character: deterministic and language-agnostic, so
+    budget tests can size Thai fixture text by plain `len()`."""
 
-    async def asimilarity_search(self, query: str, k: int) -> list[_FakeDocument]:
-        if self._documents is not None:
-            return self._documents
-        return [_FakeDocument(f"passage for {query!r} (k={k})")]
+    def encode(self, text: str) -> list[str]:
+        return list(text)
 
 
-async def test_returns_empty_without_touching_store_when_corpus_not_ingested(tmp_path, monkeypatch):
-    # No corpus has ever been ingested: the persist dir does not exist. The
-    # embedding model (a multi-GB local load) must NOT be constructed just to
-    # search an empty collection.
-    missing_dir = tmp_path / "never-ingested"
-    monkeypatch.setattr(
-        vector_store_module,
-        "get_settings",
-        lambda: _settings(chroma_persist_dir=str(missing_dir)),
+class _FakeRAG:
+    def __init__(self, responses: dict[str, dict | BaseException]) -> None:
+        self.tokenizer = _FakeTokenizer()
+        self._responses = responses
+        self.calls: list[str] = []
+
+    async def aquery_data(self, query: str, param) -> dict:
+        self.calls.append(param.mode)
+        response = self._responses[param.mode]
+        if isinstance(response, BaseException):
+            raise response
+        return response
+
+
+def _write_note(corpus_dir, book_id: str, filename: str, body: str) -> None:
+    book_dir = corpus_dir / book_id
+    book_dir.mkdir(parents=True, exist_ok=True)
+    (book_dir / filename).write_text(
+        "---\n"
+        f"uid: {book_id}-{filename}\n"
+        "type: source-note\n"
+        f"book_id: {book_id}\n"
+        "chapter: บทที่ 1\n"
+        "section: ทดสอบ\n"
+        "pages: [1, 2]\n"
+        "pdf_pages: [1, 2]\n"
+        "---\n"
+        f"{body}\n",
+        encoding="utf-8",
     )
 
-    def exploding_get_vector_store():
-        raise AssertionError("vector store must not be built when corpus is missing")
 
-    monkeypatch.setattr(vector_store_module, "get_vector_store", exploding_get_vector_store)
+async def test_relations_in_entities_out(tmp_path, monkeypatch):
+    corpus_dir = tmp_path / "corpus"
+    _write_note(corpus_dir, "four-elements", "01-บทนำ-น.13-16.md", "เนื้อหาบทนำ")
+    settings = _settings(corpus_dir=str(corpus_dir))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
 
-    assert await retrieve_passages("ลิ้นซีด") == []
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [
+                {
+                    "entity_name": "ธาตุไฟ",
+                    "entity_type": "concept",
+                    "description": "คำอธิบายธาตุไฟ",
+                }
+            ],
+            "relationships": [
+                {
+                    "src_id": "ธาตุไฟ",
+                    "tgt_id": "ธาตุดิน",
+                    "description": "สัมพันธ์กัน",
+                    "file_path": "01-บทนำ-น.13-16.md",
+                }
+            ],
+            "chunks": [],
+            "references": [{"reference_id": "1", "file_path": "01-บทนำ-น.13-16.md"}],
+        },
+        "metadata": {"query_mode": "mix"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"mix": raw})))
+
+    passages = await retrieve_passages("ธาตุไฟกำเริบ ควรดูแลตัวเองอย่างไร")
+
+    # The relation's own note is the one numbered passage.
+    assert passages[0] == "[1] 01-บทนำ-น.13-16\nเนื้อหาบทนำ"
+    numbered = [p for p in passages if not p.startswith(vector_store_module.GRAPH_CONTEXT_LABEL)]
+    assert len(numbered) == 1
+
+    # The entity contributes no numbered note of its own -- it only shows up
+    # (unnumbered) in the trailing graph-context passage.
+    assert passages[-1].startswith(vector_store_module.GRAPH_CONTEXT_LABEL)
+    assert "ธาตุไฟ" in passages[-1]
+    assert "คำอธิบายธาตุไฟ" in passages[-1]
 
 
-async def test_searches_store_when_corpus_dir_exists(tmp_path, monkeypatch):
-    persist_dir = tmp_path / "chroma"
-    persist_dir.mkdir()
-    monkeypatch.setattr(
-        vector_store_module,
-        "get_settings",
-        lambda: _settings(chroma_persist_dir=str(persist_dir)),
+async def test_whole_note_expansion_from_temp_corpus_tree(tmp_path, monkeypatch):
+    corpus_dir = tmp_path / "corpus"
+    _write_note(
+        corpus_dir,
+        "tongue-100",
+        "006-การตรวจลิ้น-น.9-9.md",
+        "ลิ้นเป็นแผลเล็ก ๆ เรื้อรังในโรคไฟธาตุหย่อน",
     )
-    monkeypatch.setattr(vector_store_module, "get_vector_store", lambda: _FakeStore())
+    settings = _settings(corpus_dir=str(corpus_dir))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
 
-    passages = await retrieve_passages("ลิ้นซีด")
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [
+                {
+                    "src_id": "ลิ้น",
+                    "tgt_id": "โรคไฟธาตุหย่อน",
+                    # Empty description: this test is about whole-note expansion, not
+                    # the graph-context block (covered by test_relations_in_entities_out).
+                    "description": "",
+                    "file_path": "006-การตรวจลิ้น-น.9-9.md",
+                }
+            ],
+            "chunks": [],
+            "references": [{"reference_id": "1", "file_path": "006-การตรวจลิ้น-น.9-9.md"}],
+        },
+        "metadata": {"query_mode": "mix"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"mix": raw})))
 
-    assert passages == ["passage for 'ลิ้นซีด' (k=5)"]
+    passages = await retrieve_passages("ลิ้นเป็นแผล")
+
+    assert passages == ["[1] 006-การตรวจลิ้น-น.9-9\nลิ้นเป็นแผลเล็ก ๆ เรื้อรังในโรคไฟธาตุหย่อน"]
 
 
-async def test_passages_carry_book_page_paragraph_source_tags(tmp_path, monkeypatch):
-    persist_dir = tmp_path / "chroma"
-    persist_dir.mkdir()
-    monkeypatch.setattr(
-        vector_store_module,
-        "get_settings",
-        lambda: _settings(chroma_persist_dir=str(persist_dir)),
-    )
-    documents = [
-        _FakeDocument(
-            "ลิ้นซีดบ่งถึงธาตุน้ำพร่อง",
-            {"book_id": "tamra-ttm", "book_title": "ตำราแพทย์แผนไทย", "page": 42, "paragraph": 3},
-        ),
-        _FakeDocument("ธาตุทั้งสี่", {"chapter": "ธาตุเจ้าเรือน", "section": "ธาตุดิน"}),
-        _FakeDocument("chunk with no provenance"),
+async def test_oversized_note_falls_back_to_chunk_text_within_budget(tmp_path, monkeypatch):
+    corpus_dir = tmp_path / "corpus"
+    oversized_body = "เนื้อหายาวมาก " * 200  # far larger than the token budget below
+    _write_note(corpus_dir, "four-elements", "01-บทนำ-น.13-16.md", oversized_body)
+    settings = _settings(corpus_dir=str(corpus_dir), rag_section_token_budget=100)
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [
+                {
+                    "src_id": "a",
+                    "tgt_id": "b",
+                    "description": "",
+                    "file_path": "01-บทนำ-น.13-16.md",
+                }
+            ],
+            "chunks": [
+                {
+                    "reference_id": "1",
+                    "content": "สรุปสั้น",
+                    "file_path": "01-บทนำ-น.13-16.md",
+                    "chunk_id": "c1",
+                }
+            ],
+            "references": [{"reference_id": "1", "file_path": "01-บทนำ-น.13-16.md"}],
+        },
+        "metadata": {"query_mode": "mix"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"mix": raw})))
+
+    passages = await retrieve_passages("q")
+
+    assert passages == ["[1] 01-บทนำ-น.13-16\nสรุปสั้น"]
+
+
+async def test_numbering_is_sequential_and_dedupes_by_file_path(tmp_path, monkeypatch):
+    corpus_dir = tmp_path / "corpus"  # deliberately empty -- forces chunk fallback
+    corpus_dir.mkdir()
+    settings = _settings(corpus_dir=str(corpus_dir))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+
+    chunks = [
+        {"reference_id": "1", "content": "เนื้อหา A", "file_path": "01-a-น.1-1.md", "chunk_id": "c1"},
+        {"reference_id": "2", "content": "เนื้อหา B", "file_path": "02-b-น.2-2.md", "chunk_id": "c2"},
     ]
-    monkeypatch.setattr(vector_store_module, "get_vector_store", lambda: _FakeStore(documents))
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [
+                {"src_id": "x", "tgt_id": "y", "description": "", "file_path": "01-a-น.1-1.md"},
+                {"src_id": "y", "tgt_id": "z", "description": "", "file_path": "02-b-น.2-2.md"},
+                # Same file_path as the first relation -- must collapse to [1],
+                # not get its own number.
+                {"src_id": "x", "tgt_id": "z", "description": "", "file_path": "01-a-น.1-1.md"},
+            ],
+            "chunks": chunks,
+            "references": [
+                {"reference_id": "1", "file_path": "01-a-น.1-1.md"},
+                {"reference_id": "2", "file_path": "02-b-น.2-2.md"},
+            ],
+        },
+        "metadata": {"query_mode": "mix"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"mix": raw})))
 
-    passages = await retrieve_passages("ลิ้นซีด")
+    passages = await retrieve_passages("q")
 
-    assert passages == [
-        "[ตำราแพทย์แผนไทย หน้า 42 ย่อหน้าที่ 3]\nลิ้นซีดบ่งถึงธาตุน้ำพร่อง",
-        "[ธาตุเจ้าเรือน > ธาตุดิน]\nธาตุทั้งสี่",
-        "chunk with no provenance",
-    ]
+    assert passages == ["[1] 01-a-น.1-1\nเนื้อหา A", "[2] 02-b-น.2-2\nเนื้อหา B"]
 
 
-@pytest.mark.parametrize("query", ["", "   "])
-async def test_blank_query_still_returns_list(query, tmp_path, monkeypatch):
-    monkeypatch.setattr(
-        vector_store_module,
-        "get_settings",
-        lambda: _settings(chroma_persist_dir=str(tmp_path / "missing")),
-    )
+async def test_naive_mode_uses_chunks_as_references_when_no_relations_exist(tmp_path, monkeypatch):
+    corpus_dir = tmp_path / "corpus"
+    corpus_dir.mkdir()
+    settings = _settings(corpus_dir=str(corpus_dir), rag_query_mode="naive")
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
 
-    def exploding_get_vector_store():
-        raise AssertionError("vector store must not be built when corpus is missing")
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [],
+            "chunks": [
+                {
+                    "reference_id": "1",
+                    "content": "เนื้อหาจากการค้นแบบ naive",
+                    "file_path": "01-บทนำ-น.13-16.md",
+                    "chunk_id": "c1",
+                }
+            ],
+            "references": [{"reference_id": "1", "file_path": "01-บทนำ-น.13-16.md"}],
+        },
+        "metadata": {"query_mode": "naive"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"naive": raw})))
 
-    monkeypatch.setattr(vector_store_module, "get_vector_store", exploding_get_vector_store)
+    passages = await retrieve_passages("q")
 
-    assert await retrieve_passages(query) == []
+    assert passages == ["[1] 01-บทนำ-น.13-16\nเนื้อหาจากการค้นแบบ naive"]
+
+
+async def test_keyword_failure_degrades_to_naive_logged_at_error(tmp_path, caplog, monkeypatch):
+    corpus_dir = tmp_path / "corpus"
+    corpus_dir.mkdir()
+    settings = _settings(corpus_dir=str(corpus_dir))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+
+    naive_raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [],
+            "chunks": [
+                {
+                    "reference_id": "1",
+                    "content": "เนื้อหาสำรอง",
+                    "file_path": "01-บทนำ-น.13-16.md",
+                    "chunk_id": "c1",
+                }
+            ],
+            "references": [{"reference_id": "1", "file_path": "01-บทนำ-น.13-16.md"}],
+        },
+        "metadata": {"query_mode": "naive"},
+    }
+    fake_rag = _FakeRAG({"mix": RuntimeError("keyword LLM unavailable"), "naive": naive_raw})
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(fake_rag))
+
+    with caplog.at_level(logging.ERROR, logger="app.rag.vector_store"):
+        passages = await retrieve_passages("ธาตุไฟกำเริบ ควรดูแลตัวเองอย่างไร")
+
+    assert fake_rag.calls == ["mix", "naive"]
+    assert passages == ["[1] 01-บทนำ-น.13-16\nเนื้อหาสำรอง"]
+    assert len(caplog.records) == 1
+    assert caplog.records[0].levelno == logging.ERROR
+    assert "naive" in caplog.records[0].message
+
+
+async def test_both_modes_failing_returns_empty_list_logged_at_error(tmp_path, caplog, monkeypatch):
+    settings = _settings(corpus_dir=str(tmp_path / "corpus"))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+    fake_rag = _FakeRAG({"mix": RuntimeError("boom"), "naive": RuntimeError("boom again")})
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(fake_rag))
+
+    with caplog.at_level(logging.ERROR, logger="app.rag.vector_store"):
+        passages = await retrieve_passages("q")
+
+    assert passages == []
+    assert fake_rag.calls == ["mix", "naive"]
+    assert len(caplog.records) == 2
+    assert all(record.levelno == logging.ERROR for record in caplog.records)
+
+
+async def test_missing_store_files_raise_at_boot_naming_rebuild_command(tmp_path, monkeypatch):
+    settings = _settings(rag_storage_dir=str(tmp_path / "rag_storage"))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+    monkeypatch.setattr(vector_store_module, "_rag", None)
+
+    with pytest.raises(RuntimeError, match="lightrag-rebuild-vdb"):
+        await vector_store_module.get_rag()
