@@ -10,6 +10,7 @@
 
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal
 
 from mongomock_motor import AsyncMongoMockClient
 
@@ -26,7 +27,7 @@ def _settings(**overrides) -> Settings:
     return Settings(line_channel_secret="test", line_channel_access_token="test", **overrides)
 
 
-def _turn(role: str, text: str) -> ConsultationTurn:
+def _turn(role: Literal["user", "advisor"], text: str) -> ConsultationTurn:
     return ConsultationTurn(role=role, text=text, timestamp=NOW)
 
 

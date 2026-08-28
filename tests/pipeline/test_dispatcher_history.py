@@ -4,6 +4,7 @@ and handed to the Advisor.
 """
 
 from datetime import UTC, datetime
+from typing import Literal
 
 from mongomock_motor import AsyncMongoMockClient
 
@@ -21,7 +22,7 @@ def _settings(**overrides) -> Settings:
     )
 
 
-def _turn(role: str, text: str) -> ConsultationTurn:
+def _turn(role: Literal["user", "advisor"], text: str) -> ConsultationTurn:
     return ConsultationTurn(role=role, text=text, timestamp=NOW)
 
 

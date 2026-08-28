@@ -253,3 +253,34 @@ def test_invariant_every_handed_note_is_citable_and_every_citation_names_a_hande
     # Every rendered citation names a handed note -- nothing else leaks in.
     groups = citation_text.split("; ")
     assert len(groups) == 2
+
+
+def test_corpus_drift_missing_file_logs_warning_but_drops_citation(monkeypatch, tmp_path, caplog):
+    """A cited id whose passage label names a file that doesn't exist in the
+    corpus tree (corpus drift, missing book folder, renamed file) is dropped
+    from the rendered line AND a warning is logged, distinguishing this from
+    an invented id."""
+    import logging
+
+    corpus_dir = tmp_path / "corpus"
+    _write_books_yaml(corpus_dir, {"tongue-100": "100 ลักษณะวินิจฉัยลิ้น"})
+    # Note [1] exists in the corpus; [2] is in passages but the file is missing.
+    _write_note(corpus_dir, "tongue-100", "001-a-น.1-4")
+    _patch_settings(monkeypatch, corpus_dir)
+
+    passages = [
+        "[1] 001-a-น.1-4\nA",
+        "[2] 999-missing-file-น.5-6\nB",  # This file doesn't exist
+    ]
+    reply = "คำแนะนำ\n(อ้างอิง: [1] [2])"
+
+    with caplog.at_level(logging.WARNING):
+        rendered = render_references(reply, passages)
+
+    # Id [2] is dropped from the rendered output (like invented ids).
+    assert rendered == "คำแนะนำ\n(อ้างอิง: 100 ลักษณะวินิจฉัยลิ้น หน้า 1-4)"
+    # But a warning is logged (unlike invented ids, which stay silent).
+    assert any(
+        "Failed to resolve citation id=2" in record.message and record.levelname == "WARNING"
+        for record in caplog.records
+    )

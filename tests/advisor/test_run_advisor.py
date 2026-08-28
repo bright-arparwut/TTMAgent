@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from typing import Literal
 
 from langchain_core.messages import AIMessage, HumanMessage
 
@@ -52,7 +53,7 @@ async def test_run_advisor_flattens_gemini_thinking_content_blocks_to_string():
     ConsultationTurn(role="advisor", text=reply, timestamp=datetime.now(UTC))
 
 
-def _turn(role: str, text: str) -> ConsultationTurn:
+def _turn(role: Literal["user", "advisor"], text: str) -> ConsultationTurn:
     return ConsultationTurn(role=role, text=text, timestamp=datetime.now(UTC))
 
 

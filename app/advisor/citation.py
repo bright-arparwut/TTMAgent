@@ -22,11 +22,14 @@ consumes the rendered line exactly like it always consumed the model's
 own line; only the provenance of the string inside the parens changed.
 """
 
+import logging
 import re
 from pathlib import Path
 
 from app.config import get_settings
 from app.rag.source_notes import load_books
+
+logger = logging.getLogger(__name__)
 
 CITATION_PREFIX = "(อ้างอิง:"
 _CITATION_LINE = re.compile(r"^\(อ้างอิง:\s*(?P<citation>.+?)\s*\)$")
@@ -139,6 +142,10 @@ def _render_grouped_citation(bare_citation: str, passages: list[str]) -> str | N
         book_id = _locate_book_id(corpus_dir, filename)
         page_range = _page_range(filename)
         if book_id is None or page_range is None:
+            logger.warning(
+                f"Failed to resolve citation id={cited_id}: filename={filename}; "
+                f"corpus_dir={corpus_dir} may have drifted or file not found"
+            )
             continue
         title = books.get(book_id, book_id)
         groups.setdefault(title, []).append(page_range)
