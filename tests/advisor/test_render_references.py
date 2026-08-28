@@ -284,3 +284,23 @@ def test_corpus_drift_missing_file_logs_warning_but_drops_citation(monkeypatch, 
         "Failed to resolve citation id=2" in record.message and record.levelname == "WARNING"
         for record in caplog.records
     )
+
+
+def test_concepts_directory_is_never_mistaken_for_a_book(monkeypatch, tmp_path, caplog):
+    """corpus/concepts/ (Phase 6, #17) is the generated vault, not a book --
+    even a same-named file living there must not resolve a citation, which
+    would otherwise render a bogus `(อ้างอิง: concepts หน้า ...)`."""
+    import logging
+
+    corpus_dir = tmp_path / "corpus"
+    _write_books_yaml(corpus_dir, {"tongue-100": "100 ลักษณะวินิจฉัยลิ้น"})
+    _write_note(corpus_dir, "concepts", "001-a-น.1-4")  # never a real book
+    _patch_settings(monkeypatch, corpus_dir)
+
+    passages = ["[1] 001-a-น.1-4\nA"]
+    reply = "คำแนะนำ\n(อ้างอิง: [1])"
+
+    with caplog.at_level(logging.WARNING):
+        rendered = render_references(reply, passages)
+
+    assert rendered == "คำแนะนำ"  # citation line dropped -- nothing survives

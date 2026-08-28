@@ -333,23 +333,21 @@ def check_graph_store(repo_root: Path) -> CheckResult:
     return CheckResult("graph-store", PASS, "authoritative + derived files all present")
 
 
-ARCHIVE_DIR_NAME = "archive"
-
-
 def check_corpus_books(repo_root: Path) -> CheckResult:
     """corpus/books.yaml must name every corpus/<book_id>/ folder (ADR 0010):
     an uncovered folder is a book whose notes would validate its own
     book_id field yet still fail citation rendering, which reads titles
-    from books.yaml alone. corpus/archive/ (Phase 5, #14) is excluded: it
-    holds retired JSONLs that are never ingested and never a book_id."""
-    from app.rag.source_notes import load_books
+    from books.yaml alone. corpus/archive/ (Phase 5, #14) and
+    corpus/concepts/ (Phase 6, #17 -- the generated vault) are excluded:
+    neither is ever ingested, and neither is ever a book_id."""
+    from app.rag.source_notes import NON_BOOK_DIR_NAMES, load_books
 
     corpus_root = repo_root / "corpus"
     if not corpus_root.is_dir():
         return CheckResult("corpus-books", FAIL, "corpus/ directory missing")
     books = load_books(corpus_root)
     book_dirs = sorted(
-        p.name for p in corpus_root.iterdir() if p.is_dir() and p.name != ARCHIVE_DIR_NAME
+        p.name for p in corpus_root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
     )
     missing = [name for name in book_dirs if name not in books]
     if missing:

@@ -82,6 +82,24 @@ def test_valid_corpus_has_no_errors(tmp_path):
     assert errors == []
 
 
+def test_validate_corpus_ignores_archive_and_concepts_directories(tmp_path):
+    # corpus/archive/ (Phase 5) and corpus/concepts/ (Phase 6, the generated
+    # vault) are never book folders and carry a different frontmatter
+    # schema entirely -- validate_corpus must not try to parse their
+    # contents as source notes.
+    root = write_book(tmp_path, [note()])
+    (root / "archive").mkdir()
+    (root / "archive" / "retired.jsonl").write_text("{}", encoding="utf-8")
+    (root / "concepts").mkdir()
+    (root / "concepts" / "ธาตุทั้งสี่.md").write_text(
+        '---\nentity: "ธาตุทั้งสี่"\ntype: "concept"\ndegree: 1\ngenerated: true\naliases: []\n'
+        "---\n\nbody\n",
+        encoding="utf-8",
+    )
+    errors, _ = validate_corpus(root)
+    assert errors == []
+
+
 def test_missing_required_field_is_an_error(tmp_path):
     root = write_book(tmp_path, [note(chapter=None)])
     errors, _ = validate_corpus(root)
@@ -392,6 +410,15 @@ def test_compute_manifest_covers_every_note_across_a_book(tmp_path):
         ],
     )
     assert set(compute_manifest(root)) == {"four-elements-01", "four-elements-02"}
+
+
+def test_compute_manifest_ignores_archive_and_concepts_directories(tmp_path):
+    root = write_book(tmp_path, [note()])
+    (root / "archive").mkdir()
+    (root / "archive" / "retired.jsonl").write_text("{}", encoding="utf-8")
+    (root / "concepts").mkdir()
+    (root / "concepts" / "ธาตุทั้งสี่.md").write_text("not a source note", encoding="utf-8")
+    assert set(compute_manifest(root)) == {"four-elements-01"}
 
 
 def test_compute_manifest_fails_cleanly_on_malformed_note(tmp_path, capsys):

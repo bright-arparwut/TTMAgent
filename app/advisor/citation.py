@@ -27,7 +27,7 @@ import re
 from pathlib import Path
 
 from app.config import get_settings
-from app.rag.source_notes import load_books
+from app.rag.source_notes import NON_BOOK_DIR_NAMES, load_books
 
 logger = logging.getLogger(__name__)
 
@@ -100,10 +100,17 @@ def _locate_book_id(corpus_dir: Path, filename: str) -> str | None:
     only in books.yaml, never in frontmatter or the filename, so it never
     reaches the model's context) -- the directory layout is the only place
     left to resolve it, mirroring vector_store.py's `_find_note_body`.
+    `corpus/concepts/` (the generated vault, Phase 6) and `corpus/archive/`
+    are never book folders and are skipped by name (source_notes.py's
+    `NON_BOOK_DIR_NAMES`) -- LightRAG never indexes either, so a real
+    citation filename never actually lives there, but skipping keeps this
+    function honest about what counts as a book.
     """
     if not corpus_dir.is_dir():
         return None
     for book_dir in sorted(p for p in corpus_dir.iterdir() if p.is_dir()):
+        if book_dir.name in NON_BOOK_DIR_NAMES:
+            continue
         if (book_dir / f"{filename}.md").exists():
             return book_dir.name
     return None

@@ -301,6 +301,22 @@ def test_corpus_books_ignores_archive_directory(tmp_path):
     assert "archive" not in result.detail
 
 
+def test_corpus_books_ignores_concepts_directory(tmp_path):
+    # corpus/concepts/ (Phase 6, #17) is the generated vault view over the
+    # graph -- a folder under corpus/, but never a book with a books.yaml
+    # entry, so it must not be flagged as an uncovered folder either.
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "concepts").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "concepts" not in result.detail
+
+
 # --- index freshness --------------------------------------------------------
 
 

@@ -34,6 +34,15 @@ from pathlib import Path
 
 MANIFEST_FILENAME = "index-manifest.json"
 
+# Directories under corpus/ that are never book folders -- never carry a
+# books.yaml entry, and must never have their contents parsed as source
+# notes. `archive/` holds retired JSONLs (Phase 5, #14); `concepts/` is the
+# generated vault view over the graph (ADR 0010, ticket #17) -- a completely
+# different frontmatter schema, not a book. app/preflight.py's
+# `check_corpus_books` and app/advisor/citation.py's `_locate_book_id` share
+# this list so the three never drift apart.
+NON_BOOK_DIR_NAMES = frozenset({"archive", "concepts"})
+
 REQUIRED_STR_FIELDS = ("uid", "type", "book_id", "chapter", "section")
 REQUIRED_PAIR_FIELDS = ("pages", "pdf_pages")
 SHORT_BODY_CHARS = 200
@@ -235,7 +244,9 @@ def validate_corpus(root: Path) -> tuple[list[str], list[str]]:
     books = load_books(root)
     seen_uids: dict[str, Path] = {}
 
-    for book_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+    for book_dir in sorted(
+        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
+    ):
         notes: list[SourceNote] = []
         for path in sorted(book_dir.glob("*.md")):
             where = f"{book_dir.name}/{path.name}"
@@ -325,7 +336,9 @@ def compute_manifest(root: Path) -> dict[str, str]:
     edit anywhere in the file, not only the body, must register as drift.
     """
     manifest: dict[str, str] = {}
-    for book_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+    for book_dir in sorted(
+        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
+    ):
         for path in sorted(book_dir.glob("*.md")):
             where = f"{book_dir.name}/{path.name}"
             try:
