@@ -301,6 +301,21 @@ def test_corpus_books_fails_when_corpus_dir_missing(tmp_path):
     assert result.status == FAIL
 
 
+def test_corpus_books_ignores_archive_directory(tmp_path):
+    # corpus/archive/ (Phase 5, #14) holds retired TCM JSONLs, never a book
+    # with a books.yaml entry -- it must not be flagged as an uncovered folder.
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "archive").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "archive" not in result.detail
+
+
 # --- index freshness --------------------------------------------------------
 
 
