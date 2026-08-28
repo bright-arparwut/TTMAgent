@@ -59,8 +59,10 @@ works, with section-header (not page) provenance:
 uv run python -m app.rag.ingest path/to/ttm_book.md
 ```
 
-Both paths embed the corpus into the local Chroma store at `CHROMA_PERSIST_DIR`
-using BGE-M3 (multilingual — Thai and Chinese embed fine in one collection).
+The corpus is indexed into a LightRAG knowledge graph committed at `rag_storage/`,
+built from Markdown source notes under `corpus/` using BGE-M3 (multilingual —
+Thai and Chinese embed fine in one graph). Rebuild the derived vectors locally
+with `scripts/rebuild_vdb.py`.
 
 ## Project layout
 
@@ -72,7 +74,7 @@ app/
   pipeline/       # per-user serialization, dispatcher tying the turn together
   vision/         # Roboflow tongue detector, Vision Describer
   advisor/        # config-selected chat model factory, system prompt, LangGraph tool loop, Health Record tools
-  rag/            # BGE-M3 embeddings, Chroma vector store, scanned-book OCR + corpus ingestion scripts
+  rag/            # BGE-M3 embeddings, LightRAG retrieval seam, source-note validation + staleness gate
   memory/         # MongoDB client, working buffer, Health Record repository, Relevance Gate summarizer
   models/         # shared pydantic schemas
 ```
