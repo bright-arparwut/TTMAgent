@@ -16,7 +16,6 @@ from app.preflight import (
     WARN,
     CheckResult,
     check_caffeinate,
-    check_chroma,
     check_corpus_books,
     check_env,
     check_graph_store,
@@ -221,7 +220,7 @@ def test_prewarm_fails_when_server_down():
     assert result.status == FAIL
 
 
-# --- graph store / chroma ---------------------------------------------------
+# --- graph store -------------------------------------------------------------
 
 
 def test_graph_store_fails_when_rag_storage_missing(tmp_path):
@@ -255,20 +254,6 @@ def test_graph_store_passes_with_all_files(tmp_path):
     for name in AUTHORITATIVE_FILES + DERIVED_VDB_FILES:
         (storage / name).write_text("{}")
     assert check_graph_store(tmp_path).status == PASS
-
-
-def test_chroma_warns_when_empty(tmp_path):
-    assert check_chroma(str(tmp_path / "missing")).status == WARN
-    empty = tmp_path / "chroma"
-    empty.mkdir()
-    assert check_chroma(str(empty)).status == WARN
-
-
-def test_chroma_passes_when_populated(tmp_path):
-    store = tmp_path / "chroma"
-    store.mkdir()
-    (store / "chroma.sqlite3").write_text("")
-    assert check_chroma(str(store)).status == PASS
 
 
 # --- corpus books -------------------------------------------------------
@@ -337,10 +322,12 @@ def test_check_index_stale_fails():
 # --- run_preflight composition ------------------------------------------------
 
 
-def test_run_preflight_includes_chroma_and_corpus_books_when_graph_store_fails(monkeypatch):
-    """When check_graph_store FAILs, check_chroma still runs (WARN-only) and
-    check_corpus_books is included. This pins the composition logic that
-    check_chroma is independent of graph_store status."""
+def test_run_preflight_includes_corpus_books_when_graph_store_fails(monkeypatch):
+    """When check_graph_store FAILs, check_corpus_books still runs (it does
+    not depend on graph_store status) but check_vdb_drift is skipped (it is
+    gated on graph_store passing). This pins the exact set of checks
+    run_preflight composes (Phase 5, #14 retired the vector-store check that
+    used to sit here)."""
     import app.preflight as preflight
 
     # Monkeypatch check_graph_store to return FAIL
@@ -379,11 +366,6 @@ def test_run_preflight_includes_chroma_and_corpus_books_when_graph_store_fails(m
     )
     monkeypatch.setattr(
         preflight,
-        "check_chroma",
-        lambda path: CheckResult("chroma", WARN, "retired"),
-    )
-    monkeypatch.setattr(
-        preflight,
         "check_corpus_books",
         lambda repo_root: CheckResult("corpus-books", PASS, "ok"),
     )
@@ -395,16 +377,24 @@ def test_run_preflight_includes_chroma_and_corpus_books_when_graph_store_fails(m
 
     results = preflight.run_preflight(8000)
 
-    # Verify the composed results include graph_store (FAIL), chroma (WARN),
-    # and corpus_books (PASS)
+    # Pin the exact composed check set: corpus-books always runs, vdb-drift
+    # is skipped because graph-store failed, and no unexpected check appears.
     result_names = {r.name for r in results}
     result_statuses = {r.name: r.status for r in results}
 
-    assert "graph-store" in result_names
+    assert result_names == {
+        "env",
+        "mongo",
+        "server",
+        "prewarm",
+        "caffeinate",
+        "tunnel",
+        "webhook",
+        "graph-store",
+        "corpus-books",
+        "index-freshness",
+    }
     assert result_statuses["graph-store"] == FAIL
-    assert "chroma" in result_names
-    assert result_statuses["chroma"] == WARN  # Should still run even after graph-store FAIL
-    assert "corpus-books" in result_names
     assert result_statuses["corpus-books"] == PASS
 
 

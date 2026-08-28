@@ -218,7 +218,6 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Project-specific
-data/chroma/
 # Scanned source PDFs are local-disk only: too large for GitHub's 100 MB
 # per-file limit, and the transcription under corpus/<book_id>/ is the
 # artifact of record (ticket #28).

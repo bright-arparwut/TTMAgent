@@ -84,12 +84,6 @@ class Settings(BaseSettings):
     keyword_api_key: str = ""
     keyword_base_url: str | None = None
 
-    # Chroma (TTM corpus RAG) -- retired in Phase 5 alongside the rest of
-    # the Chroma path; kept here (unused once GraphRAG is wired in) so this
-    # phase's diff stays reviewable.
-    chroma_persist_dir: str = "./data/chroma"
-    rag_top_k: int = 5
-
     @field_validator("rag_query_mode")
     @classmethod
     def _validate_rag_query_mode(cls, value: str) -> str:

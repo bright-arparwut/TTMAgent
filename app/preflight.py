@@ -9,8 +9,7 @@ measured why each of these defaults is a demo-killer.
 
 GraphRAG is live (ADR 0010): the graph checks (``graph-store``,
 ``vdb-drift``, ``corpus-books``, ``index-fresh``) are authoritative, not
-advisory -- a missing or stale graph is a FAIL. ``chroma`` stays WARN-only
-until Phase 5 deletes the Chroma path entirely.
+advisory -- a missing or stale graph is a FAIL.
 """
 
 from __future__ import annotations
@@ -334,19 +333,6 @@ def check_graph_store(repo_root: Path) -> CheckResult:
     return CheckResult("graph-store", PASS, "authoritative + derived files all present")
 
 
-def check_chroma(persist_dir: str) -> CheckResult:
-    path = Path(persist_dir)
-    if not path.is_dir() or not any(path.iterdir()):
-        return CheckResult(
-            "chroma",
-            WARN,
-            f"{persist_dir} empty -- the Advisor will answer without corpus citations",
-            hint="Chroma ingest path is being retired as part of the GraphRAG rollout"
-            " (ADR 0010); this check will be removed in a future phase",
-        )
-    return CheckResult("chroma", PASS, f"corpus store present at {persist_dir}")
-
-
 ARCHIVE_DIR_NAME = "archive"
 
 
@@ -519,10 +505,6 @@ def run_preflight(port: int) -> list[CheckResult]:
     results.append(graph_store)
     if graph_store.status == PASS:
         results.append(check_vdb_drift(repo_root))
-    # Chroma is being retired alongside this rollout (ADR 0010); the check
-    # stays WARN-only until Phase 5 deletes it, independent of graph-store
-    # status -- see .superpowers/sdd/phase-4-brief.md.
-    results.append(check_chroma(settings.chroma_persist_dir))
     results.append(check_corpus_books(repo_root))
     results.append(check_index_freshness(repo_root))
     return results
