@@ -9,7 +9,10 @@ import os
 import re
 from dataclasses import dataclass
 
-CORPUS_DIR = "corpus/four-elements"
+# Ticket #30: book two joins the graph. Both books enter through the same
+# standard pipeline; the stores build fresh because the spike's graph was
+# never committed and #24 makes the committed store the authoritative one.
+CORPUS_DIRS = ("corpus/four-elements", "corpus/tongue-100")
 
 _FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
@@ -31,7 +34,14 @@ def _parse_uid(raw: str, fallback: str) -> str:
     return fallback
 
 
-def load_source_notes(corpus_dir: str = CORPUS_DIR) -> list[SourceNote]:
+def load_source_notes(corpus_dirs: tuple[str, ...] = CORPUS_DIRS) -> list[SourceNote]:
+    notes: list[SourceNote] = []
+    for corpus_dir in corpus_dirs:
+        notes.extend(_load_book(corpus_dir))
+    return notes
+
+
+def _load_book(corpus_dir: str) -> list[SourceNote]:
     notes: list[SourceNote] = []
     for name in sorted(os.listdir(corpus_dir)):
         if not name.endswith(".md"):

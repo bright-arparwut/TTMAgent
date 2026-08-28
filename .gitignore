@@ -238,6 +238,12 @@ docs/mockups/ttm-knowledge-graph.html
 .claude/settings.local.json
 .scratch/
 
+# Ticket #24 split: rag_storage/'s graph + KV stores are committed and
+# authoritative; the vectors and LLM cache are derived, rebuilt in ~1-3 min
+# for $0 by lightrag-rebuild-vdb (see docs/demo-runbook.md).
+rag_storage/vdb_*.json
+rag_storage/kv_store_llm_response_cache.json
+
 # Editor swap/backup files. Critical: a .env.swp holds the Vim buffer for .env,
 # so it carries the secrets .env itself is ignored to protect.
 *.swp

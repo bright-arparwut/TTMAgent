@@ -20,7 +20,9 @@ from app.config import get_settings
 from app.rag.embeddings import get_embeddings
 from spike.claude_code_llm import build_claude_code_llm
 
-WORKING_DIR = os.path.join(os.path.dirname(__file__), "rag_storage")
+# Ticket #24: repo-root rag_storage/, split committed (graph + KV) vs derived
+# (vdb_* + LLM cache). app/preflight.py checks these exact filenames.
+WORKING_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "rag_storage")
 
 # Ticket #11: BGE-M3's CLS head, 1024-dim, 8192-token window. Deliberately NOT
 # lightrag.llm.hf.hf_embed, which mean-pools and is wrong for BGE-M3.

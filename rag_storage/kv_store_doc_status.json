@@ -1,0 +1,4313 @@
+{
+  "tongue-100-057": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-057\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: กัสมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [46, 46]\npdf_pages: [51, 51]\n---\n\n## 37. กัสมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nกัสมังสะ ในลิ้นง...",
+    "content_length": 287,
+    "created_at": "2026-08-28T10:08:14.444487+00:00",
+    "updated_at": "2026-08-28T10:33:35.248174+00:00",
+    "file_path": "057-กัสมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.46-46.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7997f31e330aceb84f52c7b26228e715",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913131,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913198,
+      "process_end_time": 1787913215,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-057-chunk-000"
+    ]
+  },
+  "tongue-100-120": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-120\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: เส้นกลางลิ้นคดส่วนกลางลิ้น\npages: [73, 73]\npdf_pages: [78, 78]\n---\n\n## 99. เส้นกลางลิ้นคดส่วนกลางลิ้น\n\nปวดหลัง โรคกระดูกสันหลังคด ส่วนกลางหลัง ...",
+    "content_length": 263,
+    "created_at": "2026-08-28T10:08:14.444822+00:00",
+    "updated_at": "2026-08-28T10:44:43.209030+00:00",
+    "file_path": "120-เส้นกลางลิ้นคดส่วนกลางลิ้น-น.73-73.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "da41bccd0319a5235e92a82a2db5b184",
+    "metadata": {
+      "parse_start_time": 1787912333,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913720,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913833,
+      "process_end_time": 1787913883,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-120-chunk-000"
+    ]
+  },
+  "tongue-100-039": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-039\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: แผลวัณโรค\npages: [40, 40]\npdf_pages: [45, 45]\n---\n\n## 20. แผลวัณโรค\n\nแผลวัณโรค : มักจะเกิดเป็นตุ่มหลาย ๆ ตุ่มบนผิวด้านบนตามขอบ หรือที่ปลายลิ...",
+    "content_length": 495,
+    "created_at": "2026-08-28T10:08:14.444391+00:00",
+    "updated_at": "2026-08-28T10:30:52.223811+00:00",
+    "file_path": "039-แผลวัณโรค-น.40-40.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "62defc52fd3c6784031c7e6ed07d7abd",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912914,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912991,
+      "process_end_time": 1787913052,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-039-chunk-000"
+    ]
+  },
+  "tongue-100-056": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-056\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ยาโตมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [46, 46]\npdf_pages: [51, 51]\n---\n\n## 36. ยาโตมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nยาโตมังสะ ขึ้น...",
+    "content_length": 283,
+    "created_at": "2026-08-28T10:08:14.444482+00:00",
+    "updated_at": "2026-08-28T10:33:32.130087+00:00",
+    "file_path": "056-ยาโตมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.46-46.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "663a5322e329f504c05eb38489db547a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913125,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913191,
+      "process_end_time": 1787913212,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-056-chunk-000"
+    ]
+  },
+  "tongue-100-123": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-123\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลักษณะลิ้นตามธาตุและความเจ็บป่วยที่แสดงออกที่ลิ้น\npages: [74, 74]\npdf_pages: [79, 79]\n---\n\n## ลักษณะลิ้นตามธาตุและความเจ็บป่วยที่แสดงออกที่ลิ้น...",
+    "content_length": 873,
+    "created_at": "2026-08-28T10:08:14.444837+00:00",
+    "updated_at": "2026-08-28T10:45:12.824446+00:00",
+    "file_path": "123-ลักษณะลิ้นตามธาตุและความเจ็บป่วยที่แสดงออกที่ลิ้น-น.74-74.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "5843f49aeb62d3e0b89c97101857d0c6",
+    "metadata": {
+      "parse_start_time": 1787912412,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913798,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913862,
+      "process_end_time": 1787913912,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-123-chunk-000"
+    ]
+  },
+  "four-elements-15": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-15\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ธาตุทั้งสี่ พาหะแห่งพลังชีวิต\npages: [30, 31]\npdf_pages: [25, 26]\n---\n\nนักโหราศาสตร์ศึกษาเรื่องธาตุทั้งสี่ แล้วพบว่...",
+    "content_length": 1946,
+    "created_at": "2026-08-28T10:08:14.444146+00:00",
+    "updated_at": "2026-08-28T10:14:30.964634+00:00",
+    "file_path": "15-ธาตุทั้งสี่ พาหะแห่งพลังชีวิต-น.30-31.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "83d780597124cbee786128c5fcb70946",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911857,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912032,
+      "process_end_time": 1787912070,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-15-chunk-000"
+    ]
+  },
+  "tongue-100-073": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-073\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ผิวลิ้นนุ่ม\npages: [52, 52]\npdf_pages: [57, 57]\n---\n\n## 52. ผิวลิ้นนุ่ม\n\nถ้าผิวลิ้นมีพื้นผิวนุ่ม มักจะอวบมีน้ำ พื้นผิวจะละเอียดเหนียว เรียกว่า ผิ...",
+    "content_length": 271,
+    "created_at": "2026-08-28T10:08:14.444573+00:00",
+    "updated_at": "2026-08-28T10:35:13.757514+00:00",
+    "file_path": "073-ผิวลิ้นนุ่ม-น.52-52.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c47db89ae64b25b1df0512b3f862f792",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913236,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913302,
+      "process_end_time": 1787913313,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-073-chunk-000"
+    ]
+  },
+  "tongue-100-097": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-097\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นบวม\npages: [61, 62]\npdf_pages: [66, 67]\n---\n\n## 75. ลิ้นบวม\n\n- **บวม ตัวลิ้นแดง** — ม้าม และ/หรือ ไต ถูกรบกวนและ มีความชื้น ไฟย่อยต่ำ กผะสู...",
+    "content_length": 800,
+    "created_at": "2026-08-28T10:08:14.444703+00:00",
+    "updated_at": "2026-08-28T10:39:36.931890+00:00",
+    "file_path": "097-ลิ้นบวม-น.61-62.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ed279bdb09ed800eae1a90b73f863fcb",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913403,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913485,
+      "process_end_time": 1787913576,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-097-chunk-000"
+    ]
+  },
+  "four-elements-19": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-19\ntype: source-note\nbook_id: four-elements\nchapter: เทคนิคของการสร้างความสมดุลและการดูแล\nsection: คุณภาพหรือวิธีการแสดงออก (modalities)\npages: [42, 43]\npdf_pages: [37, 38]\n---\n\nคุณภาพจะบอกวิธีที่อิทธิพลของธาตุแสดงออกมา วิธีการ...",
+    "content_length": 2398,
+    "created_at": "2026-08-28T10:08:14.444171+00:00",
+    "updated_at": "2026-08-28T10:17:20.590678+00:00",
+    "file_path": "19-คุณภาพหรือวิธีการแสดงออก (modalities)-น.42-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "bcd239e5fa24e2e0fc820a7e51176a8a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911923,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912173,
+      "process_end_time": 1787912240,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-19-chunk-000"
+    ]
+  },
+  "tongue-100-050": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-050\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: อุจจาระธาตุลามก (คัมภีร์ธาตุบรรจบ เวชศาสตร์วัณณา)\npages: [44, 44]\npdf_pages: [49, 49]\n---\n\n## 30. อุจจาระธาตุลามก (คัมภีร์ธาตุบรรจบ เวชศาสตร์วัณณ...",
+    "content_length": 1203,
+    "created_at": "2026-08-28T10:08:14.444447+00:00",
+    "updated_at": "2026-08-28T10:33:10.170936+00:00",
+    "file_path": "050-อุจจาระธาตุลามก (คัมภีร์ธาตุบรรจบ เวชศาสตร์วัณณา)-น.44-44.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ba712f47c8e984dfe8b7b888d5bc1a4d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913044,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913144,
+      "process_end_time": 1787913190,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-050-chunk-000"
+    ]
+  },
+  "tongue-100-003": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-003\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์แผนไทย\nsection: ลิ้นทางการแพทย์แผนไทย\npages: [6, 8]\npdf_pages: [11, 13]\n---\n\n| ชื่อชั้นธาตุ | ธาตุ | ธาตุ | ธาตุ | ธาตุ | ตัวคุม |\n| --- | --- | --- | --- | --- | -...",
+    "content_length": 4131,
+    "created_at": "2026-08-28T10:08:14.444193+00:00",
+    "updated_at": "2026-08-28T10:20:12.920234+00:00",
+    "file_path": "003-ลิ้นทางการแพทย์แผนไทย-น.6-8.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b7aa54553ff875bc14921228b1a0b910",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912029,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912240,
+      "process_end_time": 1787912412,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-003-chunk-000",
+      "tongue-100-003-chunk-001"
+    ]
+  },
+  "tongue-100-022": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-022\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นแดง\npages: [31, 31]\npdf_pages: [36, 36]\n---\n\n## 3. ลิ้นแดง\n\nถ้าสีของลิ้นแดงก่ำกว่าปกติ มักจะแสดงถึง โรคเม็ดเลือดแดงมากกว่าปกติ polycythe...",
+    "content_length": 273,
+    "created_at": "2026-08-28T10:08:14.444299+00:00",
+    "updated_at": "2026-08-28T10:27:38.564390+00:00",
+    "file_path": "022-ลิ้นแดง-น.31-31.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c0b9fd41f9bc958500fa1328ffcab421",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912552,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912839,
+      "process_end_time": 1787912858,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-022-chunk-000"
+    ]
+  },
+  "tongue-100-105": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-105\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ฝ้าสีดำ\npages: [67, 67]\npdf_pages: [72, 72]\n---\n\n## 84. ฝ้าสีดำ\n\n- **ฝ้าดำ ลื่น และเลี่ยน** — ของเสียสูงมาก ๆ ความเย็นในกระเพาะอาหาร และความเย็...",
+    "content_length": 262,
+    "created_at": "2026-08-28T10:08:14.444748+00:00",
+    "updated_at": "2026-08-28T10:40:56.485071+00:00",
+    "file_path": "105-ฝ้าสีดำ-น.67-67.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0b36df14bb165f0172dd48766e398af5",
+    "metadata": {
+      "parse_start_time": 1787911963,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913471,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913641,
+      "process_end_time": 1787913656,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-105-chunk-000"
+    ]
+  },
+  "tongue-100-004": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-004\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์แผนไทย\nsection: การตรวจลิ้น ตามตำราแพทย์แผนโบราณทั่วไป สาขาเวชกรรม เล่ม 2\npages: [9, 9]\npdf_pages: [14, 14]\n---\n\n## การตรวจลิ้น ตามตำราแพทย์แผนโบราณทั่วไป สาขาเวชกร...",
+    "content_length": 566,
+    "created_at": "2026-08-28T10:08:14.444199+00:00",
+    "updated_at": "2026-08-28T10:18:53.086594+00:00",
+    "file_path": "004-การตรวจลิ้น ตามตำราแพทย์แผนโบราณทั่วไป สาขาเวชกรรม เล่ม 2-น.9-9.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "9453bd01079e9170b5d36615153d0ba0",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912032,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912275,
+      "process_end_time": 1787912333,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-004-chunk-000"
+    ]
+  },
+  "four-elements-05": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-05\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ราศีและการบำบัด\npages: [19, 21]\npdf_pages: [14, 16]\n---\n\nหลังจากทฤษฎีการบำบัดของธาตุทั้งสี่ที่ได้รับความนิยมแพร่หลา...",
+    "content_length": 3399,
+    "created_at": "2026-08-28T10:08:14.444076+00:00",
+    "updated_at": "2026-08-28T10:11:16.734905+00:00",
+    "file_path": "05-ราศีและการบำบัด-น.19-21.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "3210feab213270fc4dde6efd5b8480ca",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911809,
+      "process_end_time": 1787911876,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-05-chunk-000",
+      "four-elements-05-chunk-001"
+    ]
+  },
+  "tongue-100-028": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-028\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นสั่น\npages: [35, 35]\npdf_pages: [40, 40]\n---\n\n## 9. ลิ้นสั่น\n\nลิ้นสั่น หมายถึง ลักษณะลิ้นที่สั่นอยู่ตลอดเวลา ไม่อยู่นิ่ง มักพบในคนที่หงุ...",
+    "content_length": 365,
+    "created_at": "2026-08-28T10:08:14.444331+00:00",
+    "updated_at": "2026-08-28T10:28:34.596137+00:00",
+    "file_path": "028-ลิ้นสั่น-น.35-35.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "09de931529bb92646d74af586f3d1a73",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912745,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912890,
+      "process_end_time": 1787912914,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-028-chunk-000"
+    ]
+  },
+  "tongue-100-091": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-091\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นหนา\npages: [58, 58]\npdf_pages: [63, 63]\n---\n\n## 70. ฝ้าลิ้นหนา\n\n(มองผ่านฝ้า ไม่สามารถเห็นตัวลิ้นได้) แสดงถึง ระดับของโรคเข้าสู่ภายใน/มีควา...",
+    "content_length": 255,
+    "created_at": "2026-08-28T10:08:14.444671+00:00",
+    "updated_at": "2026-08-28T10:37:14.690942+00:00",
+    "file_path": "091-ฝ้าลิ้นหนา-น.58-58.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "de38443c4111509ce49b1fc1b8fc3f5f",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913353,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913416,
+      "process_end_time": 1787913434,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-091-chunk-000"
+    ]
+  },
+  "tongue-100-106": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-106\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นผอมเล็ก\npages: [67, 67]\npdf_pages: [72, 72]\n---\n\n## 85. ลิ้นผอมเล็ก\n\n- **ลิ้นผอมเล็ก** — ปิตตะ และไฟย่อยสูง พร้อมกับรบกวนการทำงานของหัวใจ",
+    "content_length": 248,
+    "created_at": "2026-08-28T10:08:14.444753+00:00",
+    "updated_at": "2026-08-28T10:41:14.410482+00:00",
+    "file_path": "106-ลิ้นผอมเล็ก-น.67-67.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f76c9c3e5ddde655a88190829ba34b6c",
+    "metadata": {
+      "parse_start_time": 1787911970,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913485,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913656,
+      "process_end_time": 1787913674,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-106-chunk-000"
+    ]
+  },
+  "tongue-100-112": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-112\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: หลอดเลือดใต้ลิ้น\npages: [70, 70]\npdf_pages: [75, 75]\n---\n\n## 91. หลอดเลือดใต้ลิ้น\n\n- **หลอดเลือดใต้ลิ้นพอมองเห็นได้** — คนปกติ เป็นสัญญาณที่ดีใ...",
+    "content_length": 559,
+    "created_at": "2026-08-28T10:08:14.444783+00:00",
+    "updated_at": "2026-08-28T10:43:31.241789+00:00",
+    "file_path": "112-หลอดเลือดใต้ลิ้น-น.70-70.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "5682e3b73cb4fb90c021176ab4a69072",
+    "metadata": {
+      "parse_start_time": 1787912084,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913576,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913778,
+      "process_end_time": 1787913811,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-112-chunk-000"
+    ]
+  },
+  "tongue-100-083": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-083\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นอ่อนแรง (柔嫩舌)\npages: [56, 56]\npdf_pages: [61, 61]\n---\n\n## 62. ลิ้นอ่อนแรง (柔嫩舌)\n\nเลือดและชี่พร่อง ความร้อนในร่างกายทำลายสารอิน ภาวะอินพร่องรุ...",
+    "content_length": 364,
+    "created_at": "2026-08-28T10:08:14.444630+00:00",
+    "updated_at": "2026-08-28T10:36:25.236542+00:00",
+    "file_path": "083-ลิ้นอ่อนแรง (柔嫩舌)-น.56-56.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "59b3f2ec059e0fc04e1d6ccf9b4b5500",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913305,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913360,
+      "process_end_time": 1787913385,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-083-chunk-000"
+    ]
+  },
+  "tongue-100-200": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-200\ntype: source-note\nbook_id: tongue-100\nchapter: กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น\nsection: กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น\npages: [77, 78]\npdf_pages: [82, 83]\n---\n\nตัวอย่างกรณีศึกษาการตรวจลิ้นทางการแพทย์อายุรเวท โ...",
+    "content_length": 1680,
+    "created_at": "2026-08-28T10:08:14.444853+00:00",
+    "updated_at": "2026-08-28T10:46:33.479331+00:00",
+    "file_path": "200-กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น-น.77-78.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0452332225fa9d8a0efad6d6c1641f2d",
+    "metadata": {
+      "parse_start_time": 1787912524,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913812,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913912,
+      "process_end_time": 1787913993,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-200-chunk-000"
+    ]
+  },
+  "four-elements-12": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-12\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ปรัชญาเกี่ยวกับพลังงาน\npages: [28, 29]\npdf_pages: [23, 24]\n---\n\nถ้าเรามองตัวเราในรูปของพลังงานที่ผลกระทบกับสิ่งต่าง...",
+    "content_length": 2456,
+    "created_at": "2026-08-28T10:08:14.444128+00:00",
+    "updated_at": "2026-08-28T10:13:52.758639+00:00",
+    "file_path": "12-ปรัชญาเกี่ยวกับพลังงาน-น.28-29.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ba76ccc85ff12c694f0f26b9558266aa",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911970,
+      "process_end_time": 1787912032,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-12-chunk-000"
+    ]
+  },
+  "tongue-100-009": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-009\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์อายุรเวท\nsection: พื้นฐานลิ้นทางการแพทย์อายุรเวท\npages: [14, 14]\npdf_pages: [19, 19]\n---\n\nในการแพทย์อายุรเวท หลัก ๆ จะใช้ ตรีธาตุหรือตรีโทษะ (The Three Dosha...",
+    "content_length": 519,
+    "created_at": "2026-08-28T10:08:14.444227+00:00",
+    "updated_at": "2026-08-28T10:22:02.033607+00:00",
+    "file_path": "009-พื้นฐานลิ้นทางการแพทย์อายุรเวท-น.14-14.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "35bcf655387dfba0f69e3ac3668fbda0",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912191,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912412,
+      "process_end_time": 1787912522,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-009-chunk-000"
+    ]
+  },
+  "tongue-100-107": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-107\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นอ้วนใหญ่\npages: [67, 67]\npdf_pages: [72, 72]\n---\n\n## 86. ลิ้นอ้วนใหญ่\n\n- **ลิ้นอ้วนใหญ่ (สีลิ้นซีด)** — ม้ามถูกรบกวน มีความเย็นและความเฉื่อ...",
+    "content_length": 256,
+    "created_at": "2026-08-28T10:08:14.444758+00:00",
+    "updated_at": "2026-08-28T10:42:00.128342+00:00",
+    "file_path": "107-ลิ้นอ้วนใหญ่-น.67-67.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "68c093098ca70b2cb2324fab4c51cc8e",
+    "metadata": {
+      "parse_start_time": 1787912024,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913489,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913662,
+      "process_end_time": 1787913720,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-107-chunk-000"
+    ]
+  },
+  "tongue-100-001": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-001\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นในทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นในทางการแพทย์แผนปัจจุบัน\npages: [1, 4]\npdf_pages: [6, 9]\n---\n\nลิ้นถือเป็นส่วนหนึ่งของระบบย่อยอาหาร (Digestive system) ระบบนี้มีหน้าที่เกี...",
+    "content_length": 2688,
+    "created_at": "2026-08-28T10:08:14.444183+00:00",
+    "updated_at": "2026-08-28T10:17:55.342676+00:00",
+    "file_path": "001-ลิ้นในทางการแพทย์แผนปัจจุบัน-น.1-4.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "083e59658d7e2dbeacc6571ff38eace2",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911970,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912207,
+      "process_end_time": 1787912275,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-001-chunk-000"
+    ]
+  },
+  "tongue-100-047": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-047\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ไข้ลากสาดปานเหลือง (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 27. ไข้ลากสาดปานเหลือง (คัมภีร์ตักศิลา เวชศาสตร์วั...",
+    "content_length": 400,
+    "created_at": "2026-08-28T10:08:14.444432+00:00",
+    "updated_at": "2026-08-28T10:32:24.485681+00:00",
+    "file_path": "047-ไข้ลากสาดปานเหลือง (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a69a1922ee9bf65e5ee63973362c13c5",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912989,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913125,
+      "process_end_time": 1787913144,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-047-chunk-000"
+    ]
+  },
+  "tongue-100-119": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-119\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: เส้นกลางลิ้นคดส่วนล่างลิ้น\npages: [73, 73]\npdf_pages: [78, 78]\n---\n\n## 98. เส้นกลางลิ้นคดส่วนล่างลิ้น\n\nปวดหลัง โรคกระดูกสันหลังคด หลังส่วนบน เส...",
+    "content_length": 261,
+    "created_at": "2026-08-28T10:08:14.444817+00:00",
+    "updated_at": "2026-08-28T10:44:10.790897+00:00",
+    "file_path": "119-เส้นกลางลิ้นคดส่วนล่างลิ้น-น.73-73.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b7f5abc10888c09fa0fd2bff8992a196",
+    "metadata": {
+      "parse_start_time": 1787912299,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913705,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913827,
+      "process_end_time": 1787913850,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-119-chunk-000"
+    ]
+  },
+  "tongue-100-095": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-095\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นม่วงและน้ำเงิน\npages: [60, 61]\npdf_pages: [65, 66]\n---\n\n## 73. ลิ้นม่วงและน้ำเงิน\n\n- **ม่วง** — เลือดติดขัด (การไหลเวียนเลือดไม่ดี ทำให้มีอ...",
+    "content_length": 879,
+    "created_at": "2026-08-28T10:08:14.444693+00:00",
+    "updated_at": "2026-08-28T10:38:26.475093+00:00",
+    "file_path": "095-ลิ้นม่วงและน้ำเงิน-น.60-61.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "47ebb037459d331110ce41d0e850fc7d",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913385,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913451,
+      "process_end_time": 1787913506,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-095-chunk-000"
+    ]
+  },
+  "tongue-100-059": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-059\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: มุกจามังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [47, 47]\npdf_pages: [52, 52]\n---\n\n## 39. มุกจามังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nมุกจามังสะ ล...",
+    "content_length": 260,
+    "created_at": "2026-08-28T10:08:14.444498+00:00",
+    "updated_at": "2026-08-28T10:33:49.800959+00:00",
+    "file_path": "059-มุกจามังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.47-47.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "69d1cd03c6492948f97a022099ecb58b",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913144,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913212,
+      "process_end_time": 1787913229,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-059-chunk-000"
+    ]
+  },
+  "tongue-100-045": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-045\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: รัตนธาตุ วาโยกำเริบ (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 25. รัตนธาตุ วาโยกำเริบ (คัมภีร์ฉันทศาสตร์ เวช...",
+    "content_length": 468,
+    "created_at": "2026-08-28T10:08:14.444421+00:00",
+    "updated_at": "2026-08-28T10:32:11.353115+00:00",
+    "file_path": "045-รัตนธาตุ วาโยกำเริบ (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "72b0177d812d256b564b64d9101fad53",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912964,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913097,
+      "process_end_time": 1787913131,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-045-chunk-000"
+    ]
+  },
+  "tongue-100-037": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-037\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ร้อนใน\npages: [39, 39]\npdf_pages: [44, 44]\n---\n\n## 18. ร้อนใน\n\nแผลที่ลิ้นอาจจะเป็นแผลได้หลายอย่าง เช่น ร้อนใน (canker sore หรือ aphthous ulc...",
+    "content_length": 851,
+    "created_at": "2026-08-28T10:08:14.444380+00:00",
+    "updated_at": "2026-08-28T10:30:26.905546+00:00",
+    "file_path": "037-ร้อนใน-น.39-39.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "3ba35e9f2fd7b14e20e8b58c21fcb4fe",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912890,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912978,
+      "process_end_time": 1787913026,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-037-chunk-000"
+    ]
+  },
+  "tongue-100-080": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-080\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นมีปื้นเลือดหรือมีจุดจ้ำเลือด (淤斑点舌)\npages: [55, 55]\npdf_pages: [60, 60]\n---\n\n## 59. ลิ้นมีปื้นเลือดหรือมีจุดจ้ำเลือด (淤斑点舌)\n\nลิ้นมีปื้นเลือดห...",
+    "content_length": 448,
+    "created_at": "2026-08-28T10:08:14.444613+00:00",
+    "updated_at": "2026-08-28T10:36:00.407019+00:00",
+    "file_path": "080-ลิ้นมีปื้นเลือดหรือมีจุดจ้ำเลือด (淤斑点舌)-น.55-55.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "9f60be385735bf90c810e8841c0d1af5",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913287,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913346,
+      "process_end_time": 1787913360,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-080-chunk-000"
+    ]
+  },
+  "tongue-100-002": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-002\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นในทางการแพทย์แผนปัจจุบัน\nsection: การรับรส\npages: [4, 5]\npdf_pages: [9, 10]\n---\n\nรส เกิดจากสารเคมีเหลว เรียก tastants ที่ซึมผ่าน taste pore และจับกับ G-protein α, β, γ subunit...",
+    "content_length": 1510,
+    "created_at": "2026-08-28T10:08:14.444188+00:00",
+    "updated_at": "2026-08-28T10:18:19.944703+00:00",
+    "file_path": "002-การรับรส-น.4-5.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "31ca6ffd362d04e260a2bd22815bae9b",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912024,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912219,
+      "process_end_time": 1787912299,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-002-chunk-000"
+    ]
+  },
+  "tongue-100-021": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-021\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นซีด\npages: [31, 31]\npdf_pages: [36, 36]\n---\n\n## 2. ลิ้นซีด\n\nสีของลิ้นแต่ละเชื้อชาติและกรรมพันธุ์ย่อมแตกต่างกัน ในคนผิวดำโดยกำเนิด สีของล...",
+    "content_length": 690,
+    "created_at": "2026-08-28T10:08:14.444294+00:00",
+    "updated_at": "2026-08-28T10:27:41.185609+00:00",
+    "file_path": "021-ลิ้นซีด-น.31-31.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b7272242109616b046656172dd7a442d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912524,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912833,
+      "process_end_time": 1787912861,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-021-chunk-000"
+    ]
+  },
+  "tongue-100-069": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-069\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นสีแดง (舌红)\npages: [50, 51]\npdf_pages: [55, 56]\n---\n\n## 48. ลิ้นสีแดง (舌红)\n\nลิ้นสีแดง หมายถึง สีของตัวลิ้นมีสีแดงกว่าสีลิ้นปกติ ลิ้นจะแดงมากขึ...",
+    "content_length": 584,
+    "created_at": "2026-08-28T10:08:14.444552+00:00",
+    "updated_at": "2026-08-28T10:34:52.999051+00:00",
+    "file_path": "069-ลิ้นสีแดง (舌红)-น.50-51.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "edf3f2cd6448a47f34f7a3a53480d8ce",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913215,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913260,
+      "process_end_time": 1787913292,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-069-chunk-000"
+    ]
+  },
+  "four-elements-10": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-10\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: รูปแบบเส้นตรงและวงรอบของเวลา\npages: [26, 27]\npdf_pages: [21, 22]\n---\n\nในโลกสมัยใหม่ เรามองเวลาเป็นเหมือนกับอนุกรมที...",
+    "content_length": 2735,
+    "created_at": "2026-08-28T10:08:14.444115+00:00",
+    "updated_at": "2026-08-28T10:13:49.129428+00:00",
+    "file_path": "10-รูปแบบเส้นตรงและวงรอบของเวลา-น.26-27.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "50573c7d3ce813f0bfb9e4d070eb6c25",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911923,
+      "process_end_time": 1787912029,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-10-chunk-000",
+      "four-elements-10-chunk-001"
+    ]
+  },
+  "tongue-100-074": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-074\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลักษณะลิ้นอ้วนใหญ่ (舌胖大)\npages: [53, 53]\npdf_pages: [58, 58]\n---\n\n## 53. ลักษณะลิ้นอ้วนใหญ่ (舌胖大)\n\nลิ้นที่ค่อนข้างใหญ่กว่าปกติ เรียกว่า ลิ้นใหญ่\n...",
+    "content_length": 392,
+    "created_at": "2026-08-28T10:08:14.444579+00:00",
+    "updated_at": "2026-08-28T10:35:26.390927+00:00",
+    "file_path": "074-ลักษณะลิ้นอ้วนใหญ่ (舌胖大)-น.53-53.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "56e0fd80136e69cde370c4c784dadbc1",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913244,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913305,
+      "process_end_time": 1787913326,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-074-chunk-000"
+    ]
+  },
+  "four-elements-20": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-20\ntype: source-note\nbook_id: four-elements\nchapter: เทคนิคของการสร้างความสมดุลและการดูแล\nsection: การค้นหาธาตุและการแสดงออกของตัวคุณโดยเฉพาะ\npages: [43, 43]\npdf_pages: [38, 38]\n---\n\nจากทฤษฎีการคำนวณข้างต้นว่าแต่ละคนมีส่วนผสมขอ...",
+    "content_length": 745,
+    "created_at": "2026-08-28T10:08:14.444177+00:00",
+    "updated_at": "2026-08-28T10:16:59.450526+00:00",
+    "file_path": "20-การค้นหาธาตุและการแสดงออกของตัวคุณโดยเฉพาะ-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a0e6f75c05e01084188855243da7271d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911963,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912191,
+      "process_end_time": 1787912219,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-20-chunk-000"
+    ]
+  },
+  "tongue-100-087": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-087\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นสีเหลือง (黄苔)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 67. ฝ้าลิ้นสีเหลือง (黄苔)\n\nอาการโรคจากภายใน โรคที่เกิดจากภาวะความร้อน",
+    "content_length": 238,
+    "created_at": "2026-08-28T10:08:14.444650+00:00",
+    "updated_at": "2026-08-28T10:36:49.773616+00:00",
+    "file_path": "087-ฝ้าลิ้นสีเหลือง (黄苔)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "53bc0e24068947393016717e2d61cacc",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913328,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913397,
+      "process_end_time": 1787913409,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-087-chunk-000"
+    ]
+  },
+  "tongue-100-065": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-065\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นคนปกติ\npages: [49, 49]\npdf_pages: [54, 54]\n---\n\n## ลิ้นคนปกติ\n\nลิ้นคนปกติ ลิ้นมีสีแดงอ่อนหรือแดงชมพู มีประกาย ไม่หม่นหมอง มีความชุ่มชื้น และม...",
+    "content_length": 260,
+    "created_at": "2026-08-28T10:08:14.444529+00:00",
+    "updated_at": "2026-08-28T10:34:14.539451+00:00",
+    "file_path": "065-ลิ้นคนปกติ-น.49-49.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "6a9695b6cf79b196f2e493a09832decd",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913191,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913244,
+      "process_end_time": 1787913254,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-065-chunk-000"
+    ]
+  },
+  "four-elements-06": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-06\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: การดูแลสุขภาพแบบ holistic\npages: [22, 23]\npdf_pages: [17, 18]\n---\n\nในโลกตะวันออก การรักษาสุขภาพโดยการดูแลแบบองค์รวม...",
+    "content_length": 2268,
+    "created_at": "2026-08-28T10:08:14.444082+00:00",
+    "updated_at": "2026-08-28T10:12:03.572587+00:00",
+    "file_path": "06-การดูแลสุขภาพแบบ holistic-น.22-23.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f00daf2627b113773740e4f75a53b080",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911857,
+      "process_end_time": 1787911923,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-06-chunk-000"
+    ]
+  },
+  "tongue-100-049": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-049\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ไข้ลากสาดปานเขียว (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\npages: [44, 44]\npdf_pages: [49, 49]\n---\n\n## 29. ไข้ลากสาดปานเขียว (คัมภีร์ตักศิลา เวชศาสตร์วัณณ...",
+    "content_length": 403,
+    "created_at": "2026-08-28T10:08:14.444442+00:00",
+    "updated_at": "2026-08-28T10:32:45.194245+00:00",
+    "file_path": "049-ไข้ลากสาดปานเขียว (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)-น.44-44.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "514d9ab84aad7f387441aab0ebb33561",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913026,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913142,
+      "process_end_time": 1787913165,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-049-chunk-000"
+    ]
+  },
+  "tongue-100-066": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-066\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นที่มีชีวิตชีวา (有神)\npages: [49, 49]\npdf_pages: [54, 54]\n---\n\n## 45. ลิ้นที่มีชีวิตชีวา (有神)\n\nลิ้นที่มีชีวิตชีวา หมายถึง ลิ้นที่มีน้ำมีนวล มีป...",
+    "content_length": 402,
+    "created_at": "2026-08-28T10:08:14.444535+00:00",
+    "updated_at": "2026-08-28T10:34:23.711486+00:00",
+    "file_path": "066-ลิ้นที่มีชีวิตชีวา (有神)-น.49-49.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4cebc60186440ee099815f6e4c095738",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913198,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913245,
+      "process_end_time": 1787913263,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-066-chunk-000"
+    ]
+  },
+  "tongue-100-017": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-017\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: กำเนิดทฤษฎีปัญจธาตุ\npages: [23, 25]\npdf_pages: [28, 30]\n---\n\nปัญจธาตุ (五行 ; อู่สิง) เป็นทฤษฎีเก่าแก่ของจีน บรรยายถึงวัตถุทั้งหลายในจักรวาลประ...",
+    "content_length": 2545,
+    "created_at": "2026-08-28T10:08:14.444273+00:00",
+    "updated_at": "2026-08-28T10:26:37.046472+00:00",
+    "file_path": "017-กำเนิดทฤษฎีปัญจธาตุ-น.23-25.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0adc7f6cbd4e204c69f73871b748ded5",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912405,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912702,
+      "process_end_time": 1787912797,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-017-chunk-000",
+      "tongue-100-017-chunk-001"
+    ]
+  },
+  "tongue-100-044": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-044\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: รัตนธาตุ อาโปแตก (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 24. รัตนธาตุ อาโปแตก (คัมภีร์ฉันทศาสตร์ เวชศาสตร์...",
+    "content_length": 405,
+    "created_at": "2026-08-28T10:08:14.444416+00:00",
+    "updated_at": "2026-08-28T10:32:05.151548+00:00",
+    "file_path": "044-รัตนธาตุ อาโปแตก (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d4ea94f503a67f66c3ecf81219b19855",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912960,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913090,
+      "process_end_time": 1787913125,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-044-chunk-000"
+    ]
+  },
+  "four-elements-08": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-08\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: การบำบัดด้วยธาตุทั้งสี่\npages: [23, 25]\npdf_pages: [18, 20]\n---\n\nเมื่อเราใช้โหราศาสตร์ช่วยในการบำบัดตามธรรมชาติ เรา...",
+    "content_length": 3525,
+    "created_at": "2026-08-28T10:08:14.444100+00:00",
+    "updated_at": "2026-08-28T10:12:43.977686+00:00",
+    "file_path": "08-การบำบัดด้วยธาตุทั้งสี่-น.23-25.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b0fe841350ea1239bf191580c47d79bb",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911876,
+      "process_end_time": 1787911963,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-08-chunk-000",
+      "four-elements-08-chunk-001"
+    ]
+  },
+  "tongue-100-058": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-058\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: กะนะระมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [46, 46]\npdf_pages: [51, 51]\n---\n\n## 38. กะนะระมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nกะนะระมังส...",
+    "content_length": 282,
+    "created_at": "2026-08-28T10:08:14.444493+00:00",
+    "updated_at": "2026-08-28T10:33:36.959636+00:00",
+    "file_path": "058-กะนะระมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.46-46.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "1ddb08638a4db8e332985a447d5ba0fc",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913142,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913203,
+      "process_end_time": 1787913216,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-058-chunk-000"
+    ]
+  },
+  "four-elements-04": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-04\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ธาตุทั้งสี่\npages: [19, 19]\npdf_pages: [14, 14]\n---\n\nธาตุทั้งสี่คือ ดิน, น้ำ, ลม และไฟ เป็นส่วนประกอบพื้นฐานของสรรพ...",
+    "content_length": 1422,
+    "created_at": "2026-08-28T10:08:14.444070+00:00",
+    "updated_at": "2026-08-28T10:11:05.080896+00:00",
+    "file_path": "04-ธาตุทั้งสี่-น.19-19.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c33b1d5058ade1c7405495de348850ec",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911803,
+      "process_end_time": 1787911865,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-04-chunk-000"
+    ]
+  },
+  "tongue-100-012": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-012\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์อายุรเวท\nsection: การตรวจลิ้นทางการแพทย์อายุรเวทนั้นมีจุดสังเกตลิ้นดังนี้\npages: [17, 17]\npdf_pages: [22, 22]\n---\n\nการตรวจลิ้น พิจารณาจุดสังเกต 6 ด้าน ได้แก่...",
+    "content_length": 373,
+    "created_at": "2026-08-28T10:08:14.444244+00:00",
+    "updated_at": "2026-08-28T10:22:32.549481+00:00",
+    "file_path": "012-การตรวจลิ้นทางการแพทย์อายุรเวทนั้นมีจุดสังเกตลิ้นดังนี้-น.17-17.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b908bb5a76e3edf14fea06b29dbdeb54",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912240,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912524,
+      "process_end_time": 1787912552,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-012-chunk-000"
+    ]
+  },
+  "tongue-100-071": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-071\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นสีม่วง (舌紫)\npages: [52, 52]\npdf_pages: [57, 57]\n---\n\n## 50. ลิ้นสีม่วง (舌紫)\n\nลิ้นสีม่วงหมายถึง ตัวลิ้นมีสีคล้ำออกเป็นสีแดงม่วง บ่งบอกถึง ในร่...",
+    "content_length": 484,
+    "created_at": "2026-08-28T10:08:14.444563+00:00",
+    "updated_at": "2026-08-28T10:35:19.050141+00:00",
+    "file_path": "071-ลิ้นสีม่วง (舌紫)-น.52-52.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "49d236cbeec834369146e39fa5289f58",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913229,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913287,
+      "process_end_time": 1787913319,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-071-chunk-000"
+    ]
+  },
+  "tongue-100-088": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-088\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นสีเทา (灰黑苔)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 68. ฝ้าลิ้นสีเทา (灰黑苔)\n\nอาการโรคจากภาวะความร้อนภายใน อาการโรคเย็นชื้น",
+    "content_length": 237,
+    "created_at": "2026-08-28T10:08:14.444656+00:00",
+    "updated_at": "2026-08-28T10:36:56.197570+00:00",
+    "file_path": "088-ฝ้าลิ้นสีเทา (灰黑苔)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "1fbd7c7a1f0130d1e825ff6a3875f718",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913335,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913403,
+      "process_end_time": 1787913416,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-088-chunk-000"
+    ]
+  },
+  "tongue-100-011": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-011\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์อายุรเวท\nsection: จุดสะท้อนลิ้นตามศาสตร์การแพทย์อายุรเวท\npages: [15, 16]\npdf_pages: [20, 21]\n---\n\nในการแพทย์แบ่งร่างกาย 3 ส่วน ถูกควบคุมดูแลโดย 3 ธาตุดังนี้ ...",
+    "content_length": 1212,
+    "created_at": "2026-08-28T10:08:14.444238+00:00",
+    "updated_at": "2026-08-28T10:22:45.280421+00:00",
+    "file_path": "011-จุดสะท้อนลิ้นตามศาสตร์การแพทย์อายุรเวท-น.15-16.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7c34d6b2fe5ac93022af9884f8374810",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912219,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912522,
+      "process_end_time": 1787912565,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-011-chunk-000"
+    ]
+  },
+  "tongue-100-086": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-086\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นสีขาว (白苔)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 66. ฝ้าลิ้นสีขาว (白苔)\n\n**การตรวจดูสีฝ้าบนลิ้น**\n\nอาการของโรคเกิดจากปัจจัยภายนอก โรค...",
+    "content_length": 272,
+    "created_at": "2026-08-28T10:08:14.444645+00:00",
+    "updated_at": "2026-08-28T10:36:47.039989+00:00",
+    "file_path": "086-ฝ้าลิ้นสีขาว (白苔)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f19b2d4e425b9badd8710447d2ff90a8",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913326,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913385,
+      "process_end_time": 1787913407,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-086-chunk-000"
+    ]
+  },
+  "tongue-100-029": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-029\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นเฉ\npages: [35, 35]\npdf_pages: [40, 40]\n---\n\n## 10. ลิ้นเฉ\n\nลิ้นเฉ หรือลิ้นเบี้ยว (deviation of tongue) โดยปกติเมื่อลิ้นนอนนิ่งอยู่บนพื้น...",
+    "content_length": 1611,
+    "created_at": "2026-08-28T10:08:14.444336+00:00",
+    "updated_at": "2026-08-28T10:29:05.032633+00:00",
+    "file_path": "029-ลิ้นเฉ-น.35-35.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4091c1c6198fdc1e2808e472065bb855",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912797,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912910,
+      "process_end_time": 1787912945,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-029-chunk-000"
+    ]
+  },
+  "tongue-100-125": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-125\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์พื้นบ้านเกาหลี\nsection: ลักษณะลิ้น - การแพทย์เกาหลี\npages: [76, 76]\npdf_pages: [81, 81]\n---\n\n## ลักษณะลิ้น - การแพทย์เกาหลี\n\n### สี\n\n| ลักษณะลิ้น | การแพทย์เกาหลี |...",
+    "content_length": 1349,
+    "created_at": "2026-08-28T10:08:14.444847+00:00",
+    "updated_at": "2026-08-28T10:45:49.521850+00:00",
+    "file_path": "125-ลักษณะลิ้น - การแพทย์เกาหลี-น.76-76.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "440d105878fca2be65d98b457674f36e",
+    "metadata": {
+      "parse_start_time": 1787912522,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913811,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913883,
+      "process_end_time": 1787913949,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-125-chunk-000"
+    ]
+  },
+  "tongue-100-041": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-041\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: มะเร็งช่องปาก\npages: [41, 41]\npdf_pages: [46, 46]\n---\n\n## 21. มะเร็งช่องปาก\n\nโดยมะเร็งในช่องปากเกือบทั้งหมดจะเป็นชนิด squamous cell carcinom...",
+    "content_length": 772,
+    "created_at": "2026-08-28T10:08:14.444402+00:00",
+    "updated_at": "2026-08-28T10:31:30.929310+00:00",
+    "file_path": "041-มะเร็งช่องปาก-น.41-41.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "17014cf11f5000544dd969dba73cf9fc",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912945,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913044,
+      "process_end_time": 1787913090,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-041-chunk-000"
+    ]
+  },
+  "four-elements-17": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-17\ntype: source-note\nbook_id: four-elements\nchapter: เทคนิคของการสร้างความสมดุลและการดูแล\nsection: วิธีการให้น้ำหนัก\npages: [34, 38]\npdf_pages: [29, 33]\n---\n\nวิธีการเบื้องต้นที่จะทำให้รู้ว่าอะไรเด่น แรง และอะไรอ่อนด้อยจากดวงชะต...",
+    "content_length": 4009,
+    "created_at": "2026-08-28T10:08:14.444159+00:00",
+    "updated_at": "2026-08-28T10:16:47.630965+00:00",
+    "file_path": "17-วิธีการให้น้ำหนัก-น.34-38.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b31ccff5cda6ce593f1e430bf25ab26c",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911876,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912070,
+      "process_end_time": 1787912207,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-17-chunk-000",
+      "four-elements-17-chunk-001"
+    ]
+  },
+  "four-elements-02": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-02\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\npages: [17, 18]\npdf_pages: [12, 13]\n---\n\n\"เมื่อวันที่เจ็ด เดือนมก...",
+    "content_length": 2370,
+    "created_at": "2026-08-28T10:08:14.444055+00:00",
+    "updated_at": "2026-08-28T10:10:09.552668+00:00",
+    "file_path": "02-ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่-น.17-18.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "6c75ce877697d05f1776ae53601ea7f6",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911694,
+      "process_end_time": 1787911809,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-02-chunk-000"
+    ]
+  },
+  "four-elements-01": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-01\ntype: source-note\nbook_id: four-elements\nchapter: บทนำ\nsection: บทนำ\npages: [13, 16]\npdf_pages: [8, 11]\n---\n\nความคิดที่ว่า มนุษย์ ธรรมชาติ และดวงดาวเป็นส่วนหนึ่งของกันและกัน เป็นสิ่งเดียวกัน เชื่อมโยงกัน ได้สูญหายไปจากโลกตะว...",
+    "content_length": 6914,
+    "created_at": "2026-08-28T10:08:14.443997+00:00",
+    "updated_at": "2026-08-28T10:10:57.833747+00:00",
+    "file_path": "01-บทนำ-น.13-16.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "8ed7d86c3d95eed2a99a02ad81a108b6",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911694,
+      "process_end_time": 1787911857,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 3,
+    "chunks_list": [
+      "four-elements-01-chunk-000",
+      "four-elements-01-chunk-001",
+      "four-elements-01-chunk-002"
+    ]
+  },
+  "tongue-100-208": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-208\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง ฝ้า\npages: [90, 94]\npdf_pages: [95, 99]\n---\n\n## ฝ้า\n\n| ลักษณะลิ้น | การแพทย์อายุรเวท | การแพทย์แผนจีน | การแพ...",
+    "content_length": 5260,
+    "created_at": "2026-08-28T10:08:14.444893+00:00",
+    "updated_at": "2026-08-28T10:51:08.447244+00:00",
+    "file_path": "208-ตารางเทียบเคียง ฝ้า-น.90-94.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ae1dd38531768db7a31c2642406330a2",
+    "metadata": {
+      "parse_start_time": 1787912797,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913883,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914098,
+      "process_end_time": 1787914268,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 3,
+    "chunks_list": [
+      "tongue-100-208-chunk-000",
+      "tongue-100-208-chunk-001",
+      "tongue-100-208-chunk-002"
+    ]
+  },
+  "tongue-100-118": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-118\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นมีจุดสีขาวและขอบแดง ตรงกระเพาะอาหารและลำไส้\npages: [72, 72]\npdf_pages: [77, 77]\n---\n\n## 97. ลิ้นมีจุดสีขาวและขอบแดง ตรงกระเพาะอาหารและลำไส้...",
+    "content_length": 274,
+    "created_at": "2026-08-28T10:08:14.444812+00:00",
+    "updated_at": "2026-08-28T10:43:55.326268+00:00",
+    "file_path": "118-ลิ้นมีจุดสีขาวและขอบแดง ตรงกระเพาะอาหารและลำไส้-น.72-72.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4e88f46af68a2031b0464da74c1363af",
+    "metadata": {
+      "parse_start_time": 1787912275,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913698,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913820,
+      "process_end_time": 1787913835,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-118-chunk-000"
+    ]
+  },
+  "tongue-100-077": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-077\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นมีรอยแตก (裂纹舌)\npages: [54, 54]\npdf_pages: [59, 59]\n---\n\n## 56. ลิ้นมีรอยแตก (裂纹舌)\n\nลิ้นมีรอยแตกหมายถึง ตัวลิ้นมีความไม่สม่ำเสมอ ตื้นลึกไม่เท่...",
+    "content_length": 456,
+    "created_at": "2026-08-28T10:08:14.444596+00:00",
+    "updated_at": "2026-08-28T10:35:53.397554+00:00",
+    "file_path": "077-ลิ้นมีรอยแตก (裂纹舌)-น.54-54.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c7f351d126a138c5e831bc28ce73cc0d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913254,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913326,
+      "process_end_time": 1787913353,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-077-chunk-000"
+    ]
+  },
+  "tongue-100-013": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-013\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์อายุรเวท\nsection: Check list 9 ข้อการตรวจลิ้น\npages: [17, 17]\npdf_pages: [22, 22]\n---\n\n1. การตรวจลิ้น เป็นการสังเกตร่างกายภายในจากภายนอก\n\n2. เพื่อที่จะเข้าใจ...",
+    "content_length": 970,
+    "created_at": "2026-08-28T10:08:14.444250+00:00",
+    "updated_at": "2026-08-28T10:23:36.715224+00:00",
+    "file_path": "013-Check list 9 ข้อการตรวจลิ้น-น.17-17.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "320965b1aaec1bbc34f618c806a0765a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912275,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912552,
+      "process_end_time": 1787912616,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-013-chunk-000"
+    ]
+  },
+  "tongue-100-122": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-122\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นปกติตามธาตุ (Dosha-Specific Tongue Characteristics)\npages: [73, 73]\npdf_pages: [78, 78]\n---\n\n## ลิ้นปกติตามธาตุ (Dosha-Specific Tongue Char...",
+    "content_length": 544,
+    "created_at": "2026-08-28T10:08:14.444832+00:00",
+    "updated_at": "2026-08-28T10:44:43.805099+00:00",
+    "file_path": "122-ลิ้นปกติตามธาตุ (Dosha-Specific Tongue Characteristics)-น.73-73.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d9fce8fde4eac3f4bdfa88c15824ccdd",
+    "metadata": {
+      "parse_start_time": 1787912405,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913787,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913850,
+      "process_end_time": 1787913883,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-122-chunk-000"
+    ]
+  },
+  "tongue-100-090": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-090\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นบาง\npages: [58, 58]\npdf_pages: [63, 63]\n---\n\n## 69. ฝ้าลิ้นบาง\n\n**การตรวจดูลักษณะของฝ้าลิ้น (苔质)**\n\n(มองทะลุจากฝ้าเห็นตัวลิ้น) แสดงถึง ระด...",
+    "content_length": 280,
+    "created_at": "2026-08-28T10:08:14.444666+00:00",
+    "updated_at": "2026-08-28T10:37:05.357802+00:00",
+    "file_path": "090-ฝ้าลิ้นบาง-น.58-58.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "16a80c33ca89214f5918f36432783ea2",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913350,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913409,
+      "process_end_time": 1787913425,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-090-chunk-000"
+    ]
+  },
+  "tongue-100-014": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-014\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: ความเป็นมาของอิน-หยาง\npages: [18, 20]\npdf_pages: [23, 25]\n---\n\nอิน-หยาง (Yin-Yang ; 阴阳) เป็นแนวคิดปรัชญาของชาวจีนที่มีมาแต่โบราณกาล ได้จากการ...",
+    "content_length": 4496,
+    "created_at": "2026-08-28T10:08:14.444255+00:00",
+    "updated_at": "2026-08-28T10:24:33.709768+00:00",
+    "file_path": "014-ความเป็นมาของอิน-หยาง-น.18-20.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a50e52c2fc72a5d449ab60f354773327",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912299,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912565,
+      "process_end_time": 1787912673,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-014-chunk-000",
+      "tongue-100-014-chunk-001"
+    ]
+  },
+  "tongue-100-038": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-038\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: แผลซิฟิลิส\npages: [40, 40]\npdf_pages: [45, 45]\n---\n\n## 19. แผลซิฟิลิส\n\nแผลซิฟิลิส (syphilitic ulcer) อาจจะเป็น “แผลริมแข็ง” (hard chancre, ซ...",
+    "content_length": 1638,
+    "created_at": "2026-08-28T10:08:14.444385+00:00",
+    "updated_at": "2026-08-28T10:30:44.273475+00:00",
+    "file_path": "038-แผลซิฟิลิส-น.40-40.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a19c1afa1a74cae7c7ac91a23031e841",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912910,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912989,
+      "process_end_time": 1787913044,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-038-chunk-000"
+    ]
+  },
+  "tongue-100-110": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-110\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นมีรอยแตก\npages: [69, 69]\npdf_pages: [74, 74]\n---\n\n## 89. ลิ้นมีรอยแตก\n\n- **ลิ้นมีรอยแตกเล็กน้อย** — มีความแห้ง (กผะหย่อน) หรือวาตะมาก โอชัส...",
+    "content_length": 514,
+    "created_at": "2026-08-28T10:08:14.444773+00:00",
+    "updated_at": "2026-08-28T10:43:07.233887+00:00",
+    "file_path": "110-ลิ้นมีรอยแตก-น.69-69.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "603d0a1fc43f91ff88faf7ea93461e6a",
+    "metadata": {
+      "parse_start_time": 1787912060,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913562,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913705,
+      "process_end_time": 1787913787,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-110-chunk-000"
+    ]
+  },
+  "tongue-100-025": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-025\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นแดงสด\npages: [33, 33]\npdf_pages: [38, 38]\n---\n\n## 6. ลิ้นแดงสด\n\nถ้าสีของลิ้นแดงชัด (แดงสดจนน่ากลัว) ให้นึกถึง ภาวะลิ้นอักเสบ (glossitis)...",
+    "content_length": 374,
+    "created_at": "2026-08-28T10:08:14.444316+00:00",
+    "updated_at": "2026-08-28T10:28:10.633495+00:00",
+    "file_path": "025-ลิ้นแดงสด-น.33-33.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "620b76bbf939fb2cf4d6fd277d957560",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912673,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912868,
+      "process_end_time": 1787912890,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-025-chunk-000"
+    ]
+  },
+  "tongue-100-061": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-061\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ทันตะมูมังสะ\npages: [47, 47]\npdf_pages: [52, 52]\n---\n\n## 41. ทันตะมูมังสะ\n\nทันตะมูมังสะ ในลิ้นขาว เหม็นเป็นหนอง แล้วเลือดคอออกบ่อย ๆ",
+    "content_length": 237,
+    "created_at": "2026-08-28T10:08:14.444508+00:00",
+    "updated_at": "2026-08-28T10:33:56.518531+00:00",
+    "file_path": "061-ทันตะมูมังสะ-น.47-47.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f52a69981bc23b0792efee2befe7e759",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913165,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913216,
+      "process_end_time": 1787913236,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-061-chunk-000"
+    ]
+  },
+  "tongue-100-026": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-026\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ฝ้าลิ้น (coated tongue)\npages: [33, 33]\npdf_pages: [38, 38]\n---\n\n## 7. ฝ้าลิ้น (coated tongue)\n\nภาวะลิ้นเป็นฝ้าส่วนใหญ่ เกิดจากการที่ปากแห้ง...",
+    "content_length": 991,
+    "created_at": "2026-08-28T10:08:14.444321+00:00",
+    "updated_at": "2026-08-28T10:28:30.696404+00:00",
+    "file_path": "026-ฝ้าลิ้น (coated tongue)-น.33-33.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "36f13134976e531cff0a9664e660b66d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912702,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912873,
+      "process_end_time": 1787912910,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-026-chunk-000"
+    ]
+  },
+  "tongue-100-124": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-124\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์พื้นบ้านเกาหลี\nsection: ลิ้นทางการแพทย์พื้นบ้านเกาหลี\npages: [75, 75]\npdf_pages: [80, 80]\n---\n\n## ลิ้นทางการแพทย์พื้นบ้านเกาหลี\n\nลิ้นทางการแพทย์พื้นบ้านเกาหลี (Kore...",
+    "content_length": 407,
+    "created_at": "2026-08-28T10:08:14.444842+00:00",
+    "updated_at": "2026-08-28T10:45:14.805282+00:00",
+    "file_path": "124-ลิ้นทางการแพทย์พื้นบ้านเกาหลี-น.75-75.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0d741ab7e7554f6900aef74f95ee54af",
+    "metadata": {
+      "parse_start_time": 1787912450,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913804,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913883,
+      "process_end_time": 1787913914,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-124-chunk-000"
+    ]
+  },
+  "four-elements-07": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-07\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ในปัจจุบัน\npages: [23, 23]\npdf_pages: [18, 18]\n---\n\nโหราศาสตร์ในปัจจุบันได้นำความรอบรู้ในศตวรรษที่ยี่สิบของทางตะวัน...",
+    "content_length": 1517,
+    "created_at": "2026-08-28T10:08:14.444089+00:00",
+    "updated_at": "2026-08-28T10:11:53.256817+00:00",
+    "file_path": "07-ในปัจจุบัน-น.23-23.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "e94ce001ff1a1d4964199c7245f3ea55",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911865,
+      "process_end_time": 1787911913,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-07-chunk-000"
+    ]
+  },
+  "tongue-100-211": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-211\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง การตรวจจุดบนลิ้น\npages: [96, 97]\npdf_pages: [101, 102]\n---\n\n## การตรวจจุดบนลิ้น \\*แสดงถึงการสะท้อนอวัยวะภายใน...",
+    "content_length": 1107,
+    "created_at": "2026-08-28T10:08:14.444908+00:00",
+    "updated_at": "2026-08-28T10:52:51.205762+00:00",
+    "file_path": "211-ตารางเทียบเคียง การตรวจจุดบนลิ้น-น.96-97.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7cfb6dce32469ce0272d3560470a5135",
+    "metadata": {
+      "parse_start_time": 1787912858,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913949,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914268,
+      "process_end_time": 1787914371,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-211-chunk-000"
+    ]
+  },
+  "tongue-100-075": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-075\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นผอมเล็ก (舌瘦薄)\npages: [53, 53]\npdf_pages: [58, 58]\n---\n\n## 54. ลิ้นผอมเล็ก (舌瘦薄)\n\nลิ้นผอมเล็ก หมายถึง ตัวลิ้นมีขนาดเล็ก หรือผอมบาง บ่งบอกถึง เ...",
+    "content_length": 285,
+    "created_at": "2026-08-28T10:08:14.444585+00:00",
+    "updated_at": "2026-08-28T10:35:28.649075+00:00",
+    "file_path": "075-ลิ้นผอมเล็ก (舌瘦薄)-น.53-53.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4f8e087c68df5a31aa4634a58cca10e7",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913245,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913313,
+      "process_end_time": 1787913328,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-075-chunk-000"
+    ]
+  },
+  "tongue-100-020": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-020\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นผิดปกติ\npages: [27, 30]\npdf_pages: [32, 35]\n---\n\n## 1. ลิ้นผิดปกติ\n\nลิ้นที่ผิดปกติ ในด้านโรคภัยไข้เจ็บ อาจจะมีลักษณะต่าง ๆ กัน เช่น\n\nขนา...",
+    "content_length": 3476,
+    "created_at": "2026-08-28T10:08:14.444289+00:00",
+    "updated_at": "2026-08-28T10:28:08.380404+00:00",
+    "file_path": "020-ลิ้นผิดปกติ-น.27-30.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a92efe6ea4b2ac773716b760e79f8640",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912522,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912797,
+      "process_end_time": 1787912888,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-020-chunk-000",
+      "tongue-100-020-chunk-001"
+    ]
+  },
+  "tongue-100-040": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-040\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: แผลมะเร็ง\npages: [41, 41]\npdf_pages: [46, 46]\n---\n\n## 21. แผลมะเร็ง\n\nมักจะเป็นที่ขอบและที่ปลายลิ้น แผลมักจะนูนมาก และแข็ง ไม่เจ็บปวด ไม่มีฝ้...",
+    "content_length": 358,
+    "created_at": "2026-08-28T10:08:14.444396+00:00",
+    "updated_at": "2026-08-28T10:30:51.704789+00:00",
+    "file_path": "040-แผลมะเร็ง-น.41-41.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a4cd46351526942cac3822af67cd96fd",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912923,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913026,
+      "process_end_time": 1787913051,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-040-chunk-000"
+    ]
+  },
+  "tongue-100-018": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-018\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: ความสัมพันธ์ระหว่างลิ้นกับอวัยวะภายในและเส้นลมปราณ\npages: [25, 26]\npdf_pages: [30, 31]\n---\n\n## 1. ลิ้นเป็นทวารเปิดของหัวใจ\n\nหัวใจเกี่ยวข้องกั...",
+    "content_length": 1688,
+    "created_at": "2026-08-28T10:08:14.444278+00:00",
+    "updated_at": "2026-08-28T10:27:19.240041+00:00",
+    "file_path": "018-ความสัมพันธ์ระหว่างลิ้นกับอวัยวะภายในและเส้นลมปราณ-น.25-26.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7e66805e50e25d085c9f663c3f42da56",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912412,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912739,
+      "process_end_time": 1787912839,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-018-chunk-000"
+    ]
+  },
+  "tongue-100-072": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-072\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ผิวลิ้นหยาบ\npages: [52, 52]\npdf_pages: [57, 57]\n---\n\n## 51. ผิวลิ้นหยาบ\n\nถ้าผิวลิ้นมีพื้นผิวหยาบ และแข็ง ๆ เหมือนมีแผลเล็ก ๆ เรียกว่า ผิวหยาบ ซึ่...",
+    "content_length": 262,
+    "created_at": "2026-08-28T10:08:14.444568+00:00",
+    "updated_at": "2026-08-28T10:35:05.421649+00:00",
+    "file_path": "072-ผิวลิ้นหยาบ-น.52-52.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d2c5e9f639a4c985913440f540947724",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913233,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913293,
+      "process_end_time": 1787913305,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-072-chunk-000"
+    ]
+  },
+  "tongue-100-099": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-099\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นแข็ง\npages: [63, 63]\npdf_pages: [68, 68]\n---\n\n## 77. ลิ้นแข็ง\n\n- **ลิ้นแข็ง (สีลิ้นปกติ)** — หัวใจมีไฟมาก\n- **ลิ้นแข็ง (ตัวลิ้นแดง)** — หัว...",
+    "content_length": 343,
+    "created_at": "2026-08-28T10:08:14.444712+00:00",
+    "updated_at": "2026-08-28T10:39:22.928750+00:00",
+    "file_path": "099-ลิ้นแข็ง-น.63-63.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "2ad08c6d7da9834849cf58072e94579c",
+    "metadata": {
+      "parse_start_time": 1787911809,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913409,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913506,
+      "process_end_time": 1787913562,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-099-chunk-000"
+    ]
+  },
+  "tongue-100-202": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-202\ntype: source-note\nbook_id: tongue-100\nchapter: กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น\nsection: งานวิจัยของทางจีน การตรวจลิ้นเพื่อคัดกรองและวินิจฉัยมะเร็ง\npages: [81, 83]\npdf_pages: [86, 88]\n---\n\nในงานวิจัยของทางจีน มีการหาศัก...",
+    "content_length": 2324,
+    "created_at": "2026-08-28T10:08:14.444863+00:00",
+    "updated_at": "2026-08-28T10:46:53.614014+00:00",
+    "file_path": "202-งานวิจัยของทางจีน การตรวจลิ้นเพื่อคัดกรองและวินิจฉัยมะเร็ง-น.81-83.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "2d7293c129ac03d3cf931fd8fe3509e8",
+    "metadata": {
+      "parse_start_time": 1787912565,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913827,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913949,
+      "process_end_time": 1787914013,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-202-chunk-000"
+    ]
+  },
+  "tongue-100-010": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-010\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นปกติ\npages: [14, 14]\npdf_pages: [19, 19]\n---\n\nลิ้นปกติมีสีแดงอ่อน รูปร่างไม่หนาหรือบางเกินไป มีฝ้าสีขาวบาง หลอดเลือดดำใต้ลิ้นไม่ขยายเกิ...",
+    "content_length": 265,
+    "created_at": "2026-08-28T10:08:14.444233+00:00",
+    "updated_at": "2026-08-28T10:22:04.068620+00:00",
+    "file_path": "010-ลิ้นปกติ-น.14-14.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d145e370346f3b9a1eddf1f24dbeb5a0",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912207,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912450,
+      "process_end_time": 1787912524,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-010-chunk-000"
+    ]
+  },
+  "tongue-100-036": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-036\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ตุ่มที่ลิ้น\npages: [38, 38]\npdf_pages: [43, 43]\n---\n\n## 17. ตุ่มที่ลิ้น\n\nลิ้นก็เหมือนกับผิวหนังและเยื่อเมือกอื่น ๆ อาจจะเป็นตุ่ม แผล ฝี ต่าง...",
+    "content_length": 592,
+    "created_at": "2026-08-28T10:08:14.444375+00:00",
+    "updated_at": "2026-08-28T10:29:51.624361+00:00",
+    "file_path": "036-ตุ่มที่ลิ้น-น.38-38.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b717b0b70c4388bdc2851698b5fa956d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912888,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912964,
+      "process_end_time": 1787912991,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-036-chunk-000"
+    ]
+  },
+  "tongue-100-042": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-042\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: รอยด้านขาว (leucoplakia)\npages: [42, 42]\npdf_pages: [47, 47]\n---\n\n## 22. รอยด้านขาว (leucoplakia)\n\nเช่นเดียวกับรอยด้านขาวที่เกิดในปากส่วนอื่...",
+    "content_length": 1188,
+    "created_at": "2026-08-28T10:08:14.444406+00:00",
+    "updated_at": "2026-08-28T10:31:58.324050+00:00",
+    "file_path": "042-รอยด้านขาว (leucoplakia)-น.42-42.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f031b2fdb59b3f08c07861314ed7cc50",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912950,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913051,
+      "process_end_time": 1787913118,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-042-chunk-000"
+    ]
+  },
+  "tongue-100-064": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-064\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: มุขวามังสะ\npages: [48, 48]\npdf_pages: [53, 53]\n---\n\n## 44. มุขวามังสะ\n\nมุขะวามังสะ เป็นเม็ดใส",
+    "content_length": 198,
+    "created_at": "2026-08-28T10:08:14.444523+00:00",
+    "updated_at": "2026-08-28T10:34:07.259159+00:00",
+    "file_path": "064-มุขวามังสะ-น.48-48.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "3b109fc6bbbe6103272025582a9d1fd9",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913190,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913236,
+      "process_end_time": 1787913247,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-064-chunk-000"
+    ]
+  },
+  "tongue-100-092": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-092\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลักษณะลิ้นทางการแพทย์แผนจีนที่สำคัญ\npages: [58, 58]\npdf_pages: [63, 63]\n---\n\n## ลักษณะลิ้นทางการแพทย์แผนจีนที่สำคัญ\n\nโดยสรุปการตรวจลิ้นทางการแพทย...",
+    "content_length": 412,
+    "created_at": "2026-08-28T10:08:14.444677+00:00",
+    "updated_at": "2026-08-28T10:37:31.666560+00:00",
+    "file_path": "092-ลักษณะลิ้นทางการแพทย์แผนจีนที่สำคัญ-น.58-58.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "40ba27d92494a10adb2f8808be33b9fc",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913360,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913419,
+      "process_end_time": 1787913451,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-092-chunk-000"
+    ]
+  },
+  "tongue-100-210": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-210\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง ตรวจลักษณะของลิ้น\npages: [95, 96]\npdf_pages: [100, 101]\n---\n\n## ตรวจลักษณะของลิ้น\n\n| ลักษณะลิ้น | การแพทย์อาย...",
+    "content_length": 2073,
+    "created_at": "2026-08-28T10:08:14.444903+00:00",
+    "updated_at": "2026-08-28T10:52:11.285759+00:00",
+    "file_path": "210-ตารางเทียบเคียง ตรวจลักษณะของลิ้น-น.95-96.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ce5e76e0dcf8c42e564de9940a9a00eb",
+    "metadata": {
+      "parse_start_time": 1787912839,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913914,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914251,
+      "process_end_time": 1787914331,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-210-chunk-000"
+    ]
+  },
+  "tongue-100-104": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-104\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ฝ้าสีเทา\npages: [67, 67]\npdf_pages: [72, 72]\n---\n\n## 83. ฝ้าสีเทา\n\n- **ฝ้าสีเทา เปียก และลื่น ๆ** — ของเสียมาก และม้ามชื้น\n- **ฝ้าสีเทา แห้ง** ...",
+    "content_length": 276,
+    "created_at": "2026-08-28T10:08:14.444743+00:00",
+    "updated_at": "2026-08-28T10:41:02.727297+00:00",
+    "file_path": "104-ฝ้าสีเทา-น.67-67.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "127daf4f5f49febe0167f722cd0a2dd6",
+    "metadata": {
+      "parse_start_time": 1787911923,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913451,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913640,
+      "process_end_time": 1787913662,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-104-chunk-000"
+    ]
+  },
+  "tongue-100-121": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-121\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: เส้นกลางลิ้นคดส่วนบนลิ้น\npages: [73, 73]\npdf_pages: [78, 78]\n---\n\n## 100. เส้นกลางลิ้นคดส่วนบนลิ้น\n\nปวดหลัง โรคกระดูกสันหลังคด ส่วนล่าง วาตะถูก...",
+    "content_length": 255,
+    "created_at": "2026-08-28T10:08:14.444827+00:00",
+    "updated_at": "2026-08-28T10:44:22.020953+00:00",
+    "file_path": "121-เส้นกลางลิ้นคดส่วนบนลิ้น-น.73-73.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "500b7a7fadd29fb3de764017b30c7a66",
+    "metadata": {
+      "parse_start_time": 1787912347,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913778,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913835,
+      "process_end_time": 1787913862,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-121-chunk-000"
+    ]
+  },
+  "tongue-100-096": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-096\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นบาง\npages: [61, 61]\npdf_pages: [66, 66]\n---\n\n## 74. ลิ้นบาง\n\n- **บาง ลิ้นแดง** — กผะต่ำ\n- **บาง ลิ้นซีด** — กผะต่ำ และ ขาดเลือด",
+    "content_length": 238,
+    "created_at": "2026-08-28T10:08:14.444698+00:00",
+    "updated_at": "2026-08-28T10:38:09.559435+00:00",
+    "file_path": "096-ลิ้นบาง-น.61-61.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "e33c2882019e132c1d5fad4d9765e1be",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913397,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913471,
+      "process_end_time": 1787913489,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-096-chunk-000"
+    ]
+  },
+  "tongue-100-079": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-079\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นมีความลื่นวาว (光滑舌)\npages: [55, 55]\npdf_pages: [60, 60]\n---\n\n## 58. ลิ้นมีความลื่นวาว (光滑舌)\n\nลิ้นมีความลื่นวาว หมายถึง ตัวลิ้นไม่มีฝ้า ดูมีลั...",
+    "content_length": 387,
+    "created_at": "2026-08-28T10:08:14.444608+00:00",
+    "updated_at": "2026-08-28T10:35:50.960388+00:00",
+    "file_path": "079-ลิ้นมีความลื่นวาว (光滑舌)-น.55-55.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "75dcab3576496171b6293965e538c702",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913263,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913335,
+      "process_end_time": 1787913350,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-079-chunk-000"
+    ]
+  },
+  "tongue-100-108": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-108\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ตุ่มรับรสบนผิวลิ้นนูน\npages: [68, 68]\npdf_pages: [73, 73]\n---\n\n## 87. ตุ่มรับรสบนผิวลิ้นนูน\n\n- **ตุ่มรับรสบนผิวลิ้นนูน** — ปิตตะมาก (ขึ้นกับจุด...",
+    "content_length": 258,
+    "created_at": "2026-08-28T10:08:14.444763+00:00",
+    "updated_at": "2026-08-28T10:41:45.106800+00:00",
+    "file_path": "108-ตุ่มรับรสบนผิวลิ้นนูน-น.68-68.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a15d75028bfe1f9ab81aa0468a30d2f8",
+    "metadata": {
+      "parse_start_time": 1787912029,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913506,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913674,
+      "process_end_time": 1787913705,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-108-chunk-000"
+    ]
+  },
+  "tongue-100-209": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-209\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง ขนาดลิ้น\npages: [94, 94]\npdf_pages: [99, 99]\n---\n\n## ขนาดลิ้น\n\n| ลักษณะลิ้น | การแพทย์อายุรเวท | การแพทย์แผนจ...",
+    "content_length": 762,
+    "created_at": "2026-08-28T10:08:14.444898+00:00",
+    "updated_at": "2026-08-28T10:51:34.888042+00:00",
+    "file_path": "209-ตารางเทียบเคียง ขนาดลิ้น-น.94-94.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4d8e7cace6576f0b1a5edba070d34c45",
+    "metadata": {
+      "parse_start_time": 1787912833,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913912,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914214,
+      "process_end_time": 1787914294,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-209-chunk-000"
+    ]
+  },
+  "tongue-100-084": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-084\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นเฉ (歪斜舌)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 63. ลิ้นเฉ (歪斜舌)\n\nพบในโรคหลอดเลือดทางสมอง หรือภาวะเตือนก่อนเกิดโรคภาวะโรคหลอดเลือดสมอง ซ...",
+    "content_length": 288,
+    "created_at": "2026-08-28T10:08:14.444635+00:00",
+    "updated_at": "2026-08-28T10:36:37.209631+00:00",
+    "file_path": "084-ลิ้นเฉ (歪斜舌)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "30aceb11be8ae962c4e406d879a95066",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913313,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913373,
+      "process_end_time": 1787913397,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-084-chunk-000"
+    ]
+  },
+  "tongue-100-016": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-016\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: การแปรเปลี่ยนไปสู่โรคพยาธิ\npages: [23, 23]\npdf_pages: [28, 28]\n---\n\nความสมบูรณ์ของอิน-หยางในร่างกาย มีความสำคัญต่อสุขภาพ ถ้าความสมดุลเสียไปก็...",
+    "content_length": 1271,
+    "created_at": "2026-08-28T10:08:14.444266+00:00",
+    "updated_at": "2026-08-28T10:25:45.306212+00:00",
+    "file_path": "016-การแปรเปลี่ยนไปสู่โรคพยาธิ-น.23-23.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "9c6e0d7e872afad769c4193d474195e4",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912347,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912673,
+      "process_end_time": 1787912745,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-016-chunk-000"
+    ]
+  },
+  "tongue-100-101": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-101\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นยาว-สั้น\npages: [64, 64]\npdf_pages: [69, 69]\n---\n\n## 79-80. ลิ้นยาว-สั้น\n\n- **ลิ้นยาว** — ปิตตะ ไฟย่อยสูงพร้อมหัวใจถูกรบกวน\n- **ลิ้นสั้น (ต...",
+    "content_length": 382,
+    "created_at": "2026-08-28T10:08:14.444721+00:00",
+    "updated_at": "2026-08-28T10:40:40.711950+00:00",
+    "file_path": "101-ลิ้นยาว-สั้น-น.64-64.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d2a65faa8e5d98827cce6601a4cea7f0",
+    "metadata": {
+      "parse_start_time": 1787911865,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913419,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913562,
+      "process_end_time": 1787913640,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-101-chunk-000"
+    ]
+  },
+  "tongue-100-205": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-205\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง ลิ้นที่มีชีวิตชีวาและลิ้นที่ไม่มีชีวิตชีวา\npages: [86, 86]\npdf_pages: [91, 91]\n---\n\nตารางเทียบเคียงลักษณะลิ้น...",
+    "content_length": 832,
+    "created_at": "2026-08-28T10:08:14.444878+00:00",
+    "updated_at": "2026-08-28T10:48:18.673882+00:00",
+    "file_path": "205-ตารางเทียบเคียง ลิ้นที่มีชีวิตชีวาและลิ้นที่ไม่มีชีวิตชีวา-น.86-86.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "139f0871b23e4282e58ca5ef1038a31e",
+    "metadata": {
+      "parse_start_time": 1787912702,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913850,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914049,
+      "process_end_time": 1787914098,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-205-chunk-000"
+    ]
+  },
+  "tongue-100-007": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-007\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์แผนไทย\nsection: การรู้รสของลิ้น ตามตำราอายุรเวทศึกษา\npages: [10, 10]\npdf_pages: [15, 15]\n---\n\nคนไข้ที่มีวาตะเป็นโทษ ลิ้นอาจรู้สึกต่าง ๆ เช่น บางทีหวาน บางทีฝาด ถ้าร...",
+    "content_length": 1435,
+    "created_at": "2026-08-28T10:08:14.444216+00:00",
+    "updated_at": "2026-08-28T10:20:50.593784+00:00",
+    "file_path": "007-การรู้รสของลิ้น ตามตำราอายุรเวทศึกษา-น.10-10.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "3b50f28e7004064f08a3cc1fc16e351a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912084,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912348,
+      "process_end_time": 1787912450,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-007-chunk-000"
+    ]
+  },
+  "tongue-100-052": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-052\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: สันนิบาตบังเกิดเพื่อเสมหะ (คัมภีร์สิทธิสารสงเคราะห์ เวชศาสตร์วัณณา)\npages: [44, 44]\npdf_pages: [49, 49]\n---\n\n## 32. สันนิบาตบังเกิดเพื่อเสมหะ (คั...",
+    "content_length": 487,
+    "created_at": "2026-08-28T10:08:14.444459+00:00",
+    "updated_at": "2026-08-28T10:33:04.521937+00:00",
+    "file_path": "052-สันนิบาตบังเกิดเพื่อเสมหะ (คัมภีร์สิทธิสารสงเคราะห์ เวชศาสตร์วัณณา)-น.44-44.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c51b9880ca207197d7f73be7402973c8",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913052,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913165,
+      "process_end_time": 1787913184,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-052-chunk-000"
+    ]
+  },
+  "tongue-100-006": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-006\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์แผนไทย\nsection: การตรวจลิ้น ตามตำราอายุรเวทศึกษา\npages: [9, 9]\npdf_pages: [14, 14]\n---\n\nการตรวจตามแผนโบราณ มีระเบียบว่า ต้องตรวจชีพจรก่อน ถัดไปตรวจลิ้น นัยน์ตา และป...",
+    "content_length": 1359,
+    "created_at": "2026-08-28T10:08:14.444210+00:00",
+    "updated_at": "2026-08-28T10:20:05.253666+00:00",
+    "file_path": "006-การตรวจลิ้น ตามตำราอายุรเวทศึกษา-น.9-9.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "071d1bb47547b16c46eecf17f575aa5a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912070,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912333,
+      "process_end_time": 1787912405,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-006-chunk-000"
+    ]
+  },
+  "tongue-100-015": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-015\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: การจำแนกอิน-หยาง\npages: [20, 22]\npdf_pages: [25, 27]\n---\n\nการแพทย์แผนจีนได้จำแนกอิน-หยาง ดังนี้\n\n<!-- p.21 -->## 1. แบ่งร่างกายและเนื้อเยื่อโ...",
+    "content_length": 1708,
+    "created_at": "2026-08-28T10:08:14.444261+00:00",
+    "updated_at": "2026-08-28T10:25:39.669508+00:00",
+    "file_path": "015-การจำแนกอิน-หยาง-น.20-22.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b38665eea54fe17ad941680216774502",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912333,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912616,
+      "process_end_time": 1787912739,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-015-chunk-000"
+    ]
+  },
+  "tongue-100-213": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-213\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง การตรวจการเคลื่อนไหวของตัวลิ้น\npages: [97, 98]\npdf_pages: [102, 103]\n---\n\n## การตรวจการเคลื่อนไหวของตัวลิ้น\n\n...",
+    "content_length": 1882,
+    "created_at": "2026-08-28T10:08:14.444918+00:00",
+    "updated_at": "2026-08-28T10:54:11.798235+00:00",
+    "file_path": "213-ตารางเทียบเคียง การตรวจการเคลื่อนไหวของตัวลิ้น-น.97-98.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "912744d83f49083b4ab5faa6f04be745",
+    "metadata": {
+      "parse_start_time": 1787912868,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787914013,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914331,
+      "process_end_time": 1787914451,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-213-chunk-000"
+    ]
+  },
+  "tongue-100-204": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-204\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\npages: [85, 85]\npdf_pages: [90, 90]\n---\n\nส่วนนี้เป็นความเห็นของผม (หมอเจ) โดยสรุ...",
+    "content_length": 1873,
+    "created_at": "2026-08-28T10:08:14.444873+00:00",
+    "updated_at": "2026-08-28T10:48:12.773356+00:00",
+    "file_path": "204-สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก-น.85-85.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "8bd7cbf1b3989129d076f9186476e51d",
+    "metadata": {
+      "parse_start_time": 1787912673,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913835,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914013,
+      "process_end_time": 1787914092,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-204-chunk-000"
+    ]
+  },
+  "tongue-100-203": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-203\ntype: source-note\nbook_id: tongue-100\nchapter: กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น\nsection: การใช้ลิ้นวินิจฉัยโรคไตเรื้อรังด้วยศาสตร์การแพทย์แผนจีน\npages: [84, 84]\npdf_pages: [89, 89]\n---\n\nในส่วนการใช้ลิ้นวินิจฉัยโรคไตเรื้...",
+    "content_length": 1685,
+    "created_at": "2026-08-28T10:08:14.444868+00:00",
+    "updated_at": "2026-08-28T10:47:37.182164+00:00",
+    "file_path": "203-การใช้ลิ้นวินิจฉัยโรคไตเรื้อรังด้วยศาสตร์การแพทย์แผนจีน-น.84-84.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "6ae9fe52d881f5f4aa587e144ee9ead9",
+    "metadata": {
+      "parse_start_time": 1787912616,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913833,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913993,
+      "process_end_time": 1787914057,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-203-chunk-000"
+    ]
+  },
+  "tongue-100-109": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-109\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นมีรอยหยักของฟัน\npages: [68, 68]\npdf_pages: [73, 73]\n---\n\n## 88. ลิ้นมีรอยหยักของฟัน\n\n- **ลิ้นมีรอยหยักของฟันเล็กน้อย** — วาตะไม่สมดุลร่วมกั...",
+    "content_length": 532,
+    "created_at": "2026-08-28T10:08:14.444768+00:00",
+    "updated_at": "2026-08-28T10:42:58.811558+00:00",
+    "file_path": "109-ลิ้นมีรอยหยักของฟัน-น.68-68.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a5e4fe64d241e9803e86c2f819713770",
+    "metadata": {
+      "parse_start_time": 1787912032,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913512,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913698,
+      "process_end_time": 1787913778,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-109-chunk-000"
+    ]
+  },
+  "four-elements-13": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-13\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ความรัก\npages: [29, 30]\npdf_pages: [24, 25]\n---\n\nวิธีที่ดีที่สุดในการสร้างและรักษาพลังชีวิตของเราคือการให้ความรักแล...",
+    "content_length": 1343,
+    "created_at": "2026-08-28T10:08:14.444134+00:00",
+    "updated_at": "2026-08-28T10:14:44.729473+00:00",
+    "file_path": "13-ความรัก-น.29-30.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f3b6001ade103f7f9bcc2667964c8295",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911803,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912024,
+      "process_end_time": 1787912084,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-13-chunk-000"
+    ]
+  },
+  "tongue-100-031": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-031\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นขรุขระมาก (strawberry tongue)\npages: [36, 36]\npdf_pages: [41, 41]\n---\n\n## 12. ลิ้นขรุขระมาก (strawberry tongue)\n\nลิ้นขรุขระมาก หมายถึง ล...",
+    "content_length": 509,
+    "created_at": "2026-08-28T10:08:14.444347+00:00",
+    "updated_at": "2026-08-28T10:29:10.442821+00:00",
+    "file_path": "031-ลิ้นขรุขระมาก (strawberry tongue)-น.36-36.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "5b2b5a7b69d2c399f69fa1bacf817d75",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912839,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912923,
+      "process_end_time": 1787912950,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-031-chunk-000"
+    ]
+  },
+  "tongue-100-103": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-103\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ฝ้าเหลือง\npages: [66, 66]\npdf_pages: [71, 71]\n---\n\n## 82. ฝ้าเหลือง\n\n- **ฝ้าขาวสกปรกหรือฝ้าเหลืองอ่อน** — ความเย็นภายในเปลี่ยนเป็นความร้อน (เกิ...",
+    "content_length": 871,
+    "created_at": "2026-08-28T10:08:14.444731+00:00",
+    "updated_at": "2026-08-28T10:40:41.321869+00:00",
+    "file_path": "103-ฝ้าเหลือง-น.66-66.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a7475893fdbdf1632c1964e86b0cc7ea",
+    "metadata": {
+      "parse_start_time": 1787911913,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913434,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913576,
+      "process_end_time": 1787913641,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-103-chunk-000"
+    ]
+  },
+  "tongue-100-063": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-063\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: กาละมุขะ\npages: [48, 48]\npdf_pages: [53, 53]\n---\n\n## 43. กาละมุขะ\n\nกาละมุขะ ลิ้นโตดำอยู่",
+    "content_length": 193,
+    "created_at": "2026-08-28T10:08:14.444519+00:00",
+    "updated_at": "2026-08-28T10:34:05.677269+00:00",
+    "file_path": "063-กาละมุขะ-น.48-48.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "9566611125e207716479ad40dd066c28",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913184,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913233,
+      "process_end_time": 1787913245,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-063-chunk-000"
+    ]
+  },
+  "tongue-100-048": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-048\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ไข้ลากสาดปานดำ (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 28. ไข้ลากสาดปานดำ (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\n\nที...",
+    "content_length": 342,
+    "created_at": "2026-08-28T10:08:14.444437+00:00",
+    "updated_at": "2026-08-28T10:32:25.848693+00:00",
+    "file_path": "048-ไข้ลากสาดปานดำ (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "00554366c74ec27d76b246d29ff45bc6",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912991,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913131,
+      "process_end_time": 1787913145,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-048-chunk-000"
+    ]
+  },
+  "tongue-100-117": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-117\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นมีจุดสีขาวตรงส่วนลำไส้\npages: [72, 72]\npdf_pages: [77, 77]\n---\n\n## 96. ลิ้นมีจุดสีขาวตรงส่วนลำไส้\n\nมีพิษในลำไส้",
+    "content_length": 222,
+    "created_at": "2026-08-28T10:08:14.444807+00:00",
+    "updated_at": "2026-08-28T10:43:47.884411+00:00",
+    "file_path": "117-ลิ้นมีจุดสีขาวตรงส่วนลำไส้-น.72-72.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a0a383e7dc047d81abd9b6feabee9703",
+    "metadata": {
+      "parse_start_time": 1787912240,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913674,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913812,
+      "process_end_time": 1787913827,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-117-chunk-000"
+    ]
+  },
+  "tongue-100-060": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-060\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: มุกขะโจมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [47, 47]\npdf_pages: [52, 52]\n---\n\n## 40. มุกขะโจมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nมุกขะโจม...",
+    "content_length": 286,
+    "created_at": "2026-08-28T10:08:14.444503+00:00",
+    "updated_at": "2026-08-28T10:33:53.719164+00:00",
+    "file_path": "060-มุกขะโจมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.47-47.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "41f3265acbcb0cba72fe6adebff29919",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913145,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913215,
+      "process_end_time": 1787913233,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-060-chunk-000"
+    ]
+  },
+  "tongue-100-043": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-043\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ไข้ที่มีอาการแสดงออกทางลิ้น (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 23. ไข้ที่มีอาการแสดงออกทางลิ้น (คัมภี...",
+    "content_length": 561,
+    "created_at": "2026-08-28T10:08:14.444411+00:00",
+    "updated_at": "2026-08-28T10:31:37.527512+00:00",
+    "file_path": "043-ไข้ที่มีอาการแสดงออกทางลิ้น (คัมภีร์ฉันทศาสตร์ เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b707d5ddaa4536bb1083e6a299fa8faa",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912958,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913052,
+      "process_end_time": 1787913097,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-043-chunk-000"
+    ]
+  },
+  "tongue-100-033": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-033\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นแผนที่ (geographic tongue)\npages: [37, 37]\npdf_pages: [42, 42]\n---\n\n## 14. ลิ้นแผนที่ (geographic tongue)\n\nลิ้นแผนที่ หมายถึงลิ้นที่มีเส...",
+    "content_length": 579,
+    "created_at": "2026-08-28T10:08:14.444358+00:00",
+    "updated_at": "2026-08-28T10:29:24.640559+00:00",
+    "file_path": "033-ลิ้นแผนที่ (geographic tongue)-น.37-37.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d4f195f08de0f14231b672327082cef0",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912861,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912950,
+      "process_end_time": 1787912964,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-033-chunk-000"
+    ]
+  },
+  "tongue-100-046": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-046\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ไข้เปลวไฟฟ้า (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\npages: [43, 43]\npdf_pages: [48, 48]\n---\n\n## 26. ไข้เปลวไฟฟ้า (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)\n\nทีนี้จ...",
+    "content_length": 491,
+    "created_at": "2026-08-28T10:08:14.444427+00:00",
+    "updated_at": "2026-08-28T10:32:22.268867+00:00",
+    "file_path": "046-ไข้เปลวไฟฟ้า (คัมภีร์ตักศิลา เวชศาสตร์วัณณา)-น.43-43.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "e0005c9e3a099ce4157924d08110418a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912978,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913118,
+      "process_end_time": 1787913142,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-046-chunk-000"
+    ]
+  },
+  "tongue-100-076": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-076\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ตุ่มรับรสบนผิวลิ้นนูน\npages: [54, 54]\npdf_pages: [59, 59]\n---\n\n## 55. ตุ่มรับรสบนผิวลิ้นนูน\n\nหมายถึง ลักษณะผิวลิ้นมีตุ่มเล็ก ๆ แดง ๆ หรือเป็นตุ่ม...",
+    "content_length": 374,
+    "created_at": "2026-08-28T10:08:14.444591+00:00",
+    "updated_at": "2026-08-28T10:35:35.203837+00:00",
+    "file_path": "076-ตุ่มรับรสบนผิวลิ้นนูน-น.54-54.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0abec3d42f52bde298abfcbafc5168f4",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913247,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913319,
+      "process_end_time": 1787913335,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-076-chunk-000"
+    ]
+  },
+  "four-elements-09": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-09\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: เวลาและเทคโนโลยี\npages: [25, 26]\npdf_pages: [20, 21]\n---\n\nโชคไม่ดีที่สังคมของโลกปัจจุบันไม่ได้มุ่งไปในทางที่เอื้ออำ...",
+    "content_length": 1946,
+    "created_at": "2026-08-28T10:08:14.444109+00:00",
+    "updated_at": "2026-08-28T10:12:50.362243+00:00",
+    "file_path": "09-เวลาและเทคโนโลยี-น.25-26.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7debe4b1b4e37394441cdcbc3a4104ae",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911913,
+      "process_end_time": 1787911970,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-09-chunk-000"
+    ]
+  },
+  "tongue-100-098": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-098\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นรูปร่างค้อน\npages: [62, 62]\npdf_pages: [67, 67]\n---\n\n## 76. ลิ้นรูปร่างค้อน\n\n- **ลิ้นรูปร่างค้อน** — กระเพาะอาหาร ม้าม และไต พร่อง",
+    "content_length": 241,
+    "created_at": "2026-08-28T10:08:14.444707+00:00",
+    "updated_at": "2026-08-28T10:38:32.227705+00:00",
+    "file_path": "098-ลิ้นรูปร่างค้อน-น.62-62.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "0b5c1e995fb89dabb5c37179847c2111",
+    "metadata": {
+      "parse_start_time": 1787911803,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913407,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913489,
+      "process_end_time": 1787913512,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-098-chunk-000"
+    ]
+  },
+  "four-elements-11": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-11\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ธาตุทั้งสี่และตัวตนของเรา\npages: [27, 28]\npdf_pages: [22, 23]\n---\n\nในการศึกษาของโหราศาสตร์ มนุษย์ถูกประกอบขึ้นเป็นต...",
+    "content_length": 907,
+    "created_at": "2026-08-28T10:08:14.444121+00:00",
+    "updated_at": "2026-08-28T10:13:44.087003+00:00",
+    "file_path": "11-ธาตุทั้งสี่และตัวตนของเรา-น.27-28.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "329d9e6edd6d8c9f93b1dbbd1f7c3c28",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911963,
+      "process_end_time": 1787912024,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-11-chunk-000"
+    ]
+  },
+  "tongue-100-023": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-023\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นม่วง\npages: [32, 32]\npdf_pages: [37, 37]\n---\n\n## 4. ลิ้นม่วง\n\nถ้าสีของลิ้นม่วง (เขียว) กว่าปกติ มักจะแสดงถึง ภาวะเลือดขาดออกซิเจน เป็นต้...",
+    "content_length": 251,
+    "created_at": "2026-08-28T10:08:14.444304+00:00",
+    "updated_at": "2026-08-28T10:27:48.650237+00:00",
+    "file_path": "023-ลิ้นม่วง-น.32-32.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "10f40e272919322f26111698250cf4b7",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912565,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912858,
+      "process_end_time": 1787912868,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-023-chunk-000"
+    ]
+  },
+  "tongue-100-054": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-054\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: มังสะ\npages: [45, 45]\npdf_pages: [50, 50]\n---\n\n## 34. มังสะ\n\nกลางลิ้น ต้นลิ้นขึ้นมา อย่างหนามขนุน (คัมภีร์มุขโรค เวชศาสตร์วัณณา)",
+    "content_length": 233,
+    "created_at": "2026-08-28T10:08:14.444471+00:00",
+    "updated_at": "2026-08-28T10:33:18.211285+00:00",
+    "file_path": "054-มังสะ-น.45-45.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "31f12bea43f7b2e0224c7f3e807bc158",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913097,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913184,
+      "process_end_time": 1787913198,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-054-chunk-000"
+    ]
+  },
+  "tongue-100-114": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-114\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: จุด-ต่อมรับรสส่วนลำไส้โต\npages: [71, 71]\npdf_pages: [76, 76]\n---\n\n## 93. จุด/ต่อมรับรสส่วนลำไส้โต\n\nลำไส้ไวต่อสิ่งกระตุ้น (sensitive colon)",
+    "content_length": 245,
+    "created_at": "2026-08-28T10:08:14.444792+00:00",
+    "updated_at": "2026-08-28T10:43:32.873567+00:00",
+    "file_path": "114-จุด-ต่อมรับรสส่วนลำไส้โต-น.71-71.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4887f57c80d07790f8585cb6df2494d2",
+    "metadata": {
+      "parse_start_time": 1787912191,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913641,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913798,
+      "process_end_time": 1787913812,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-114-chunk-000"
+    ]
+  },
+  "tongue-100-030": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-030\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นเลี่ยนหรือเรียบ\npages: [36, 36]\npdf_pages: [41, 41]\n---\n\n## 11. ลิ้นเลี่ยนหรือเรียบ\n\nลิ้นเลี่ยน หมายถึงลิ้นที่มีผิวเรียบ หรือเลี่ยนกว่าป...",
+    "content_length": 862,
+    "created_at": "2026-08-28T10:08:14.444342+00:00",
+    "updated_at": "2026-08-28T10:29:18.941334+00:00",
+    "file_path": "030-ลิ้นเลี่ยนหรือเรียบ-น.36-36.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7c5f1e2ec5c5a0eb00bd68f51b33590d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912833,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912914,
+      "process_end_time": 1787912958,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-030-chunk-000"
+    ]
+  },
+  "tongue-100-035": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-035\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นอักเสบ (glossitis)\npages: [38, 38]\npdf_pages: [43, 43]\n---\n\n## 16. ลิ้นอักเสบ (glossitis)\n\nลิ้นอักเสบ หมายถึง ลิ้นที่บวมแดง ร้อนและเจ็บ ...",
+    "content_length": 566,
+    "created_at": "2026-08-28T10:08:14.444369+00:00",
+    "updated_at": "2026-08-28T10:29:49.128096+00:00",
+    "file_path": "035-ลิ้นอักเสบ (glossitis)-น.38-38.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "d39a864fd141c0dab77e44c4723351d3",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912873,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912960,
+      "process_end_time": 1787912989,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-035-chunk-000"
+    ]
+  },
+  "tongue-100-113": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-113\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: จุดแดงในส่วนกระเพาะอาหาร\npages: [71, 71]\npdf_pages: [76, 76]\n---\n\n## 92. จุดแดงในส่วนกระเพาะอาหาร\n\nกลุ่มแผลในกระเพาะอาหาร หรือ กระเพาะอาหารอักเ...",
+    "content_length": 252,
+    "created_at": "2026-08-28T10:08:14.444787+00:00",
+    "updated_at": "2026-08-28T10:43:24.401666+00:00",
+    "file_path": "113-จุดแดงในส่วนกระเพาะอาหาร-น.71-71.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "413b208a2a071fe200fc152684b07cdf",
+    "metadata": {
+      "parse_start_time": 1787912173,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913640,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913787,
+      "process_end_time": 1787913804,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-113-chunk-000"
+    ]
+  },
+  "tongue-100-034": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-034\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ขอบลิ้นหยัก (Indented edge)\npages: [37, 37]\npdf_pages: [42, 42]\n---\n\n## 15. ขอบลิ้นหยัก (Indented edge)\n\n<!-- sic: Indentededge -->\nขอบลิ้นห...",
+    "content_length": 500,
+    "created_at": "2026-08-28T10:08:14.444364+00:00",
+    "updated_at": "2026-08-28T10:29:38.585781+00:00",
+    "file_path": "034-ขอบลิ้นหยัก (Indented edge)-น.37-37.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "aef0359845c21796fb4ca35987997836",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912868,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912958,
+      "process_end_time": 1787912978,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-034-chunk-000"
+    ]
+  },
+  "tongue-100-100": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-100\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นเปลี้ย\npages: [63, 63]\npdf_pages: [68, 68]\n---\n\n## 78. ลิ้นเปลี้ย\n\n- **ลิ้นเปลี้ย ไม่มีแรง (ตัวลิ้นซีด)** — วาตะถูกรบกวน และ คุณภาพเลือดต่ำ...",
+    "content_length": 393,
+    "created_at": "2026-08-28T10:08:14.444716+00:00",
+    "updated_at": "2026-08-28T10:39:28.909161+00:00",
+    "file_path": "100-ลิ้นเปลี้ย-น.63-63.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7a8a73cf4a379d94ec6951f1962ef6b5",
+    "metadata": {
+      "parse_start_time": 1787911857,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913416,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913512,
+      "process_end_time": 1787913568,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-100-chunk-000"
+    ]
+  },
+  "tongue-100-116": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-116\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นส่วนหัวใจดูไม่มีชีวิตชีวา\npages: [72, 72]\npdf_pages: [77, 77]\n---\n\n## 95. ลิ้นส่วนหัวใจดูไม่มีชีวิตชีวา\n\nหัวใจอ่อนแอ",
+    "content_length": 227,
+    "created_at": "2026-08-28T10:08:14.444802+00:00",
+    "updated_at": "2026-08-28T10:43:53.627137+00:00",
+    "file_path": "116-ลิ้นส่วนหัวใจดูไม่มีชีวิตชีวา-น.72-72.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "cfa69fa90e0491ad986008f358c2ef63",
+    "metadata": {
+      "parse_start_time": 1787912219,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913662,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913811,
+      "process_end_time": 1787913833,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-116-chunk-000"
+    ]
+  },
+  "four-elements-03": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-03\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: ในอดีต\npages: [18, 19]\npdf_pages: [13, 14]\n---\n\nจากบันทึกเก่าแก่ของมนุษย์โบราณ นักค้นคว้าได้ค้นพบรอยบากที่ทำไว้บนกร...",
+    "content_length": 1544,
+    "created_at": "2026-08-28T10:08:14.444063+00:00",
+    "updated_at": "2026-08-28T10:10:03.654022+00:00",
+    "file_path": "03-ในอดีต-น.18-19.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a11cd711476eba2f1feaf436e33a06ea",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911694,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787911694,
+      "process_end_time": 1787911803,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-03-chunk-000"
+    ]
+  },
+  "tongue-100-055": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-055\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: กาละมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [45, 45]\npdf_pages: [50, 50]\n---\n\n## 35. กาละมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nกาละมังสะ ลิ้น...",
+    "content_length": 266,
+    "created_at": "2026-08-28T10:08:14.444477+00:00",
+    "updated_at": "2026-08-28T10:33:23.898729+00:00",
+    "file_path": "055-กาละมังสะ (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.45-45.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "9286cc4ae017fed54f714e11c19e21c0",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913118,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913190,
+      "process_end_time": 1787913203,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-055-chunk-000"
+    ]
+  },
+  "tongue-100-068": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-068\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นสีซีด หรือสีขาวซีด (舌淡白)\npages: [50, 50]\npdf_pages: [55, 55]\n---\n\n## 47. ลิ้นสีซีด หรือสีขาวซีด (舌淡白)\n\nลิ้นสีซีด หรือสีขาวซีด หมายถึง สีของตั...",
+    "content_length": 582,
+    "created_at": "2026-08-28T10:08:14.444546+00:00",
+    "updated_at": "2026-08-28T10:34:47.544599+00:00",
+    "file_path": "068-ลิ้นสีซีด หรือสีขาวซีด (舌淡白)-น.50-50.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "fa790c645e90a3b053d8fdd4ab4c8ec5",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913212,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913254,
+      "process_end_time": 1787913287,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-068-chunk-000"
+    ]
+  },
+  "tongue-100-070": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-070\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นสีแดงจัด หรือสีแดงเข้ม (舌绛红)\npages: [51, 51]\npdf_pages: [56, 56]\n---\n\n## 49. ลิ้นสีแดงจัด หรือสีแดงเข้ม (舌绛红)\n\nลิ้นสีแดงจัด หรือสีแดงเข้ม หมา...",
+    "content_length": 586,
+    "created_at": "2026-08-28T10:08:14.444557+00:00",
+    "updated_at": "2026-08-28T10:35:02.739620+00:00",
+    "file_path": "070-ลิ้นสีแดงจัด หรือสีแดงเข้ม (舌绛红)-น.51-51.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a64b8ccfc4f2e8652eb696b1ad1c39dd",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913216,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913263,
+      "process_end_time": 1787913302,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-070-chunk-000"
+    ]
+  },
+  "tongue-100-032": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-032\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นเป็นร่อง (furrowed or fissured tongue)\npages: [36, 36]\npdf_pages: [41, 41]\n---\n\n## 13. ลิ้นเป็นร่อง (furrowed or fissured tongue)\n\nลิ้นเ...",
+    "content_length": 392,
+    "created_at": "2026-08-28T10:08:14.444353+00:00",
+    "updated_at": "2026-08-28T10:29:20.358204+00:00",
+    "file_path": "032-ลิ้นเป็นร่อง (furrowed or fissured tongue)-น.36-36.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "733bfbac3e9e41b0901982b4cd7916d9",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912858,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912945,
+      "process_end_time": 1787912960,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-032-chunk-000"
+    ]
+  },
+  "tongue-100-082": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-082\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นแข็งทื่อ (强硬舌)\npages: [56, 56]\npdf_pages: [61, 61]\n---\n\n## 61. ลิ้นแข็งทื่อ (强硬舌)\n\n**การเคลื่อนไหวของตัวลิ้น**\n\nความร้อนทำลายสารน้ำ ความร้อนเ...",
+    "content_length": 365,
+    "created_at": "2026-08-28T10:08:14.444624+00:00",
+    "updated_at": "2026-08-28T10:36:17.646252+00:00",
+    "file_path": "082-ลิ้นแข็งทื่อ (强硬舌)-น.56-56.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "89d532fa2ba56a6a6495fded79a52cef",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913302,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913353,
+      "process_end_time": 1787913377,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-082-chunk-000"
+    ]
+  },
+  "tongue-100-111": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-111\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: การตรวจจุดสะท้อนลิ้น\npages: [69, 70]\npdf_pages: [74, 75]\n---\n\n## 90. การตรวจจุดสะท้อนลิ้น\n\nการตรวจนั้นต้องดูจุดที่ขึ้น รอยแตก ความบวม คอด ของลิ...",
+    "content_length": 1146,
+    "created_at": "2026-08-28T10:08:14.444778+00:00",
+    "updated_at": "2026-08-28T10:43:18.215893+00:00",
+    "file_path": "111-การตรวจจุดสะท้อนลิ้น-น.69-70.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "5b9eab6ddc42ea6901d5ae1ccb96e475",
+    "metadata": {
+      "parse_start_time": 1787912070,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913568,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913720,
+      "process_end_time": 1787913798,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-111-chunk-000"
+    ]
+  },
+  "tongue-100-051": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-051\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: น้ำลายพิการ\npages: [44, 44]\npdf_pages: [49, 49]\n---\n\n## 31. น้ำลายพิการ\n\nคัมภีร์ธาตุวิภังค์ เวชศาสตร์วัณณา น้ำลายพิการ ให้ปากเปื่อย คอเปื่อย น้ำล...",
+    "content_length": 402,
+    "created_at": "2026-08-28T10:08:14.444452+00:00",
+    "updated_at": "2026-08-28T10:32:54.307605+00:00",
+    "file_path": "051-น้ำลายพิการ-น.44-44.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "913dbc6ed75689bf2d40390e56a71b81",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913051,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913145,
+      "process_end_time": 1787913174,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-051-chunk-000"
+    ]
+  },
+  "tongue-100-062": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-062\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: สะวาระ\npages: [48, 48]\npdf_pages: [53, 53]\n---\n\n## 42. สะวาระ\n\nสะวาระ ฝาดในปาก ในลิ้น ในคาง",
+    "content_length": 196,
+    "created_at": "2026-08-28T10:08:14.444514+00:00",
+    "updated_at": "2026-08-28T10:34:04.125454+00:00",
+    "file_path": "062-สะวาระ-น.48-48.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "4089bee2b092e5380d55c6ca059d6e1d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913174,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913229,
+      "process_end_time": 1787913244,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-062-chunk-000"
+    ]
+  },
+  "tongue-100-201": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-201\ntype: source-note\nbook_id: tongue-100\nchapter: กรณีศึกษาและงานวิจัยการตรวจวินิจฉัยลิ้น\nsection: กรณีศึกษา\npages: [79, 80]\npdf_pages: [84, 85]\n---\n\nผู้ป่วยเพศหญิงอายุ 86 ปี มาด้วยอาการสำคัญคือ ปวดเข่า 2 ข้าง ด้านหน้า ปวดจี๊ด แล...",
+    "content_length": 1811,
+    "created_at": "2026-08-28T10:08:14.444858+00:00",
+    "updated_at": "2026-08-28T10:47:29.890783+00:00",
+    "file_path": "201-กรณีศึกษา-น.79-80.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c9b6246d3ea34484400a4bad7033ad90",
+    "metadata": {
+      "parse_start_time": 1787912552,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913820,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913914,
+      "process_end_time": 1787914049,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-201-chunk-000"
+    ]
+  },
+  "tongue-100-027": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-027\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นแห้ง\npages: [34, 34]\npdf_pages: [39, 39]\n---\n\n## 8. ลิ้นแห้ง\n\nความแห้งของลิ้นใช้แสดงถึงภาวะร่างกายขาดน้ำ มักพบในคนที่เป็นไข้ (ตัวร้อน) น...",
+    "content_length": 599,
+    "created_at": "2026-08-28T10:08:14.444326+00:00",
+    "updated_at": "2026-08-28T10:28:43.327148+00:00",
+    "file_path": "027-ลิ้นแห้ง-น.34-34.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b89d89575898f4d95232f32c313ede95",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912739,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912888,
+      "process_end_time": 1787912923,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-027-chunk-000"
+    ]
+  },
+  "tongue-100-094": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-094\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นแดง\npages: [59, 60]\npdf_pages: [64, 65]\n---\n\n## 72. ลิ้นแดง\n\n- **แดง** — ความร้อนภายใน (อาจเกิดจากการติดเชื้อ หรือความเจ็บป่วยที่ทำให้เกิดไ...",
+    "content_length": 1048,
+    "created_at": "2026-08-28T10:08:14.444689+00:00",
+    "updated_at": "2026-08-28T10:38:05.413135+00:00",
+    "file_path": "094-ลิ้นแดง-น.59-60.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ce43184116709d8b29bdf8306ac55099",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913377,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913434,
+      "process_end_time": 1787913485,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-094-chunk-000"
+    ]
+  },
+  "four-elements-14": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-14\ntype: source-note\nbook_id: four-elements\nchapter: ประวัติศาสตร์และการใช้วิธีการบำบัดด้วยธาตุทั้งสี่\nsection: คุณภาพของชีวิต\npages: [30, 30]\npdf_pages: [25, 25]\n---\n\nคุณภาพของชีวิตเกิดจากพลังชีวิตที่ดีงาม ไม่ได้เกิดจากวัตถุหร...",
+    "content_length": 1376,
+    "created_at": "2026-08-28T10:08:14.444140+00:00",
+    "updated_at": "2026-08-28T10:14:20.825410+00:00",
+    "file_path": "14-คุณภาพของชีวิต-น.30-30.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "b65e1d631dbcd6de6a187635bc665a3a",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911809,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912029,
+      "process_end_time": 1787912060,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "four-elements-14-chunk-000"
+    ]
+  },
+  "tongue-100-212": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-212\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง การตรวจหลอดเลือดใต้ลิ้น\npages: [97, 97]\npdf_pages: [102, 102]\n---\n\n## การตรวจหลอดเลือดใต้ลิ้น\n\n| ลักษณะลิ้น |...",
+    "content_length": 555,
+    "created_at": "2026-08-28T10:08:14.444913+00:00",
+    "updated_at": "2026-08-28T10:52:47.792827+00:00",
+    "file_path": "212-ตารางเทียบเคียง การตรวจหลอดเลือดใต้ลิ้น-น.97-97.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ca1a0570301bdd7c91a2470e425bbe7e",
+    "metadata": {
+      "parse_start_time": 1787912861,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913993,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914294,
+      "process_end_time": 1787914367,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-212-chunk-000"
+    ]
+  },
+  "tongue-100-115": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-115\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: จุดสีดำ-เทา ที่บริเวณไตทั้ง 2 ข้าง\npages: [71, 71]\npdf_pages: [76, 76]\n---\n\n## 94. จุดสีดำ/เทา ที่บริเวณไตทั้ง 2 ข้าง\n\nไตผิดปกติ",
+    "content_length": 235,
+    "created_at": "2026-08-28T10:08:14.444797+00:00",
+    "updated_at": "2026-08-28T10:43:40.624341+00:00",
+    "file_path": "115-จุดสีดำ-เทา ที่บริเวณไตทั้ง 2 ข้าง-น.71-71.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ee6077e0a60952b236fba767e386d25c",
+    "metadata": {
+      "parse_start_time": 1787912207,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913656,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913804,
+      "process_end_time": 1787913820,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-115-chunk-000"
+    ]
+  },
+  "tongue-100-067": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-067\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นที่ไม่มีชีวิตชีวา (无神)\npages: [49, 49]\npdf_pages: [54, 54]\n---\n\n## 46. ลิ้นที่ไม่มีชีวิตชีวา (无神)\n\nลิ้นที่ไม่มีชีวิตชีวา หมายถึง ตัวลิ้นมีลัก...",
+    "content_length": 371,
+    "created_at": "2026-08-28T10:08:14.444541+00:00",
+    "updated_at": "2026-08-28T10:34:20.940583+00:00",
+    "file_path": "067-ลิ้นที่ไม่มีชีวิตชีวา (无神)-น.49-49.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "acfa390fb9fe38e0b38693f3c75b63da",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913203,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913247,
+      "process_end_time": 1787913260,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-067-chunk-000"
+    ]
+  },
+  "tongue-100-206": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-206\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง สี\npages: [86, 88]\npdf_pages: [91, 93]\n---\n\n## สี\n\n| ลักษณะลิ้น | การแพทย์อายุรเวท | การแพทย์แผนจีน | การแพทย...",
+    "content_length": 3486,
+    "created_at": "2026-08-28T10:08:14.444884+00:00",
+    "updated_at": "2026-08-28T10:50:14.279454+00:00",
+    "file_path": "206-ตารางเทียบเคียง สี-น.86-88.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "772cca74b98066cd5008748c8c306058",
+    "metadata": {
+      "parse_start_time": 1787912739,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913862,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914057,
+      "process_end_time": 1787914214,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-206-chunk-000",
+      "tongue-100-206-chunk-001"
+    ]
+  },
+  "tongue-100-008": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-008\ntype: source-note\nbook_id: tongue-100\nchapter: คัมภีร์มุขโรค (เวชศาสตร์วัณณา)\nsection: คัมภีร์มุขโรค (เวชศาสตร์วัณณา)\npages: [11, 13]\npdf_pages: [16, 18]\n---\n\nสิทธิการิยะ จะกล่าวมุขโรคเกิดในลำคอแลปากสิบเก้าประการ\n\n1. ทานะสา นั...",
+    "content_length": 5378,
+    "created_at": "2026-08-28T10:08:14.444221+00:00",
+    "updated_at": "2026-08-28T10:25:02.693338+00:00",
+    "file_path": "008-คัมภีร์มุขโรค (เวชศาสตร์วัณณา)-น.11-13.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "31821d874d20007a13bde1661c2e3cb7",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912173,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912405,
+      "process_end_time": 1787912702,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 3,
+    "chunks_list": [
+      "tongue-100-008-chunk-000",
+      "tongue-100-008-chunk-001",
+      "tongue-100-008-chunk-002"
+    ]
+  },
+  "tongue-100-102": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-102\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ฝ้าขาว\npages: [64, 65]\npdf_pages: [69, 70]\n---\n\n## 81. ฝ้าขาว\n\n- **ฝ้าบาง** — เป็นฝ้าที่หนาพอที่จะมองเห็นได้ แต่บางพอที่จะมองทะลุไปลิ้น เป็นภาว...",
+    "content_length": 2659,
+    "created_at": "2026-08-28T10:08:14.444727+00:00",
+    "updated_at": "2026-08-28T10:41:38.242220+00:00",
+    "file_path": "102-ฝ้าขาว-น.64-65.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ad2a8021bcf580d0cda9ac0c2fd34bee",
+    "metadata": {
+      "parse_start_time": 1787911876,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913425,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913568,
+      "process_end_time": 1787913698,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "tongue-100-102-chunk-000",
+      "tongue-100-102-chunk-001"
+    ]
+  },
+  "tongue-100-053": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-053\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนไทย\nsection: ทานะสา (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\npages: [45, 45]\npdf_pages: [50, 50]\n---\n\n## 33. ทานะสา (คัมภีร์มุขโรค เวชศาสตร์วัณณา)\n\nทานะสา ใต้ลิ้นงอกขึ้...",
+    "content_length": 267,
+    "created_at": "2026-08-28T10:08:14.444465+00:00",
+    "updated_at": "2026-08-28T10:33:11.452412+00:00",
+    "file_path": "053-ทานะสา (คัมภีร์มุขโรค เวชศาสตร์วัณณา)-น.45-45.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "eae32e33f84f92dac1aee52ebd516a4e",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913090,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913174,
+      "process_end_time": 1787913191,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-053-chunk-000"
+    ]
+  },
+  "four-elements-18": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-18\ntype: source-note\nbook_id: four-elements\nchapter: เทคนิคของการสร้างความสมดุลและการดูแล\nsection: การสร้างความสมดุลของธาตุ\npages: [38, 41]\npdf_pages: [33, 36]\n---\n\nคนส่วนมากมักจะมีนิสัยให้ความสำคัญกับธาตุใดธาตุหนึ่งเป็นพิเศษมา...",
+    "content_length": 3459,
+    "created_at": "2026-08-28T10:08:14.444165+00:00",
+    "updated_at": "2026-08-28T10:16:31.849626+00:00",
+    "file_path": "18-การสร้างความสมดุลของธาตุ-น.38-41.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "603e52e52a5dcb56f4cecf8d137d1ffd",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911913,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912084,
+      "process_end_time": 1787912191,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-18-chunk-000",
+      "four-elements-18-chunk-001"
+    ]
+  },
+  "tongue-100-005": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-005\ntype: source-note\nbook_id: tongue-100\nchapter: ลิ้นทางการแพทย์แผนไทย\nsection: การตรวจปาก ตามตำราแพทย์แผนโบราณทั่วไป สาขาเวชกรรม เล่ม 2\npages: [9, 9]\npdf_pages: [14, 14]\n---\n\n1. ปากเหม็น เนื่องจากโรคฟัน โรคอาหาร และธาตุพิการ น้...",
+    "content_length": 327,
+    "created_at": "2026-08-28T10:08:14.444205+00:00",
+    "updated_at": "2026-08-28T10:19:07.992321+00:00",
+    "file_path": "005-การตรวจปาก ตามตำราแพทย์แผนโบราณทั่วไป สาขาเวชกรรม เล่ม 2-น.9-9.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "8144fc02209852b43124f6386a1f45aa",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912060,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912299,
+      "process_end_time": 1787912347,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-005-chunk-000"
+    ]
+  },
+  "tongue-100-093": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-093\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์อายุรเวท\nsection: ลิ้นซีด\npages: [59, 59]\npdf_pages: [64, 64]\n---\n\n## 71. ลิ้นซีด\n\n- **ซีด** — ปิตตะต่ำ (สามารถทำให้เกิดอาการ Hypothyroid หรือความบกพร่องในระบบเผ...",
+    "content_length": 475,
+    "created_at": "2026-08-28T10:08:14.444684+00:00",
+    "updated_at": "2026-08-28T10:37:51.912073+00:00",
+    "file_path": "093-ลิ้นซีด-น.59-59.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "85b4eabf15cf792b7ffebdab55a78fe7",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913373,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913425,
+      "process_end_time": 1787913471,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-093-chunk-000"
+    ]
+  },
+  "tongue-100-081": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-081\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: หลอดเลือดใต้ลิ้นขยาย (瘀血舌下)\npages: [56, 56]\npdf_pages: [61, 61]\n---\n\n## 60. หลอดเลือดใต้ลิ้นขยาย (瘀血舌下)\n\nหลอดเลือดใต้ลิ้นขยาย หมายถึง หลอดเลือดดำ...",
+    "content_length": 427,
+    "created_at": "2026-08-28T10:08:14.444619+00:00",
+    "updated_at": "2026-08-28T10:36:13.689015+00:00",
+    "file_path": "081-หลอดเลือดใต้ลิ้นขยาย (瘀血舌下)-น.56-56.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "7880870ced4eb212d93396a8f93b50ee",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913293,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913350,
+      "process_end_time": 1787913373,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-081-chunk-000"
+    ]
+  },
+  "tongue-100-024": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-024\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนปัจจุบัน\nsection: ลิ้นดำ\npages: [32, 32]\npdf_pages: [37, 37]\n---\n\n## 5. ลิ้นดำ\n\nถ้าสีของลิ้นดำ หรือเป็นจุดดำประปราย มักเกิดในคนผิวดำ หรือในบางครั้งอาจจะแสดงถึ...",
+    "content_length": 314,
+    "created_at": "2026-08-28T10:08:14.444311+00:00",
+    "updated_at": "2026-08-28T10:27:53.062302+00:00",
+    "file_path": "024-ลิ้นดำ-น.32-32.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "c4db6e502f0984fe33ae0c6ff0b9efdc",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912616,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912861,
+      "process_end_time": 1787912873,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-024-chunk-000"
+    ]
+  },
+  "tongue-100-078": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-078\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นมีรอยหยักของฟัน (齿痕舌)\npages: [54, 54]\npdf_pages: [59, 59]\n---\n\n## 57. ลิ้นมีรอยหยักของฟัน (齿痕舌)\n\nลิ้นมีรอยหยักของฟัน หมายถึง ขอบลิ้นมีรอยกดทั...",
+    "content_length": 356,
+    "created_at": "2026-08-28T10:08:14.444602+00:00",
+    "updated_at": "2026-08-28T10:35:46.945663+00:00",
+    "file_path": "078-ลิ้นมีรอยหยักของฟัน (齿痕舌)-น.54-54.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "f48d4b8b0a433a9a59622b39f88116d9",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913260,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913328,
+      "process_end_time": 1787913346,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-078-chunk-000"
+    ]
+  },
+  "tongue-100-085": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-085\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ลิ้นสั่น (颤动舌)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 64. ลิ้นสั่น (颤动舌)\n\nเลือดและชี่พร่อง ความร้อนในร่างกายมากจนทำให้เกิดลม พบในโรคอัมพฤกษ์...",
+    "content_length": 288,
+    "created_at": "2026-08-28T10:08:14.444640+00:00",
+    "updated_at": "2026-08-28T10:36:43.214053+00:00",
+    "file_path": "085-ลิ้นสั่น (颤动舌)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "24d1207a87415b5c851b84df79ca7c2f",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913319,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913377,
+      "process_end_time": 1787913403,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-085-chunk-000"
+    ]
+  },
+  "tongue-100-207": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-207\ntype: source-note\nbook_id: tongue-100\nchapter: สรุปและเทียบเคียงการดูลิ้นจากลักษณะทางคลินิก\nsection: ตารางเทียบเคียง รูปร่าง\npages: [89, 90]\npdf_pages: [94, 95]\n---\n\n## รูปร่าง\n\n| ลักษณะลิ้น | การแพทย์อายุรเวท | การแพทย์แผนจีน...",
+    "content_length": 1945,
+    "created_at": "2026-08-28T10:08:14.444888+00:00",
+    "updated_at": "2026-08-28T10:50:51.393093+00:00",
+    "file_path": "207-ตารางเทียบเคียง รูปร่าง-น.89-90.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "ec3dc26cbf1fd3a7e67b52b2cd36ee9c",
+    "metadata": {
+      "parse_start_time": 1787912745,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913883,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787914092,
+      "process_end_time": 1787914251,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-207-chunk-000"
+    ]
+  },
+  "tongue-100-019": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-019\ntype: source-note\nbook_id: tongue-100\nchapter: พื้นฐานลิ้นทางการแพทย์แผนจีน\nsection: จุดสะท้อนลิ้น\npages: [26, 26]\npdf_pages: [31, 31]\n---\n\n## 1. การแบ่งส่วนต่างของลิ้น\n\n1.1 การแบ่งลิ้นออกเป็น 3 ส่วนของร่างกาย\n\nส่วนปลายลิ้น ร่...",
+    "content_length": 468,
+    "created_at": "2026-08-28T10:08:14.444283+00:00",
+    "updated_at": "2026-08-28T10:27:13.316783+00:00",
+    "file_path": "019-จุดสะท้อนลิ้น-น.26-26.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "22df81c7a1710136ffc83884b60c672b",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787912450,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912745,
+      "process_end_time": 1787912833,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-019-chunk-000"
+    ]
+  },
+  "four-elements-16": {
+    "status": "processed",
+    "content_summary": "---\nuid: four-elements-16\ntype: source-note\nbook_id: four-elements\nchapter: เทคนิคของการสร้างความสมดุลและการดูแล\nsection: เทคนิคของการสร้างความสมดุลและการดูแล\npages: [32, 34]\npdf_pages: [27, 29]\n---\n\nในวิทยาการของโหราศาสตร์ สิ่งรอบๆ ตัวเราประกอบด้วยธ...",
+    "content_length": 3548,
+    "created_at": "2026-08-28T10:08:14.444153+00:00",
+    "updated_at": "2026-08-28T10:16:13.556811+00:00",
+    "file_path": "16-เทคนิคของการสร้างความสมดุลและการดูแล-น.32-34.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "a352f567a64c4e14abe141c25da74d4d",
+    "metadata": {
+      "parse_start_time": 1787911694,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787911865,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787912060,
+      "process_end_time": 1787912173,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 2,
+    "chunks_list": [
+      "four-elements-16-chunk-000",
+      "four-elements-16-chunk-001"
+    ]
+  },
+  "tongue-100-089": {
+    "status": "processed",
+    "content_summary": "---\nuid: tongue-100-089\ntype: source-note\nbook_id: tongue-100\nchapter: โรคลิ้นทางการแพทย์แผนจีน\nsection: ฝ้าลิ้นสีดำ (黑苔)\npages: [57, 57]\npdf_pages: [62, 62]\n---\n\n## 69. ฝ้าลิ้นสีดำ (黑苔)\n\nความร้อนสะสมในร่างกายมาก หรือ ความเย็นสะสมในร่างกายสูงสุด",
+    "content_length": 245,
+    "created_at": "2026-08-28T10:08:14.444661+00:00",
+    "updated_at": "2026-08-28T10:36:59.347100+00:00",
+    "file_path": "089-ฝ้าลิ้นสีดำ (黑苔)-น.57-57.md",
+    "track_id": "insert_20260828_100814_24e4aa1a",
+    "content_hash": "fd714bc0808383eaf5d71981da12ebbc",
+    "metadata": {
+      "parse_start_time": 1787911695,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1787913346,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1787913407,
+      "process_end_time": 1787913419,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "tongue-100-089-chunk-000"
+    ]
+  }
+}

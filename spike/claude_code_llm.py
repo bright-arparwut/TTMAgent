@@ -18,7 +18,14 @@ import os
 import shutil
 
 _SEARCH_PATH = "/opt/homebrew/bin:/usr/local/bin"
-CLAUDE_BIN = shutil.which("claude", path=_SEARCH_PATH) or "/opt/homebrew/bin/claude"
+CLAUDE_BIN = (
+    shutil.which("claude", path=_SEARCH_PATH)
+    # Not a Mac (ticket #30 indexed from a Linux container): fall back to the
+    # environment PATH -- shutil.which never resolves shell aliases, so the
+    # --dangerously-skip-permissions alias this guard exists for stays unseen.
+    or shutil.which("claude")
+    or "/opt/homebrew/bin/claude"
+)
 
 # Run outside the repo so no CLAUDE.md is discovered and pulled into the prompt.
 NEUTRAL_CWD = "/tmp"
