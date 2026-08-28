@@ -7,9 +7,10 @@ Every check is read-only -- this reports, it never fixes. The launch ritual
 itself (and every fix for a red check) is docs/demo-runbook.md; ticket #24
 measured why each of these defaults is a demo-killer.
 
-The graph checks adapt to rollout state: while ``rag_storage/`` does not
-exist (GraphRAG not yet in production), they downgrade to warnings and the
-Chroma corpus store is checked instead.
+GraphRAG is live (ADR 0010): the graph checks (``graph-store``,
+``vdb-drift``, ``corpus-books``, ``index-fresh``) are authoritative, not
+advisory -- a missing or stale graph is a FAIL. ``chroma`` stays WARN-only
+until Phase 5 deletes the Chroma path entirely.
 """
 
 from __future__ import annotations
@@ -41,12 +42,19 @@ LINE_WEBHOOK_API = "https://api.line.me/v2/bot/channel/webhook"
 
 # Ticket #24: the authoritative half of rag_storage/ is committed repo
 # content; the vdb_* half is derived, gitignored, and rebuilt in ~1-3 min
-# with zero LLM calls.
+# with zero LLM calls. LightRAG 1.5.6 writes seven kv_store_*.json files
+# beyond the graphml (#30) -- every one of them is authoritative and
+# committed. Any filename change here must update ADR 0010's storage
+# section too (ADR 0010, "Engine and storage").
 AUTHORITATIVE_FILES = (
     "graph_chunk_entity_relation.graphml",
-    "kv_store_text_chunks.json",
-    "kv_store_full_docs.json",
     "kv_store_doc_status.json",
+    "kv_store_entity_chunks.json",
+    "kv_store_full_docs.json",
+    "kv_store_full_entities.json",
+    "kv_store_full_relations.json",
+    "kv_store_relation_chunks.json",
+    "kv_store_text_chunks.json",
 )
 DERIVED_VDB_FILES = ("vdb_entities.json", "vdb_relationships.json", "vdb_chunks.json")
 
@@ -299,10 +307,11 @@ def check_graph_store(repo_root: Path) -> CheckResult:
     if not storage.is_dir():
         return CheckResult(
             "graph-store",
-            WARN,
-            "rag_storage/ absent -- GraphRAG not rolled out yet; assuming the Chroma path"
-            " serves this demo",
-            hint="once GraphRAG is live, treat this as a FAIL",
+            FAIL,
+            "rag_storage/ missing -- GraphRAG is live (ADR 0010), so the graph is expected"
+            " committed repo content, not an optional extra",
+            hint="git checkout rag_storage/ from the commit you are demoing, never re-extract"
+            " on demo day",
         )
     missing = [name for name in AUTHORITATIVE_FILES if not (storage / name).exists()]
     if missing:
@@ -336,6 +345,31 @@ def check_chroma(persist_dir: str) -> CheckResult:
             " (ADR 0010); this check will be removed in a future phase",
         )
     return CheckResult("chroma", PASS, f"corpus store present at {persist_dir}")
+
+
+def check_corpus_books(repo_root: Path) -> CheckResult:
+    """corpus/books.yaml must name every corpus/<book_id>/ folder (ADR 0010):
+    an uncovered folder is a book whose notes would validate its own
+    book_id field yet still fail citation rendering, which reads titles
+    from books.yaml alone."""
+    from app.rag.source_notes import load_books
+
+    corpus_root = repo_root / "corpus"
+    if not corpus_root.is_dir():
+        return CheckResult("corpus-books", FAIL, "corpus/ directory missing")
+    books = load_books(corpus_root)
+    book_dirs = sorted(p.name for p in corpus_root.iterdir() if p.is_dir())
+    missing = [name for name in book_dirs if name not in books]
+    if missing:
+        return CheckResult(
+            "corpus-books",
+            FAIL,
+            "corpus/books.yaml missing entries for: " + ", ".join(missing),
+            hint="add book_id: title to corpus/books.yaml",
+        )
+    return CheckResult(
+        "corpus-books", PASS, f"books.yaml covers all {len(book_dirs)} corpus folder(s)"
+    )
 
 
 async def _vdb_consistency_report(storage: Path) -> dict:
@@ -393,8 +427,9 @@ def check_vdb_drift(repo_root: Path) -> CheckResult:
         return CheckResult(
             "vdb-drift",
             WARN,
-            "lightrag-hku not importable (still in the spike dependency group)",
-            hint="uv sync --group spike   (#24 moves it to main deps at rollout)",
+            "lightrag-hku not importable",
+            hint="uv sync   (lightrag-hku is a core dependency as of #24's rollout;"
+            " check pyproject.toml/uv.lock)",
         )
     except Exception as exc:  # storage init can fail in many library-internal ways
         return CheckResult("vdb-drift", FAIL, f"consistency check crashed: {exc}")
@@ -419,7 +454,8 @@ def parse_check_index_output(returncode: int, output: str) -> CheckResult:
         return CheckResult(
             "index-fresh",
             WARN,
-            "--check-index not implemented yet (decided in #24; lands with the rollout)",
+            "--check-index not recognized by app.rag.source_notes -- version skew?",
+            hint="uv sync and confirm this checkout has the ticket #24 staleness gate",
         )
     if returncode == 0 and "fresh" in output:
         return CheckResult("index-fresh", PASS, "index matches corpus")
@@ -477,8 +513,11 @@ def run_preflight(port: int) -> list[CheckResult]:
     results.append(graph_store)
     if graph_store.status == PASS:
         results.append(check_vdb_drift(repo_root))
-    elif graph_store.status == WARN:
-        results.append(check_chroma(settings.chroma_persist_dir))
+    # Chroma is being retired alongside this rollout (ADR 0010); the check
+    # stays WARN-only until Phase 5 deletes it, independent of graph-store
+    # status -- see .superpowers/sdd/phase-4-brief.md.
+    results.append(check_chroma(settings.chroma_persist_dir))
+    results.append(check_corpus_books(repo_root))
     results.append(check_index_freshness(repo_root))
     return results
 

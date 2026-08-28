@@ -17,6 +17,7 @@ from app.preflight import (
     CheckResult,
     check_caffeinate,
     check_chroma,
+    check_corpus_books,
     check_env,
     check_graph_store,
     check_prewarm,
@@ -223,8 +224,12 @@ def test_prewarm_fails_when_server_down():
 # --- graph store / chroma ---------------------------------------------------
 
 
-def test_graph_store_warns_before_rollout(tmp_path):
-    assert check_graph_store(tmp_path).status == WARN
+def test_graph_store_fails_when_rag_storage_missing(tmp_path):
+    # GraphRAG is live (ADR 0010): rag_storage/ is committed repo content, so
+    # its absence is a real demo-killer now, not a pre-rollout WARN.
+    result = check_graph_store(tmp_path)
+    assert result.status == FAIL
+    assert "rag_storage" in result.detail
 
 
 def test_graph_store_fails_on_missing_authoritative_files(tmp_path):
@@ -264,6 +269,36 @@ def test_chroma_passes_when_populated(tmp_path):
     store.mkdir()
     (store / "chroma.sqlite3").write_text("")
     assert check_chroma(str(store)).status == PASS
+
+
+# --- corpus books -------------------------------------------------------
+
+
+def test_corpus_books_passes_when_books_yaml_covers_every_folder(tmp_path):
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "2" in result.detail
+
+
+def test_corpus_books_fails_naming_uncovered_folders(tmp_path):
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "books.yaml").write_text("four-elements: Title One\n", encoding="utf-8")
+    result = check_corpus_books(tmp_path)
+    assert result.status == FAIL
+    assert "tongue-100" in result.detail
+
+
+def test_corpus_books_fails_when_corpus_dir_missing(tmp_path):
+    result = check_corpus_books(tmp_path)
+    assert result.status == FAIL
 
 
 # --- index freshness --------------------------------------------------------
