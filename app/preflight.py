@@ -141,6 +141,14 @@ def check_env(settings: Settings) -> CheckResult:
             "PUBLIC_BASE_URL empty -- tongue-photo echo is disabled (ADR 0007)",
             hint="set it to the named tunnel origin",
         )
+    if settings.rag_query_mode == "mix" and not settings.keyword_api_key:
+        return CheckResult(
+            "env",
+            WARN,
+            "KEYWORD_API_KEY empty -- rag_query_mode=mix will silently degrade to naive"
+            " on every message until it is set (ADR 0010)",
+            hint="fill in KEYWORD_API_KEY in .env",
+        )
     return CheckResult("env", PASS, "credentials present, PUBLIC_BASE_URL set")
 
 

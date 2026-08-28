@@ -43,6 +43,7 @@ def _settings(**overrides) -> Settings:
         "advisor_api_key": "advisor-key",
         "describer_api_key": "describer-key",
         "public_base_url": "https://ttm.example.com",
+        "keyword_api_key": "keyword-key",
     }
     values.update(overrides)
     return Settings(**values)
@@ -110,6 +111,21 @@ def test_env_fails_naming_empty_credentials():
 def test_env_warns_without_public_base_url():
     result = check_env(_settings(public_base_url=""))
     assert result.status == WARN
+
+
+def test_env_warns_without_keyword_api_key_in_mix_mode():
+    # mix mode is the default; an empty KEYWORD_API_KEY means every retrieval
+    # silently degrades to naive (ADR 0010) -- a WARN, not a FAIL, since the
+    # app still boots and serves (degraded) replies.
+    result = check_env(_settings(keyword_api_key=""))
+    assert result.status == WARN
+    assert "KEYWORD_API_KEY" in result.detail
+
+
+def test_env_does_not_warn_about_keyword_api_key_in_naive_mode():
+    # naive mode legitimately needs no keyword-extraction key.
+    result = check_env(_settings(keyword_api_key="", rag_query_mode="naive"))
+    assert result.status == PASS
 
 
 # --- tunnel -----------------------------------------------------------------
