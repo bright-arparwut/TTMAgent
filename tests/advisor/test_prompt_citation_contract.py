@@ -28,4 +28,13 @@ def test_prompt_orders_the_citation_before_the_topic_menu_block():
 
 
 def test_prompt_forbids_invented_citations():
-    assert "never invent a book, page, or paragraph number" in SYSTEM_PROMPT
+    assert "never invent one" in SYSTEM_PROMPT
+
+
+def test_prompt_forbids_the_model_from_writing_titles_or_pages_itself():
+    assert "never write a book title, page number, or paragraph number yourself" in SYSTEM_PROMPT
+
+
+def test_prompt_shows_a_bare_id_example_not_a_book_title():
+    example = _prompt_example_citation_line()
+    assert example == "(อ้างอิง: [1] [3])"
