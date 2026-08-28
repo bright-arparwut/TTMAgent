@@ -309,3 +309,26 @@ async def test_missing_store_files_raise_at_boot_naming_rebuild_command(tmp_path
 
     with pytest.raises(RuntimeError, match="lightrag-rebuild-vdb"):
         await vector_store_module.get_rag()
+
+
+async def test_concepts_directory_is_never_mistaken_for_a_book_in_note_body_lookup(
+    tmp_path, monkeypatch
+):
+    """corpus/concepts/ (Phase 6, #17) is the generated vault, not a book --
+    even a same-named file living there must not be returned by _find_note_body,
+    which would otherwise confuse a concepts note with a real source note."""
+    corpus_dir = tmp_path / "corpus"
+    # Write the same filename to both concepts/ and a real book dir
+    _write_note(corpus_dir, "tongue-100", "001-a-น.1-4.md", "book note body")
+    concepts_dir = corpus_dir / "concepts"
+    concepts_dir.mkdir(parents=True, exist_ok=True)
+    (concepts_dir / "001-a-น.1-4.md").write_text(
+        "---\nuid: concept-uid\n---\nconcept note body\n",
+        encoding="utf-8",
+    )
+    settings = _settings(corpus_dir=str(corpus_dir))
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+
+    # _find_note_body should find the book version, not the concepts version
+    result = vector_store_module._find_note_body(corpus_dir, "001-a-น.1-4.md")
+    assert result == "book note body"

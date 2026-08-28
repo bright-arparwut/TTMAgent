@@ -30,6 +30,7 @@ from lightrag.utils import EmbeddingFunc
 from app.advisor.llm import build_chat_model
 from app.config import Settings, get_settings
 from app.rag.embeddings import get_embeddings
+from app.rag.source_notes import NON_BOOK_DIR_NAMES
 
 logger = logging.getLogger(__name__)
 
@@ -197,6 +198,8 @@ def _find_note_body(corpus_dir: Path, filename: str) -> str | None:
     if not corpus_dir.is_dir():
         return None
     for book_dir in sorted(p for p in corpus_dir.iterdir() if p.is_dir()):
+        if book_dir.name in NON_BOOK_DIR_NAMES:
+            continue
         candidate = book_dir / filename
         if candidate.exists():
             return _strip_frontmatter(candidate.read_text(encoding="utf-8"))
