@@ -11,7 +11,17 @@ dies with it; the validated decisions go into the ADR, not into `app/`.
 uv run python -m spike index      # build the graph  (~5 min, Claude Code EXTRACT)
 uv run python -m spike graph      # what the graph actually contains
 uv run python -m spike compare    # naive vs mix over 10 Thai questions
+uv run python -m spike landing    # ticket #36: do Tongue Description values land on node names?
 ```
+
+`landing` is the [ticket #36](https://github.com/bright-arparwut/TTMAgent/issues/36)
+check: it scores Tongue Description axis values (per #31's decided schema) against
+the entity names in `results/graph-raw.json`, tiering each value as landed
+(exact/containment), near (spelling drift), or miss. Until
+[#30](https://github.com/bright-arparwut/TTMAgent/issues/30) indexes the tongue
+book the built-in normal-tongue probe is a negative control — expect ~zero
+landing. Pass `--descriptions photos.json` to score real described photos and
+`--out report.json` to keep the evidence.
 
 Results land in `spike/results/` (gitignored raw dumps aside from the summaries).
 

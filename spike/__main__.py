@@ -3,6 +3,7 @@
     uv run python -m spike index      # build the graph (Claude Code EXTRACT)
     uv run python -m spike graph      # report what the graph actually contains
     uv run python -m spike compare    # naive vs mix over the question set
+    uv run python -m spike landing    # #36: do description values land on node names?
 
 Analysis modules are imported lazily so `index` runs before they exist.
 """
@@ -45,7 +46,13 @@ async def _compare() -> None:
     await write_comparison(RESULTS_DIR)
 
 
-COMMANDS = {"index": _index, "graph": _graph, "compare": _compare}
+async def _landing() -> None:
+    from spike.landing import run_cli
+
+    run_cli(sys.argv[2:])
+
+
+COMMANDS = {"index": _index, "graph": _graph, "compare": _compare, "landing": _landing}
 
 
 def main() -> None:
