@@ -1,10 +1,11 @@
 import logging
 import uuid
+from collections.abc import Sequence
 from datetime import UTC, datetime
 
 from linebot.v3.webhooks import FollowEvent, MessageEvent
 
-from app.advisor.citation import split_citation
+from app.advisor.citation import render_references, split_citation
 from app.advisor.graph import build_advisor_agent, run_advisor
 from app.advisor.tools import build_health_record_tools
 from app.advisor.topic_menu import ParsedReply, split_topic_menu
@@ -40,6 +41,11 @@ RETAKE_GUIDANCE = (
 SYSTEM_HICCUP_MESSAGE = (
     "ขออภัยค่ะ ระบบวิเคราะห์ภาพขัดข้องชั่วคราว กรุณาลองส่งภาพอีกครั้งภายหลังนะคะ"
 )
+
+# ADR 0010, "The retrieval seam": QueryParam.conversation_history does
+# nothing for retrieval (KEYWORD sees only the query string), so the spine
+# gives it conversational context itself -- zero extra LLM calls.
+RETRIEVAL_QUERY_USER_TURNS = 3
 
 
 async def handle_follow(event: FollowEvent, settings: Settings) -> None:
@@ -189,6 +195,16 @@ def _photo_url(photo_id: str | None, settings: Settings) -> str | None:
     return f"{settings.public_base_url.rstrip('/')}/tongue-photos/{photo_id}"
 
 
+def _build_retrieval_query(prior_turns: Sequence[ConsultationTurn], incoming_text: str) -> str:
+    """ADR 0010: the last 2-3 user turns from the Working Buffer,
+    concatenated with the incoming text, oldest first. Independent of
+    `advisor_history_max_turns` (that cap governs what the Advisor replays
+    as conversation; this is retrieval-only context for KEYWORD)."""
+    recent_user_turns = [turn.text for turn in prior_turns if turn.role == "user"]
+    recent_user_turns = recent_user_turns[-RETRIEVAL_QUERY_USER_TURNS:]
+    return "\n".join([*recent_user_turns, incoming_text])
+
+
 async def _run_consultation_turn(
     user_id: str, incoming_text: str, settings: Settings
 ) -> ParsedReply:
@@ -234,7 +250,8 @@ async def _run_consultation_turn(
 
     recent_entries = await record_repo.recent(user_id, settings.health_record_inject_count)
     recent_summary = "\n".join(entry.conversation_summary for entry in recent_entries)
-    passages = await retrieve_passages(incoming_text)
+    retrieval_query = _build_retrieval_query(prior_turns, incoming_text)
+    passages = await retrieve_passages(retrieval_query)
 
     tools = build_health_record_tools(record_repo, user_id)
     agent = build_advisor_agent(settings, tools)
@@ -246,6 +263,12 @@ async def _run_consultation_turn(
         health_profile_block=health_profile_block,
         history=history,
     )
+
+    # Resolve the Advisor's bare-id citation to real book titles and page
+    # ranges (ADR 0010) BEFORE the Working Buffer write, so the buffer --
+    # and the Advisor's own turn history -- holds the resolved citation,
+    # never the bare ids.
+    reply_text = render_references(reply_text, passages)
 
     # The raw reply -- delimiter block included -- goes into the Working
     # Buffer so the Advisor can resolve "ข้อสอง" after LINE hides the
