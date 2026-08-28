@@ -30,13 +30,11 @@ def _photo(**overrides) -> TonguePhoto:
 
 def _description() -> TongueDescription:
     return TongueDescription(
-        body_color="แดง",
-        body_shape="ปกติ",
-        coating_color="ขาว",
-        coating_thickness="บาง",
-        moisture="ชุ่มชื้น",
-        cracks=False,
-        teeth_marks=False,
+        color="แดง",
+        coating="ฝ้าขาวบาง",
+        size="ปกติ",
+        shape="ปกติ",
+        spots="ไม่มีจุด",
         quality="clear",
     )
 
@@ -74,7 +72,7 @@ async def test_set_description_patches_the_document():
     await repo.set_description(_photo().photo_id, _description())
 
     doc = await db["tongue_photos"].find_one({"photo_id": _photo().photo_id})
-    assert doc["description"]["body_color"] == "แดง"
+    assert doc["description"]["color"] == "แดง"
     assert bytes(doc["image"]) == JPEG  # image untouched by the patch
 
 

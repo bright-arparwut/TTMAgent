@@ -28,22 +28,27 @@ class ConsultationTurn(BaseModel):
 class TongueDescription(BaseModel):
     """Structured output of the Vision Describer for one tongue photo.
 
-    Fields are a placeholder pending the TTM textbook's tongue-inspection
-    categories (see CONTEXT.md -> Tongue Description). Extend/replace the
-    category fields once the book schema is finalized; keep `notes` and
-    `quality` regardless, since they are the escape hatch and the retake
-    trigger respectively.
+    Five of the six inspection axes named by '100 ลักษณะวินิจฉัยลิ้น' ch. 12
+    (see CONTEXT.md -> Tongue Description): color/สี, coating/ฝ้า, size/ขนาด,
+    shape/รูปร่าง, spots/จุดบนลิ้น. Free Thai text, not enums -- issue #36's
+    landing-rate check (docs/adr/0010) found steered free text lands on the
+    graph's node names well enough (~96%) that Literal-hardening buys
+    nothing and would force compound observations into a single term.
+    `shape` also covers cracks/teeth marks (ch. 12 notes 207 + 210); the
+    sixth axis, การเคลื่อนไหว, and sublingual veins are deliberately absent --
+    a still top-side crop cannot witness either, and `notes` is the escape
+    hatch for the rare visible case. `moisture` is not a separate field:
+    its content folds into `color`/`coating` via the describer prompt (e.g.
+    ชื้น/แห้ง as part of a color or coating observation).
     """
 
     model_config = ConfigDict(frozen=True)
 
-    body_color: str
-    body_shape: str
-    coating_color: str
-    coating_thickness: str
-    moisture: str
-    cracks: bool
-    teeth_marks: bool
+    color: str
+    coating: str
+    size: str
+    shape: str
+    spots: str
     notes: str = ""
     quality: Literal["clear", "blurry", "partial", "poor_lighting"]
 
