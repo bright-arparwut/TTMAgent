@@ -20,12 +20,19 @@ docker compose up -d   # starts local MongoDB
 ## Run the dev server
 
 ```bash
-uv run uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload --reload-exclude 'rag_storage/*'
 ```
+
+The exclude matters once `rag_storage/` exists: LightRAG writes into its working directory
+at query time, so without it an incoming message can restart the server.
 
 LINE only delivers webhooks to a public HTTPS URL. For local development, expose the dev server
 through a tunnel (e.g. a Cloudflare named tunnel) and set that URL + `/webhook` as the channel's
 webhook URL in the LINE Developers Console.
+
+For a live demo (or anything watched), do **not** use the dev command — follow
+`docs/demo-runbook.md`: reload-free single-worker launch with `EMBEDDING_PREWARM=1`, then
+`uv run python -m app.preflight` to verify everything green before anyone touches the bot.
 
 ## Ingest the TTM corpus
 
