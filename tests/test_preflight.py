@@ -319,6 +319,80 @@ def test_check_index_stale_fails():
     assert "stale" in result.detail
 
 
+# --- run_preflight composition ------------------------------------------------
+
+
+def test_run_preflight_includes_chroma_and_corpus_books_when_graph_store_fails(monkeypatch):
+    """When check_graph_store FAILs, check_chroma still runs (WARN-only) and
+    check_corpus_books is included. This pins the composition logic that
+    check_chroma is independent of graph_store status."""
+    import app.preflight as preflight
+
+    # Monkeypatch check_graph_store to return FAIL
+    def fake_check_graph_store(repo_root):
+        return CheckResult("graph-store", FAIL, "missing files")
+
+    # Mock ps_snapshot to avoid process table reads
+    monkeypatch.setattr(preflight, "ps_snapshot", lambda: PS_CLEAN)
+    # Mock Settings instantiation
+    monkeypatch.setattr(preflight, "Settings", lambda: _settings())
+
+    # Patch individual checks to isolate just the composition
+    monkeypatch.setattr(preflight, "check_graph_store", fake_check_graph_store)
+    monkeypatch.setattr(
+        preflight, "check_env", lambda settings: CheckResult("env", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_mongo", lambda uri: CheckResult("mongo", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_server", lambda ps, port: CheckResult("server", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_prewarm", lambda port: CheckResult("prewarm", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_caffeinate", lambda ps: CheckResult("caffeinate", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_tunnel", lambda ps, url, fetch=None: CheckResult("tunnel", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_webhook",
+        lambda url, token, fetch=None: CheckResult("webhook", PASS, "ok"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_chroma",
+        lambda path: CheckResult("chroma", WARN, "retired"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_corpus_books",
+        lambda repo_root: CheckResult("corpus-books", PASS, "ok"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_index_freshness",
+        lambda repo_root: CheckResult("index-freshness", PASS, "fresh"),
+    )
+
+    results = preflight.run_preflight(8000)
+
+    # Verify the composed results include graph_store (FAIL), chroma (WARN),
+    # and corpus_books (PASS)
+    result_names = {r.name for r in results}
+    result_statuses = {r.name: r.status for r in results}
+
+    assert "graph-store" in result_names
+    assert result_statuses["graph-store"] == FAIL
+    assert "chroma" in result_names
+    assert result_statuses["chroma"] == WARN  # Should still run even after graph-store FAIL
+    assert "corpus-books" in result_names
+    assert result_statuses["corpus-books"] == PASS
+
+
 # --- rendering and exit code ------------------------------------------------
 
 

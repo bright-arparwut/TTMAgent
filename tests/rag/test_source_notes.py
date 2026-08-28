@@ -394,6 +394,17 @@ def test_compute_manifest_covers_every_note_across_a_book(tmp_path):
     assert set(compute_manifest(root)) == {"four-elements-01", "four-elements-02"}
 
 
+def test_compute_manifest_fails_cleanly_on_malformed_note(tmp_path, capsys):
+    root = write_book(tmp_path, [("01-บทนำ-น.13-16.md", "no frontmatter here")])
+    with pytest.raises(SystemExit) as exc:
+        compute_manifest(root)
+    assert exc.value.code == 1
+    stderr = capsys.readouterr().err
+    assert "ERROR" in stderr
+    assert "four-elements/01-บทนำ-น.13-16.md" in stderr
+    assert "frontmatter" in stderr
+
+
 def test_manifest_path_is_a_sibling_rag_storage_of_the_corpus_root(tmp_path):
     root = tmp_path / "corpus"
     root.mkdir()

@@ -327,7 +327,12 @@ def compute_manifest(root: Path) -> dict[str, str]:
     manifest: dict[str, str] = {}
     for book_dir in sorted(p for p in root.iterdir() if p.is_dir()):
         for path in sorted(book_dir.glob("*.md")):
-            note = parse_note(path)
+            where = f"{book_dir.name}/{path.name}"
+            try:
+                note = parse_note(path)
+            except ValueError as exc:
+                print(f"ERROR {where}: {exc}", file=sys.stderr)
+                sys.exit(1)
             manifest[note.uid] = hashlib.sha256(path.read_bytes()).hexdigest()
     return manifest
 
