@@ -27,3 +27,15 @@ jobs:
       # every model slot, and never loads the embedding model.
       - name: Tests
         run: uv run pytest -q
+
+      # Pure Markdown/frontmatter parsing -- no model download, no
+      # rag_storage/vdb_*.json needed (ADR 0010, ticket #12).
+      - name: Validate corpus
+        run: uv run python -m app.rag.source_notes corpus
+
+      # Staleness gate (ticket #24): compares the committed manifest
+      # (rag_storage/index-manifest.json) against the committed source
+      # notes by content hash -- catches an edited note whose graph
+      # re-insert LightRAG would otherwise silently reject.
+      - name: Check index freshness
+        run: uv run python -m app.rag.source_notes corpus --check-index

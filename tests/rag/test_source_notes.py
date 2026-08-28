@@ -1,10 +1,24 @@
-"""Unit tests for app.rag.source_notes (ticket #12 source-note format validator)."""
+"""Unit tests for app.rag.source_notes (ticket #12 source-note format validator,
+plus the ticket #24 staleness-manifest CLI)."""
 
+import hashlib
+import json
 import unicodedata
 
 import pytest
 
-from app.rag.source_notes import parse_note, validate_corpus
+from app.rag.source_notes import (
+    ManifestDiff,
+    compute_manifest,
+    diff_manifest,
+    format_check_index_report,
+    load_manifest,
+    main,
+    manifest_path_for,
+    parse_note,
+    save_manifest,
+    validate_corpus,
+)
 
 VALID_BODY = "ก" * 250
 
@@ -351,3 +365,119 @@ def test_contiguous_coverage_produces_no_gap_warning(tmp_path):
     )
     _, warnings = validate_corpus(root)
     assert not any("coverage" in w for w in warnings)
+
+
+# --- staleness manifest (ticket #24) -----------------------------------------
+
+
+def test_compute_manifest_maps_uid_to_sha256_of_the_whole_file(tmp_path):
+    root = write_book(tmp_path, [note()])
+    path = root / "four-elements" / "01-บทนำ-น.13-16.md"
+    expected = hashlib.sha256(path.read_bytes()).hexdigest()
+    assert compute_manifest(root) == {"four-elements-01": expected}
+
+
+def test_compute_manifest_covers_every_note_across_a_book(tmp_path):
+    root = write_book(
+        tmp_path,
+        [
+            note(),
+            note(
+                name="02-ในอดีต-น.18-19.md",
+                uid="four-elements-02",
+                section="ในอดีต",
+                pages="[18, 19]",
+                pdf_pages="[13, 14]",
+            ),
+        ],
+    )
+    assert set(compute_manifest(root)) == {"four-elements-01", "four-elements-02"}
+
+
+def test_manifest_path_is_a_sibling_rag_storage_of_the_corpus_root(tmp_path):
+    root = tmp_path / "corpus"
+    root.mkdir()
+    assert manifest_path_for(root) == tmp_path / "rag_storage" / "index-manifest.json"
+
+
+def test_save_and_load_manifest_round_trip(tmp_path):
+    manifest = {"four-elements-01": "abc123"}
+    path = tmp_path / "rag_storage" / "index-manifest.json"
+    save_manifest(path, manifest)
+    assert load_manifest(path) == manifest
+    text = path.read_text(encoding="utf-8")
+    assert text.endswith("\n")
+    assert json.loads(text) == manifest
+
+
+def test_diff_manifest_detects_changed_new_and_removed():
+    committed = {"a": "hash-a", "b": "hash-b"}
+    current = {"a": "hash-a-CHANGED", "c": "hash-c"}
+    diff = diff_manifest(committed, current)
+    assert diff == ManifestDiff(
+        changed=frozenset({"a"}), new=frozenset({"c"}), removed=frozenset({"b"})
+    )
+    assert diff.is_fresh is False
+
+
+def test_diff_manifest_is_fresh_when_identical():
+    manifest = {"a": "hash-a"}
+    diff = diff_manifest(manifest, dict(manifest))
+    assert diff.is_fresh is True
+
+
+def test_format_check_index_report_first_line_matches_the_preflight_parser():
+    diff = ManifestDiff(changed=frozenset({"a"}), new=frozenset({"b", "c"}), removed=frozenset())
+    report = format_check_index_report(diff)
+    assert report.splitlines()[0] == "stale: 1 changed, 2 new, 0 removed"
+    assert "a" in report
+    assert "b" in report and "c" in report
+    assert "adelete_by_doc_id" in report
+
+
+def test_write_manifest_writes_current_notes_and_exits_zero(tmp_path, capsys):
+    root = write_book(tmp_path, [note()])
+    with pytest.raises(SystemExit) as exc:
+        main([str(root), "--write-manifest"])
+    assert exc.value.code == 0
+    manifest = load_manifest(manifest_path_for(root))
+    assert set(manifest) == {"four-elements-01"}
+    assert "wrote" in capsys.readouterr().out
+
+
+def test_check_index_passes_when_manifest_matches_current_notes(tmp_path, capsys):
+    root = write_book(tmp_path, [note()])
+    with pytest.raises(SystemExit):
+        main([str(root), "--write-manifest"])
+    capsys.readouterr()
+
+    with pytest.raises(SystemExit) as exc:
+        main([str(root), "--check-index"])
+    assert exc.value.code == 0
+    assert capsys.readouterr().out.strip() == "fresh"
+
+
+def test_check_index_fails_naming_the_stale_uid_after_an_edit(tmp_path, capsys):
+    root = write_book(tmp_path, [note()])
+    with pytest.raises(SystemExit):
+        main([str(root), "--write-manifest"])
+    capsys.readouterr()
+
+    path = root / "four-elements" / "01-บทนำ-น.13-16.md"
+    path.write_text(path.read_text(encoding="utf-8") + "\nedited\n", encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        main([str(root), "--check-index"])
+    assert exc.value.code == 1
+    out = capsys.readouterr().out
+    assert out.splitlines()[0] == "stale: 1 changed, 0 new, 0 removed"
+    assert "four-elements-01" in out
+    assert "adelete_by_doc_id" in out
+
+
+def test_check_index_fails_when_no_manifest_is_committed_yet(tmp_path, capsys):
+    root = write_book(tmp_path, [note()])
+    with pytest.raises(SystemExit) as exc:
+        main([str(root), "--check-index"])
+    assert exc.value.code == 1
+    assert "index-manifest.json" in capsys.readouterr().err
