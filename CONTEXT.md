@@ -33,7 +33,7 @@ The multimodal model that examines a cropped tongue photo and produces a Tongue 
 _Avoid_: image model, vision LLM
 
 **Tongue Description**:
-The Vision Describer's structured observation of a tongue photo, with fields drawn from the TTM corpus's tongue-inspection categories (schema finalized from the book), plus a free-text notes field and an image-quality flag. Raw observation only — TTM interpretation happens later, in the Advisor Model's Tongue Assessment.
+The Vision Describer's structured observation of a tongue photo, along five of the six inspection axes named by '100 ลักษณะวินิจฉัยลิ้น' ch. 12 — สี, ฝ้า, ขนาด, รูปร่าง, จุดบนลิ้น — plus a free-text notes field and an image-quality flag. The sixth axis, การเคลื่อนไหว, is deliberately absent: a still photo cannot witness movement. Axis values are Thai free text, so the description speaks the same vocabulary as the corpus. Raw observation only — TTM interpretation happens later, in the Advisor Model's Tongue Assessment.
 _Avoid_: image caption, image analysis
 
 **Tongue Assessment**:
