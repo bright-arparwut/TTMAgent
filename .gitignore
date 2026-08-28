@@ -237,3 +237,9 @@ docs/mockups/ttm-knowledge-graph.html
 .claude/worktrees/
 .claude/settings.local.json
 .scratch/
+
+# Editor swap/backup files. Critical: a .env.swp holds the Vim buffer for .env,
+# so it carries the secrets .env itself is ignored to protect.
+*.swp
+*.swo
+*~
