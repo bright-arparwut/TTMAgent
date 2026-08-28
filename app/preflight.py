@@ -332,7 +332,7 @@ def check_chroma(persist_dir: str) -> CheckResult:
             "chroma",
             WARN,
             f"{persist_dir} empty -- the Advisor will answer without corpus citations",
-            hint="uv run python -m app.rag.ingest corpus/<book>.jsonl",
+            hint="Chroma ingest path is being retired as part of the GraphRAG rollout (ADR 0010); this check will be removed in a future phase",
         )
     return CheckResult("chroma", PASS, f"corpus store present at {persist_dir}")
 
