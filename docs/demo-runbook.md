@@ -21,7 +21,35 @@ Do everything that costs minutes or money today, so demo day is pure launch.
    uv sync
    ```
 
-2. Start the stack and run the preflight; fix every red **today**:
+2. **Confirm the KEYWORD model slot is configured.** LightRAG's `mix` query
+   mode calls KEYWORD once per LINE message (ADR 0010); without an API key,
+   a `mix` query silently degrades to `naive` -- grounded but flat, and
+   nothing else in the pipeline surfaces the difference. Check `.env` for:
+
+   ```
+   KEYWORD_PROVIDER=
+   KEYWORD_MODEL=
+   KEYWORD_API_KEY=
+   KEYWORD_BASE_URL=      # optional, provider-dependent
+   ```
+
+3. If GraphRAG is live (`rag_storage/` exists) and `vdb_*.json` is missing or
+   stale, rebuild the derived vectors with this repo's own BGE-M3 wiring —
+   the shipped `lightrag-rebuild-vdb` CLI cannot be pointed at local
+   embeddings (its factory only builds hosted-provider bindings; see
+   `.superpowers/sdd/phase-0-report.md`):
+
+   ```bash
+   uv run python scripts/rebuild_vdb.py
+   ```
+
+   ~1–3 min and $0. A re-index (adding or editing source notes) is a
+   separate owner command, ~2–4 min plus LLM calls, and must be followed by
+   `uv run python -m app.rag.source_notes corpus --write-manifest` so the
+   staleness gate's manifest matches what was actually indexed. Both are
+   strictly day-before work — never on demo day.
+
+4. Start the stack and run the preflight; fix every red **today**:
 
    ```bash
    docker compose up -d
@@ -31,12 +59,10 @@ Do everything that costs minutes or money today, so demo day is pure launch.
    uv run python -m app.preflight
    ```
 
-3. If GraphRAG is live (`rag_storage/` exists): the preflight's `graph-store`,
-   `vdb-drift` and `index-fresh` checks must all be green. A vdb rebuild is
-   ~1–3 min and $0; a re-index is an owner command, ~2–4 min plus LLM calls.
-   Both are strictly day-before work — never on demo day.
+   `graph-store`, `vdb-drift`, `corpus-books`, and `index-fresh` must all be
+   green.
 
-4. Run the full smoke turn (last section) over real LINE, including a tongue
+5. Run the full smoke turn (last section) over real LINE, including a tongue
    photo if the demo will show one.
 
 ## Demo day: the launch ritual
@@ -83,6 +109,10 @@ Four terminal panes, in this order.
    here, ever — LightRAG writes into its working directory at query time
    (the KEYWORD response lands in `kv_store_llm_response_cache.json`), so
    under `--reload` an incoming message can restart the server mid-Consultation.
+   **Never add `--workers` here** — exactly one worker: each additional
+   worker loads its own ~1 GB BGE-M3 and they would write the file-backed
+   graph storage concurrently (`app/preflight.py`'s `server` check FAILs on
+   more than one).
 
 5. **Preflight:**
 
