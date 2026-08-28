@@ -4,6 +4,7 @@ from PIL import Image
 
 import app.pipeline.dispatcher as dispatcher
 from app.config import Settings
+from app.models.schemas import TongueDescription
 from app.vision.detector import CroppedTongue, TongueDetectionError
 
 
@@ -85,9 +86,17 @@ class _StubDescriber:
         pass
 
 
-class _FakeDescription:
-    def model_dump_json(self) -> str:
-        return '{"color": "แดง"}'
+def _description(**overrides) -> TongueDescription:
+    fields: dict = dict(
+        color="แดงเข้ม",
+        coating="ฝ้าขาวหนา",
+        size="ปกติ",
+        shape="ขอบลิ้นมีรอยหยักของฟัน",
+        spots="ไม่มีจุด",
+        quality="clear",
+    )
+    fields.update(overrides)
+    return TongueDescription(**fields)
 
 
 async def test_download_failure_sends_system_hiccup(monkeypatch):
@@ -120,7 +129,7 @@ async def test_loading_animation_failure_does_not_abort_turn(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
@@ -212,7 +221,7 @@ async def test_happy_path_runs_consultation_with_description(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
@@ -223,7 +232,39 @@ async def test_happy_path_runs_consultation_with_description(monkeypatch):
 
     assert messenger.sent == ["คำแนะนำจากผู้ช่วย"]
     assert len(consultation_inputs) == 1
-    assert '{"color": "แดง"}' in consultation_inputs[0]
+    assert "แดงเข้ม" in consultation_inputs[0]
+
+
+async def test_tongue_turn_renders_thai_axis_labels_never_json_keys(monkeypatch):
+    # ADR 0010, "the rendered description is the retrieval query": the
+    # rendered text is what KEYWORD and the Working Buffer see, so it must
+    # carry Thai axis labels -- never model_dump_json(), whose English
+    # field names must not reach either.
+    messenger, consultation_inputs, saved, patched = _patch_common(monkeypatch)
+
+    async def ok_detect(self, image_bytes):
+        return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
+
+    async def ok_describe(self, image):
+        return _description(notes="เห็นแผลเล็กน้อยที่ปลายลิ้น")
+
+    monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
+    monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
+    monkeypatch.setattr(_StubDescriber, "describe", ok_describe, raising=False)
+    monkeypatch.setattr(dispatcher, "VisionDescriber", _StubDescriber)
+
+    await dispatcher.handle_image_message(_event(), _settings())
+
+    (turn_text,) = consultation_inputs
+    assert "สี: แดงเข้ม" in turn_text
+    assert "ฝ้า: ฝ้าขาวหนา" in turn_text
+    assert "ขนาด: ปกติ" in turn_text
+    assert "รูปร่าง: ขอบลิ้นมีรอยหยักของฟัน" in turn_text
+    assert "จุดบนลิ้น: ไม่มีจุด" in turn_text
+    assert "เห็นแผลเล็กน้อยที่ปลายลิ้น" in turn_text  # notes still reaches the query
+    # never the schema's English field/key names -- e.g. no `"color":` etc.
+    for english_key in ("color", "coating", "size", "shape", "spots", "quality"):
+        assert english_key not in turn_text
 
 
 async def test_gate_passed_crop_is_saved_then_description_patched(monkeypatch):
@@ -234,7 +275,7 @@ async def test_gate_passed_crop_is_saved_then_description_patched(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
@@ -290,7 +331,7 @@ async def test_photo_save_failure_is_swallowed_and_echo_skipped(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
@@ -335,7 +376,7 @@ async def test_gate_passed_echo_carries_capability_url(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)
@@ -357,7 +398,7 @@ async def test_no_public_base_url_means_no_echo(monkeypatch):
         return CroppedTongue(image=_pil_image(), confidence=0.9, passed_gate=True)
 
     async def ok_describe(self, image):
-        return _FakeDescription()
+        return _description()
 
     monkeypatch.setattr(_StubDetector, "detect_and_crop", ok_detect, raising=False)
     monkeypatch.setattr(dispatcher, "TongueDetector", _StubDetector)

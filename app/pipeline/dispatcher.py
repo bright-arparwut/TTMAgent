@@ -128,9 +128,9 @@ async def handle_image_message(event: MessageEvent, settings: Settings) -> None:
     await _save_description(photo_id, description, settings)
 
     turn_text = (
-        "[User sent a tongue photo.] Vision Describer observations: "
-        f"{description.model_dump_json()}. Please give a TTM Tongue Assessment "
-        "based on these observations."
+        "[User sent a tongue photo.] Vision Describer observations:\n"
+        f"{_render_tongue_description(description)}\n"
+        "Please give a TTM Tongue Assessment based on these observations."
     )
 
     async with user_queue.lock_for(user_id):
@@ -187,6 +187,26 @@ async def _save_description(
         )
     except Exception:
         logger.exception("Tongue Description patch failed for photo %s", photo_id)
+
+
+def _render_tongue_description(description: TongueDescription) -> str:
+    """ADR 0010, "the rendered description is the retrieval query": this
+    text becomes both the Advisor's turn input and (via
+    _build_retrieval_query) part of the KEYWORD query text, so it must
+    speak the corpus's Thai vocabulary -- Thai axis labels, never
+    model_dump_json(). The schema's English field names (color, coating,
+    ...) must never reach KEYWORD or the Working Buffer.
+    """
+    lines = [
+        f"สี: {description.color}",
+        f"ฝ้า: {description.coating}",
+        f"ขนาด: {description.size}",
+        f"รูปร่าง: {description.shape}",
+        f"จุดบนลิ้น: {description.spots}",
+    ]
+    if description.notes:
+        lines.append(f"หมายเหตุ: {description.notes}")
+    return "\n".join(lines)
 
 
 def _photo_url(photo_id: str | None, settings: Settings) -> str | None:
