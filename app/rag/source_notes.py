@@ -19,7 +19,7 @@ REQUIRED_STR_FIELDS = ("uid", "type", "book_id", "chapter", "section")
 REQUIRED_PAIR_FIELDS = ("pages", "pdf_pages")
 SHORT_BODY_CHARS = 200
 
-FILENAME_RE = re.compile(r"^(\d{2})-(.*)-น\.(\d+)-(\d+)\.md$")
+FILENAME_RE = re.compile(r"^(\d{2,3})-(.*)-น\.(\d+)-(\d+)\.md$")
 PAIR_RE = re.compile(r"^\[\s*(\d+)\s*,\s*(\d+)\s*\]$")
 COMMENT_RE = re.compile(r"<!--(.*?)-->", re.DOTALL)
 PAGE_MARKER_RE = re.compile(r"^ p\.(\d+) $")
@@ -31,6 +31,7 @@ CAPTION_RE = re.compile(r"^\*\*(.+)\*\*$")
 class SourceNote:
     path: Path
     ordinal: int
+    ordinal_width: int
     uid: str
     type: str
     book_id: str
@@ -75,6 +76,7 @@ def parse_note(path: Path) -> SourceNote:
     return SourceNote(
         path=path,
         ordinal=int(match.group(1)) if match else 0,
+        ordinal_width=len(match.group(1)) if match else 0,
         uid=fields["uid"],
         type=fields["type"],
         book_id=fields["book_id"],
@@ -250,6 +252,15 @@ def validate_corpus(root: Path) -> tuple[list[str], list[str]]:
             body_errors, body_warnings = _check_body(note, where)
             errors.extend(body_errors)
             warnings.extend(body_warnings)
+
+        widths = {n.ordinal_width for n in notes if n.ordinal_width}
+        if len(widths) > 1:
+            # Notes sort lexically, so `99-` would sort after `100-` and the ordinal
+            # and page-order checks below would compare the wrong neighbours.
+            errors.append(
+                f"{book_dir.name}: mixed ordinal width {sorted(widths)} — every note in "
+                f"a book must pad NN to the same number of digits"
+            )
 
         ordered = sorted(notes, key=lambda n: n.path.name)
         for previous, current in zip(ordered, ordered[1:], strict=False):

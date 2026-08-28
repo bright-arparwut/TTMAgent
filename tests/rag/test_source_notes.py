@@ -127,6 +127,38 @@ def test_nfd_filename_is_an_error(tmp_path):
     assert any("NFC" in e for e in errors)
 
 
+def test_three_digit_ordinal_is_accepted(tmp_path):
+    """Ticket #28 numbers tongue-100's ~125 notes with a 3-digit running NN."""
+    root = write_book(tmp_path, [note(name="001-บทนำ-น.13-16.md")])
+    parsed = parse_note(root / "four-elements" / "001-บทนำ-น.13-16.md")
+    assert parsed.ordinal == 1
+    errors, _ = validate_corpus(root)
+    assert errors == []
+
+
+def test_mixed_ordinal_widths_in_one_book_are_an_error(tmp_path):
+    """Notes sort lexically, so a 2-digit 99 would sort after a 3-digit 100.
+
+    Band-allocated parallel transcription (map #9) writes into one book directory
+    from several sessions, so a width slip is the collision to catch.
+    """
+    root = write_book(
+        tmp_path,
+        [
+            note(name="99-บทนำ-น.13-16.md"),
+            note(
+                name="100-ในอดีต-น.18-19.md",
+                uid="four-elements-02",
+                section="ในอดีต",
+                pages="[18, 19]",
+                pdf_pages="[13, 14]",
+            ),
+        ],
+    )
+    errors, _ = validate_corpus(root)
+    assert any("ordinal width" in e for e in errors)
+
+
 def test_reversed_page_range_is_an_error(tmp_path):
     root = write_book(tmp_path, [note(name="01-บทนำ-น.16-13.md", pages="[16, 13]")])
     errors, _ = validate_corpus(root)
