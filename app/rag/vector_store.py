@@ -39,11 +39,15 @@ logger = logging.getLogger(__name__)
 EMBEDDING_DIM = 1024
 MAX_TOKEN_SIZE = 8192
 
-# Mirrors app.preflight.AUTHORITATIVE_FILES + DERIVED_VDB_FILES. Duplicated
-# rather than imported: preflight is an ops/CLI module and this is a
-# request-path seam -- keeping the dependency one-directional (ops checks
-# the runtime's assumptions, not the other way around) is worth the two
-# short tuples staying in sync by hand.
+# Deliberately a SUBSET of app.preflight.AUTHORITATIVE_FILES +
+# DERIVED_VDB_FILES: this is the boot-time guard for the request-path query
+# seam, so it only names the files the query path actually opens (the
+# remaining kv_store_*.json files back ingest/indexing, not retrieval).
+# preflight is the authoritative full-set check run at deploy time -- see
+# app.preflight.AUTHORITATIVE_FILES. Not imported from there: preflight is
+# an ops/CLI module and this is a request-path seam, so the dependency
+# stays one-directional (ops checks the runtime's assumptions, not the
+# other way around) at the cost of the two tuples staying in sync by hand.
 REQUIRED_STORE_FILES = (
     "graph_chunk_entity_relation.graphml",
     "kv_store_text_chunks.json",
@@ -130,8 +134,9 @@ def _check_store_present(settings: Settings) -> None:
         raise RuntimeError(
             f"{settings.rag_storage_dir} is missing required file(s): {', '.join(missing)}. "
             "The committed graph (graphml + KV stores) restores from git; the derived "
-            "vdb_*.json files rebuild locally via `lightrag-rebuild-vdb` "
-            "(docs/adr/0010-graphrag-lightrag-corpus.md) -- run it before starting the app."
+            "vdb_*.json files rebuild locally via `uv run python scripts/rebuild_vdb.py` "
+            "(the shipped `lightrag-rebuild-vdb` CLI cannot wire local BGE-M3 -- "
+            "docs/adr/0010-graphrag-lightrag-corpus.md) -- run it before starting the app."
         )
 
 

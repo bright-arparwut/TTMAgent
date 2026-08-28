@@ -9,8 +9,12 @@ any id that does not name a passage the Advisor was actually given.
 from pathlib import Path
 
 import app.advisor.citation as citation_module
+import app.rag.vector_store as vector_store_module
 from app.advisor.citation import render_references
 from app.config import Settings
+from app.rag.vector_store import GRAPH_CONTEXT_LABEL, retrieve_passages
+from tests.rag.test_vector_store import _async_return, _FakeRAG
+from tests.rag.test_vector_store import _write_note as _write_source_note
 
 
 def _settings(corpus_dir: Path) -> Settings:
@@ -170,7 +174,7 @@ def test_the_graph_context_block_has_no_label_and_is_never_citable(monkeypatch, 
 
     passages = [
         "[1] 001-a-น.1-4\nA",
-        "[บริบทจากกราฟความรู้ -- หลักฐานประกอบ ไม่มีเลขอ้างอิง]\nเอนทิตี: ...",
+        f"{GRAPH_CONTEXT_LABEL}\nเอนทิตี: ...",
     ]
     # The model correctly never cites the graph block (it has no number),
     # but even a malformed attempt must not resolve to anything.
@@ -304,3 +308,52 @@ def test_concepts_directory_is_never_mistaken_for_a_book(monkeypatch, tmp_path, 
         rendered = render_references(reply, passages)
 
     assert rendered == "คำแนะนำ"  # citation line dropped -- nothing survives
+
+
+async def test_round_trip_retrieve_passages_labels_feed_render_references(monkeypatch, tmp_path):
+    """Pins the `[n] <filename>` label contract between the two sides that
+    never test each other directly: `_build_numbered_notes`
+    (app/rag/vector_store.py, the producer) and `_NOTE_LABEL_RE`
+    (app/advisor/citation.py, the consumer). Real `retrieve_passages()`
+    output -- built with the fake-rag + temp-corpus fixtures from
+    tests/rag/test_vector_store.py -- is fed straight into
+    render_references(), which must resolve the Advisor's bare `[1]` id to
+    the exact note retrieve_passages handed it.
+    """
+    corpus_dir = tmp_path / "corpus"
+    _write_books_yaml(corpus_dir, {"tongue-100": "100 ลักษณะวินิจฉัยลิ้น"})
+    _write_source_note(corpus_dir, "tongue-100", "001-เรื่อง-น.1-4.md", "เนื้อหาลิ้นจริง")
+
+    settings = Settings(
+        line_channel_secret="test",
+        line_channel_access_token="test",
+        corpus_dir=str(corpus_dir),
+    )
+    monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
+    monkeypatch.setattr(citation_module, "get_settings", lambda: settings)
+
+    raw = {
+        "status": "success",
+        "data": {
+            "entities": [],
+            "relationships": [
+                {
+                    "src_id": "a",
+                    "tgt_id": "b",
+                    "description": "",
+                    "file_path": "001-เรื่อง-น.1-4.md",
+                }
+            ],
+            "chunks": [],
+            "references": [{"reference_id": "1", "file_path": "001-เรื่อง-น.1-4.md"}],
+        },
+        "metadata": {"query_mode": "mix"},
+    }
+    monkeypatch.setattr(vector_store_module, "get_rag", _async_return(_FakeRAG({"mix": raw})))
+
+    passages = await retrieve_passages("ลิ้นเป็นอย่างไร")
+    reply = "คำแนะนำ\n(อ้างอิง: [1])"
+
+    rendered = render_references(reply, passages)
+
+    assert rendered == "คำแนะนำ\n(อ้างอิง: 100 ลักษณะวินิจฉัยลิ้น หน้า 1-4)"

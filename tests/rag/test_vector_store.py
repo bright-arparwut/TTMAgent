@@ -307,7 +307,7 @@ async def test_missing_store_files_raise_at_boot_naming_rebuild_command(tmp_path
     monkeypatch.setattr(vector_store_module, "get_settings", lambda: settings)
     monkeypatch.setattr(vector_store_module, "_rag", None)
 
-    with pytest.raises(RuntimeError, match="lightrag-rebuild-vdb"):
+    with pytest.raises(RuntimeError, match=r"uv run python scripts/rebuild_vdb\.py"):
         await vector_store_module.get_rag()
 
 
