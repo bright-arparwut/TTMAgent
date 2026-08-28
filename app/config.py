@@ -61,6 +61,13 @@ class Settings(BaseSettings):
     embedding_model_name: str = "BAAI/bge-m3"
     rag_top_k: int = 5
 
+    # Load BGE-M3 in the FastAPI lifespan instead of on the first retrieval.
+    # Lazy load costs the demo's first message 14.5-23 s, and two concurrent
+    # first-requests each construct a model on MPS (the #16 segfault). Off by
+    # default: dev reloads and CI must not pay the model load. Demo/live runs
+    # set EMBEDDING_PREWARM=1 -- see docs/demo-runbook.md.
+    embedding_prewarm: bool = False
+
     # Consultation lifecycle
     consultation_gap_hours: float = 6.0
     health_record_inject_count: int = 3
