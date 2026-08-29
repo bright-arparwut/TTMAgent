@@ -6,7 +6,7 @@ API endpoint for a LINE application (LINE chatbot), built in Python.
 
 ### Issue tracker
 
-Issues are tracked as local markdown files under `.scratch/<feature>/` in this repo (no remote tracker; external PRs are not a triage surface). See `docs/agents/issue-tracker.md`.
+Issues are tracked as GitHub Issues on `bright-arparwut/TTMAgent` (private), via the `gh` CLI. Wayfinder maps are issues labelled `wayfinder:map`, with their tickets as sub-issues. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
