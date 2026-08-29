@@ -16,13 +16,11 @@ from app.preflight import (
     WARN,
     CheckResult,
     check_caffeinate,
-    check_chroma,
+    check_corpus_books,
     check_env,
     check_graph_store,
     check_prewarm,
     check_server,
-    check_tunnel,
-    check_webhook,
     find_process,
     main,
     parse_check_index_output,
@@ -30,7 +28,7 @@ from app.preflight import (
 )
 
 UVICORN = "  123 /repo/.venv/bin/python /repo/.venv/bin/uvicorn app.main:app --port 8000"
-PS_CLEAN = UVICORN + "\n  456 caffeinate -dimsu\n  789 cloudflared tunnel run ttm-demo\n"
+PS_CLEAN = UVICORN + "\n  456 caffeinate -dimsu\n"
 
 
 def _settings(**overrides) -> Settings:
@@ -43,6 +41,7 @@ def _settings(**overrides) -> Settings:
         "advisor_api_key": "advisor-key",
         "describer_api_key": "describer-key",
         "public_base_url": "https://ttm.example.com",
+        "keyword_api_key": "keyword-key",
     }
     values.update(overrides)
     return Settings(**values)
@@ -112,88 +111,19 @@ def test_env_warns_without_public_base_url():
     assert result.status == WARN
 
 
-# --- tunnel -----------------------------------------------------------------
+def test_env_warns_without_keyword_api_key_in_mix_mode():
+    # mix mode is the default; an empty KEYWORD_API_KEY means every retrieval
+    # silently degrades to naive (ADR 0010) -- a WARN, not a FAIL, since the
+    # app still boots and serves (degraded) replies.
+    result = check_env(_settings(keyword_api_key=""))
+    assert result.status == WARN
+    assert "KEYWORD_API_KEY" in result.detail
 
 
-def test_tunnel_fails_without_cloudflared():
-    assert check_tunnel(UVICORN + "\n", "https://ttm.example.com").status == FAIL
-
-
-def test_tunnel_fails_on_quick_tunnel_hostname():
-    result = check_tunnel(PS_CLEAN, "https://random-words.trycloudflare.com")
-    assert result.status == FAIL
-    assert "QUICK" in result.detail
-
-
-def test_tunnel_passes_when_public_health_answers():
-    fetch = _fetch(200, {"status": "ok", "embedding": "ready"})
-    result = check_tunnel(PS_CLEAN, "https://ttm.example.com", fetch=fetch)
+def test_env_does_not_warn_about_keyword_api_key_in_naive_mode():
+    # naive mode legitimately needs no keyword-extraction key.
+    result = check_env(_settings(keyword_api_key="", rag_query_mode="naive"))
     assert result.status == PASS
-
-
-def test_tunnel_fails_when_public_health_unreachable():
-    fetch = _fetch(0, None, "connect timeout")
-    result = check_tunnel(PS_CLEAN, "https://ttm.example.com", fetch=fetch)
-    assert result.status == FAIL
-
-
-# --- webhook ----------------------------------------------------------------
-
-
-def _line_endpoint(endpoint: str, active: bool = True):
-    return _fetch(200, {"endpoint": endpoint, "active": active})
-
-
-def test_webhook_passes_when_url_matches_and_verify_succeeds():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == PASS
-
-
-def test_webhook_tolerates_trailing_slash_differences():
-    result = check_webhook(
-        "https://ttm.example.com/",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook/"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == PASS
-
-
-def test_webhook_fails_on_console_mismatch():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://old-host.example.com/webhook"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == FAIL
-    assert "old-host.example.com" in result.detail
-
-
-def test_webhook_fails_when_disabled_in_console():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook", active=False),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == FAIL
-
-
-def test_webhook_fails_when_line_verify_fails():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook"),
-        post=_fetch(200, {"success": False, "reason": "COULD_NOT_CONNECT"}),
-    )
-    assert result.status == FAIL
-    assert "COULD_NOT_CONNECT" in result.detail
 
 
 # --- prewarm ----------------------------------------------------------------
@@ -220,11 +150,15 @@ def test_prewarm_fails_when_server_down():
     assert result.status == FAIL
 
 
-# --- graph store / chroma ---------------------------------------------------
+# --- graph store -------------------------------------------------------------
 
 
-def test_graph_store_warns_before_rollout(tmp_path):
-    assert check_graph_store(tmp_path).status == WARN
+def test_graph_store_fails_when_rag_storage_missing(tmp_path):
+    # GraphRAG is live (ADR 0010): rag_storage/ is committed repo content, so
+    # its absence is a real demo-killer now, not a pre-rollout WARN.
+    result = check_graph_store(tmp_path)
+    assert result.status == FAIL
+    assert "rag_storage" in result.detail
 
 
 def test_graph_store_fails_on_missing_authoritative_files(tmp_path):
@@ -252,18 +186,65 @@ def test_graph_store_passes_with_all_files(tmp_path):
     assert check_graph_store(tmp_path).status == PASS
 
 
-def test_chroma_warns_when_empty(tmp_path):
-    assert check_chroma(str(tmp_path / "missing")).status == WARN
-    empty = tmp_path / "chroma"
-    empty.mkdir()
-    assert check_chroma(str(empty)).status == WARN
+# --- corpus books -------------------------------------------------------
 
 
-def test_chroma_passes_when_populated(tmp_path):
-    store = tmp_path / "chroma"
-    store.mkdir()
-    (store / "chroma.sqlite3").write_text("")
-    assert check_chroma(str(store)).status == PASS
+def test_corpus_books_passes_when_books_yaml_covers_every_folder(tmp_path):
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "2" in result.detail
+
+
+def test_corpus_books_fails_naming_uncovered_folders(tmp_path):
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "books.yaml").write_text("four-elements: Title One\n", encoding="utf-8")
+    result = check_corpus_books(tmp_path)
+    assert result.status == FAIL
+    assert "tongue-100" in result.detail
+
+
+def test_corpus_books_fails_when_corpus_dir_missing(tmp_path):
+    result = check_corpus_books(tmp_path)
+    assert result.status == FAIL
+
+
+def test_corpus_books_ignores_archive_directory(tmp_path):
+    # corpus/archive/ (Phase 5, #14) holds retired TCM JSONLs, never a book
+    # with a books.yaml entry -- it must not be flagged as an uncovered folder.
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "archive").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "archive" not in result.detail
+
+
+def test_corpus_books_ignores_concepts_directory(tmp_path):
+    # corpus/concepts/ (Phase 6, #17) is the generated vault view over the
+    # graph -- a folder under corpus/, but never a book with a books.yaml
+    # entry, so it must not be flagged as an uncovered folder either.
+    corpus = tmp_path / "corpus"
+    (corpus / "four-elements").mkdir(parents=True)
+    (corpus / "tongue-100").mkdir(parents=True)
+    (corpus / "concepts").mkdir(parents=True)
+    (corpus / "books.yaml").write_text(
+        "four-elements: Title One\ntongue-100: Title Two\n", encoding="utf-8"
+    )
+    result = check_corpus_books(tmp_path)
+    assert result.status == PASS
+    assert "concepts" not in result.detail
 
 
 # --- index freshness --------------------------------------------------------
@@ -282,6 +263,75 @@ def test_check_index_stale_fails():
     result = parse_check_index_output(1, "stale: 2 changed, 1 new, 0 removed")
     assert result.status == FAIL
     assert "stale" in result.detail
+
+
+# --- run_preflight composition ------------------------------------------------
+
+
+def test_run_preflight_includes_corpus_books_when_graph_store_fails(monkeypatch):
+    """When check_graph_store FAILs, check_corpus_books still runs (it does
+    not depend on graph_store status) but check_vdb_drift is skipped (it is
+    gated on graph_store passing). This pins the exact set of checks
+    run_preflight composes (Phase 5, #14 retired the vector-store check that
+    used to sit here)."""
+    import app.preflight as preflight
+
+    # Monkeypatch check_graph_store to return FAIL
+    def fake_check_graph_store(repo_root):
+        return CheckResult("graph-store", FAIL, "missing files")
+
+    # Mock ps_snapshot to avoid process table reads
+    monkeypatch.setattr(preflight, "ps_snapshot", lambda: PS_CLEAN)
+    # Mock Settings instantiation
+    monkeypatch.setattr(preflight, "Settings", lambda: _settings())
+
+    # Patch individual checks to isolate just the composition
+    monkeypatch.setattr(preflight, "check_graph_store", fake_check_graph_store)
+    monkeypatch.setattr(
+        preflight, "check_env", lambda settings: CheckResult("env", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_mongo", lambda uri: CheckResult("mongo", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_server", lambda ps, port: CheckResult("server", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_prewarm", lambda port: CheckResult("prewarm", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight, "check_caffeinate", lambda ps: CheckResult("caffeinate", PASS, "ok")
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_corpus_books",
+        lambda repo_root: CheckResult("corpus-books", PASS, "ok"),
+    )
+    monkeypatch.setattr(
+        preflight,
+        "check_index_freshness",
+        lambda repo_root: CheckResult("index-freshness", PASS, "fresh"),
+    )
+
+    results = preflight.run_preflight(8000)
+
+    # Pin the exact composed check set: corpus-books always runs, vdb-drift
+    # is skipped because graph-store failed, and no unexpected check appears.
+    result_names = {r.name for r in results}
+    result_statuses = {r.name: r.status for r in results}
+
+    assert result_names == {
+        "env",
+        "mongo",
+        "server",
+        "prewarm",
+        "caffeinate",
+        "graph-store",
+        "corpus-books",
+        "index-freshness",
+    }
+    assert result_statuses["graph-store"] == FAIL
+    assert result_statuses["corpus-books"] == PASS
 
 
 # --- rendering and exit code ------------------------------------------------

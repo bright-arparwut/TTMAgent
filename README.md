@@ -36,31 +36,31 @@ For a live demo (or anything watched), do **not** use the dev command — follow
 
 ## Ingest the TTM corpus
 
-For a scanned book (PDF), transcribe it first — each page image goes through the
-Vision Describer model slot (handles Thai and mixed-in Chinese), producing one
-JSONL record per paragraph with book/page/paragraph provenance:
+The corpus is a LightRAG knowledge graph, committed at `rag_storage/` (BGE-M3
+embeddings, both TTM books already indexed). Its derived vector stores are
+gitignored, so rebuild them locally after `uv sync`:
 
 ```bash
-uv run python -m app.rag.pdf_ocr path/to/book.pdf \
-    --book-id tamra-ttm --book-title "ตำราแพทย์แผนไทย"
-uv run python -m app.rag.ingest corpus/tamra-ttm.jsonl
+uv run python scripts/rebuild_vdb.py
 ```
 
-Spot-check the JSONL against the scan before ingesting (OCR is not perfect).
-Re-running either command is safe: `pdf_ocr` skips pages already transcribed,
-and JSONL chunks use deterministic IDs so re-ingesting updates in place.
-Retrieved passages carry a `[book title หน้า X ย่อหน้าที่ Y]` source tag that
-the Advisor cites back to the user.
-
-A book already digitized to Markdown with `#`/`##`/`###` section headers still
-works, with section-header (not page) provenance:
+Source notes — the graph's input — live under `corpus/<book_id>/`: transcribed
+Markdown, one file per book section, with frontmatter carrying provenance.
+Validate them with:
 
 ```bash
-uv run python -m app.rag.ingest path/to/ttm_book.md
+uv run python -m app.rag.source_notes corpus
 ```
 
-Both paths embed the corpus into the local Chroma store at `CHROMA_PERSIST_DIR`
-using BGE-M3 (multilingual — Thai and Chinese embed fine in one collection).
+After any re-index, `--check-index` catches source notes that have drifted
+from the committed graph:
+
+```bash
+uv run python -m app.rag.source_notes corpus --check-index
+```
+
+For how to add a book or edit a note — the re-indexing workflow itself — see
+`docs/adr/0010-graphrag-lightrag-corpus.md`.
 
 ## Project layout
 
@@ -72,7 +72,7 @@ app/
   pipeline/       # per-user serialization, dispatcher tying the turn together
   vision/         # Roboflow tongue detector, Vision Describer
   advisor/        # config-selected chat model factory, system prompt, LangGraph tool loop, Health Record tools
-  rag/            # BGE-M3 embeddings, Chroma vector store, scanned-book OCR + corpus ingestion scripts
+  rag/            # BGE-M3 embeddings, LightRAG retrieval seam, source-note validation + staleness gate
   memory/         # MongoDB client, working buffer, Health Record repository, Relevance Gate summarizer
   models/         # shared pydantic schemas
 ```

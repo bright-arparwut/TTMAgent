@@ -7,9 +7,9 @@ Every check is read-only -- this reports, it never fixes. The launch ritual
 itself (and every fix for a red check) is docs/demo-runbook.md; ticket #24
 measured why each of these defaults is a demo-killer.
 
-The graph checks adapt to rollout state: while ``rag_storage/`` does not
-exist (GraphRAG not yet in production), they downgrade to warnings and the
-Chroma corpus store is checked instead.
+GraphRAG is live (ADR 0010): the graph checks (``graph-store``,
+``vdb-drift``, ``corpus-books``, ``index-fresh``) are authoritative, not
+advisory -- a missing or stale graph is a FAIL.
 """
 
 from __future__ import annotations
@@ -21,7 +21,6 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urlparse
 
 import httpx
 from pydantic import ValidationError
@@ -37,16 +36,22 @@ HTTP_TIMEOUT_S = 10.0
 MONGO_PING_TIMEOUT_MS = 3000
 
 LAUNCH_CMD = "EMBEDDING_PREWARM=1 uv run uvicorn app.main:app --host 127.0.0.1 --port {port}"
-LINE_WEBHOOK_API = "https://api.line.me/v2/bot/channel/webhook"
 
 # Ticket #24: the authoritative half of rag_storage/ is committed repo
 # content; the vdb_* half is derived, gitignored, and rebuilt in ~1-3 min
-# with zero LLM calls.
+# with zero LLM calls. LightRAG 1.5.6 writes seven kv_store_*.json files
+# beyond the graphml (#30) -- every one of them is authoritative and
+# committed. Any filename change here must update ADR 0010's storage
+# section too (ADR 0010, "Engine and storage").
 AUTHORITATIVE_FILES = (
     "graph_chunk_entity_relation.graphml",
-    "kv_store_text_chunks.json",
-    "kv_store_full_docs.json",
     "kv_store_doc_status.json",
+    "kv_store_entity_chunks.json",
+    "kv_store_full_docs.json",
+    "kv_store_full_entities.json",
+    "kv_store_full_relations.json",
+    "kv_store_relation_chunks.json",
+    "kv_store_text_chunks.json",
 )
 DERIVED_VDB_FILES = ("vdb_entities.json", "vdb_relationships.json", "vdb_chunks.json")
 
@@ -75,17 +80,6 @@ FetchJson = Callable[..., tuple[int, dict | None, str]]
 def _get_json(url: str, headers: dict[str, str] | None = None) -> tuple[int, dict | None, str]:
     try:
         resp = httpx.get(url, headers=headers, timeout=HTTP_TIMEOUT_S)
-    except httpx.HTTPError as exc:
-        return 0, None, str(exc)
-    try:
-        return resp.status_code, resp.json(), ""
-    except ValueError:
-        return resp.status_code, None, resp.text[:200]
-
-
-def _post_json(url: str, headers: dict[str, str] | None = None) -> tuple[int, dict | None, str]:
-    try:
-        resp = httpx.post(url, headers=headers, json={}, timeout=HTTP_TIMEOUT_S)
     except httpx.HTTPError as exc:
         return 0, None, str(exc)
     try:
@@ -132,7 +126,15 @@ def check_env(settings: Settings) -> CheckResult:
             "env",
             WARN,
             "PUBLIC_BASE_URL empty -- tongue-photo echo is disabled (ADR 0007)",
-            hint="set it to the named tunnel origin",
+            hint="set it to the tunnel's current public origin",
+        )
+    if settings.rag_query_mode == "mix" and not settings.keyword_api_key:
+        return CheckResult(
+            "env",
+            WARN,
+            "KEYWORD_API_KEY empty -- rag_query_mode=mix will silently degrade to naive"
+            " on every message until it is set (ADR 0010)",
+            hint="fill in KEYWORD_API_KEY in .env",
         )
     return CheckResult("env", PASS, "credentials present, PUBLIC_BASE_URL set")
 
@@ -204,80 +206,6 @@ def check_caffeinate(ps: str) -> CheckResult:
     return CheckResult("caffeinate", PASS, "running")
 
 
-def check_tunnel(ps: str, public_base_url: str, fetch: FetchJson = _get_json) -> CheckResult:
-    if find_process(ps, "cloudflared") is None:
-        return CheckResult(
-            "tunnel", FAIL, "no cloudflared process", hint="cloudflared tunnel run <tunnel-name>"
-        )
-    if not public_base_url:
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            "PUBLIC_BASE_URL empty -- cannot probe the public origin",
-            hint="set PUBLIC_BASE_URL to the named tunnel origin",
-        )
-    host = urlparse(public_base_url).hostname or ""
-    if host.endswith("trycloudflare.com"):
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            f"{host} is a QUICK tunnel: its hostname changes every restart and silently"
-            " orphans the webhook URL in the LINE console",
-            hint="create a named tunnel with a stable hostname (docs/demo-runbook.md)",
-        )
-    status, data, err = fetch(public_base_url.rstrip("/") + "/health")
-    if status != 200 or data is None or data.get("status") != "ok":
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            f"GET {host}/health -> {status or err}",
-            hint="tunnel up but app unreachable: does the ingress port match the server port?",
-        )
-    return CheckResult("tunnel", PASS, f"named tunnel serving at {host}")
-
-
-def check_webhook(
-    public_base_url: str,
-    channel_access_token: str,
-    fetch: FetchJson = _get_json,
-    post: FetchJson = _post_json,
-) -> CheckResult:
-    if not public_base_url:
-        return CheckResult(
-            "webhook", FAIL, "PUBLIC_BASE_URL empty -- cannot compare with the LINE console"
-        )
-    headers = {"Authorization": f"Bearer {channel_access_token}"}
-    expected = public_base_url.rstrip("/") + "/webhook"
-    status, data, err = fetch(LINE_WEBHOOK_API + "/endpoint", headers)
-    if status != 200 or data is None:
-        return CheckResult(
-            "webhook",
-            FAIL,
-            f"LINE endpoint API -> {status or err}",
-            hint="channel access token wrong, or LINE API unreachable",
-        )
-    actual = str(data.get("endpoint", ""))
-    if actual.rstrip("/") != expected:
-        return CheckResult(
-            "webhook",
-            FAIL,
-            f"LINE console points at {actual or '(unset)'} but this machine serves {expected}",
-            hint="update the webhook URL in the LINE Developers Console",
-        )
-    if not data.get("active", False):
-        return CheckResult(
-            "webhook",
-            FAIL,
-            "webhook delivery is disabled in the LINE console",
-            hint='enable "Use webhook" in the LINE Developers Console',
-        )
-    status, data, err = post(LINE_WEBHOOK_API + "/test", headers)
-    if status != 200 or data is None or not data.get("success", False):
-        reason = (data or {}).get("reason") or (data or {}).get("detail") or err or status
-        return CheckResult("webhook", FAIL, f"LINE Verify failed: {reason}")
-    return CheckResult("webhook", PASS, "console URL matches and LINE Verify passes")
-
-
 def check_mongo(uri: str) -> CheckResult:
     from pymongo import MongoClient
     from pymongo.errors import PyMongoError
@@ -299,10 +227,11 @@ def check_graph_store(repo_root: Path) -> CheckResult:
     if not storage.is_dir():
         return CheckResult(
             "graph-store",
-            WARN,
-            "rag_storage/ absent -- GraphRAG not rolled out yet; assuming the Chroma path"
-            " serves this demo",
-            hint="once GraphRAG is live, treat this as a FAIL",
+            FAIL,
+            "rag_storage/ missing -- GraphRAG is live (ADR 0010), so the graph is expected"
+            " committed repo content, not an optional extra",
+            hint="git checkout rag_storage/ from the commit you are demoing, never re-extract"
+            " on demo day",
         )
     missing = [name for name in AUTHORITATIVE_FILES if not (storage / name).exists()]
     if missing:
@@ -325,16 +254,33 @@ def check_graph_store(repo_root: Path) -> CheckResult:
     return CheckResult("graph-store", PASS, "authoritative + derived files all present")
 
 
-def check_chroma(persist_dir: str) -> CheckResult:
-    path = Path(persist_dir)
-    if not path.is_dir() or not any(path.iterdir()):
+def check_corpus_books(repo_root: Path) -> CheckResult:
+    """corpus/books.yaml must name every corpus/<book_id>/ folder (ADR 0010):
+    an uncovered folder is a book whose notes would validate its own
+    book_id field yet still fail citation rendering, which reads titles
+    from books.yaml alone. corpus/archive/ (Phase 5, #14) and
+    corpus/concepts/ (Phase 6, #17 -- the generated vault) are excluded:
+    neither is ever ingested, and neither is ever a book_id."""
+    from app.rag.source_notes import NON_BOOK_DIR_NAMES, load_books
+
+    corpus_root = repo_root / "corpus"
+    if not corpus_root.is_dir():
+        return CheckResult("corpus-books", FAIL, "corpus/ directory missing")
+    books = load_books(corpus_root)
+    book_dirs = sorted(
+        p.name for p in corpus_root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
+    )
+    missing = [name for name in book_dirs if name not in books]
+    if missing:
         return CheckResult(
-            "chroma",
-            WARN,
-            f"{persist_dir} empty -- the Advisor will answer without corpus citations",
-            hint="uv run python -m app.rag.ingest corpus/<book>.jsonl",
+            "corpus-books",
+            FAIL,
+            "corpus/books.yaml missing entries for: " + ", ".join(missing),
+            hint="add book_id: title to corpus/books.yaml",
         )
-    return CheckResult("chroma", PASS, f"corpus store present at {persist_dir}")
+    return CheckResult(
+        "corpus-books", PASS, f"books.yaml covers all {len(book_dirs)} corpus folder(s)"
+    )
 
 
 async def _vdb_consistency_report(storage: Path) -> dict:
@@ -392,8 +338,9 @@ def check_vdb_drift(repo_root: Path) -> CheckResult:
         return CheckResult(
             "vdb-drift",
             WARN,
-            "lightrag-hku not importable (still in the spike dependency group)",
-            hint="uv sync --group spike   (#24 moves it to main deps at rollout)",
+            "lightrag-hku not importable",
+            hint="uv sync   (lightrag-hku is a core dependency as of #24's rollout;"
+            " check pyproject.toml/uv.lock)",
         )
     except Exception as exc:  # storage init can fail in many library-internal ways
         return CheckResult("vdb-drift", FAIL, f"consistency check crashed: {exc}")
@@ -418,7 +365,8 @@ def parse_check_index_output(returncode: int, output: str) -> CheckResult:
         return CheckResult(
             "index-fresh",
             WARN,
-            "--check-index not implemented yet (decided in #24; lands with the rollout)",
+            "--check-index not recognized by app.rag.source_notes -- version skew?",
+            hint="uv sync and confirm this checkout has the ticket #24 staleness gate",
         )
     if returncode == 0 and "fresh" in output:
         return CheckResult("index-fresh", PASS, "index matches corpus")
@@ -469,15 +417,12 @@ def run_preflight(port: int) -> list[CheckResult]:
         check_server(ps, port),
         check_prewarm(port),
         check_caffeinate(ps),
-        check_tunnel(ps, settings.public_base_url),
-        check_webhook(settings.public_base_url, settings.line_channel_access_token),
     ]
     graph_store = check_graph_store(repo_root)
     results.append(graph_store)
     if graph_store.status == PASS:
         results.append(check_vdb_drift(repo_root))
-    elif graph_store.status == WARN:
-        results.append(check_chroma(settings.chroma_persist_dir))
+    results.append(check_corpus_books(repo_root))
     results.append(check_index_freshness(repo_root))
     return results
 

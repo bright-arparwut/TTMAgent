@@ -1,19 +1,47 @@
-"""Validate the source-note Markdown corpus against the ticket #12 format.
+"""Validate the source-note Markdown corpus against the ticket #12 format, and
+gate index staleness against a committed manifest (ticket #24).
 
 One `.md` per level-2 book section; the filename is the citation. Errors block ingest;
 warnings are for a human to read (ticket #15 runs unattended).
 
-Usage: uv run python -m app.rag.source_notes corpus
+LightRAG 1.5.6 has no in-place update: an edited note re-inserted under its
+existing `uid` is silently rejected, so the stale graph would survive
+undetected without an external staleness check (ADR 0010). The manifest at
+`rag_storage/index-manifest.json` (`uid` -> sha256 of the whole file, the
+same content LightRAG's `ainsert` receives) is that check's committed
+baseline: `--write-manifest` writes it and `--check-index` compares it
+against the current notes. Run `--write-manifest` right after any (re-)index
+-- including after an edited note's `adelete_by_doc_id` + re-insert -- so the
+manifest matches what LightRAG actually ingested; never run it to paper over
+drift without re-indexing first.
+
+Usage:
+    uv run python -m app.rag.source_notes corpus
+    uv run python -m app.rag.source_notes corpus --check-index
+    uv run python -m app.rag.source_notes corpus --write-manifest
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import re
 import sys
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
+
+MANIFEST_FILENAME = "index-manifest.json"
+
+# Directories under corpus/ that are never book folders -- never carry a
+# books.yaml entry, and must never have their contents parsed as source
+# notes. `archive/` holds retired JSONLs (Phase 5, #14); `concepts/` is the
+# generated vault view over the graph (ADR 0010, ticket #17) -- a completely
+# different frontmatter schema, not a book. app/preflight.py's
+# `check_corpus_books` and app/advisor/citation.py's `_locate_book_id` share
+# this list so the three never drift apart.
+NON_BOOK_DIR_NAMES = frozenset({"archive", "concepts"})
 
 REQUIRED_STR_FIELDS = ("uid", "type", "book_id", "chapter", "section")
 REQUIRED_PAIR_FIELDS = ("pages", "pdf_pages")
@@ -216,7 +244,9 @@ def validate_corpus(root: Path) -> tuple[list[str], list[str]]:
     books = load_books(root)
     seen_uids: dict[str, Path] = {}
 
-    for book_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+    for book_dir in sorted(
+        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
+    ):
         notes: list[SourceNote] = []
         for path in sorted(book_dir.glob("*.md")):
             where = f"{book_dir.name}/{path.name}"
@@ -284,10 +314,124 @@ def validate_corpus(root: Path) -> tuple[list[str], list[str]]:
     return errors, warnings
 
 
-def main() -> None:
+# --- staleness manifest (ticket #24) ----------------------------------------
+
+
+@dataclass(frozen=True)
+class ManifestDiff:
+    changed: frozenset[str]
+    new: frozenset[str]
+    removed: frozenset[str]
+
+    @property
+    def is_fresh(self) -> bool:
+        return not (self.changed or self.new or self.removed)
+
+
+def compute_manifest(root: Path) -> dict[str, str]:
+    """uid -> sha256 hex digest of the whole note file (frontmatter + body).
+
+    This is exactly the string LightRAG's `ainsert` receives as `input=`
+    (spike/index_corpus.py reads the whole file, not just the body) -- an
+    edit anywhere in the file, not only the body, must register as drift.
+    """
+    manifest: dict[str, str] = {}
+    for book_dir in sorted(
+        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
+    ):
+        for path in sorted(book_dir.glob("*.md")):
+            where = f"{book_dir.name}/{path.name}"
+            try:
+                note = parse_note(path)
+            except ValueError as exc:
+                print(f"ERROR {where}: {exc}", file=sys.stderr)
+                sys.exit(1)
+            manifest[note.uid] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return manifest
+
+
+def manifest_path_for(root: Path) -> Path:
+    """The committed manifest lives at rag_storage/index-manifest.json, a
+    sibling of the corpus root (ticket #24's authoritative/derived split)."""
+    return root.parent / "rag_storage" / MANIFEST_FILENAME
+
+
+def load_manifest(path: Path) -> dict[str, str]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def save_manifest(path: Path, manifest: dict[str, str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def diff_manifest(committed: dict[str, str], current: dict[str, str]) -> ManifestDiff:
+    changed = frozenset(
+        uid for uid in committed.keys() & current.keys() if committed[uid] != current[uid]
+    )
+    new = frozenset(current.keys() - committed.keys())
+    removed = frozenset(committed.keys() - current.keys())
+    return ManifestDiff(changed=changed, new=new, removed=removed)
+
+
+def format_check_index_report(diff: ManifestDiff) -> str:
+    lines = [
+        f"stale: {len(diff.changed)} changed, {len(diff.new)} new, {len(diff.removed)} removed"
+    ]
+    for uid in sorted(diff.changed):
+        lines.append(f"  changed: {uid}")
+    for uid in sorted(diff.new):
+        lines.append(f"  new: {uid}")
+    for uid in sorted(diff.removed):
+        lines.append(f"  removed: {uid}")
+    lines.append(
+        "fix: adelete_by_doc_id then re-insert the stale note(s) -- LightRAG silently"
+        " rejects a same-name re-insert (ADR 0010) -- then uv run python -m"
+        " app.rag.source_notes corpus --write-manifest"
+    )
+    return "\n".join(lines)
+
+
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path, help="corpus root (the directory holding books.yaml)")
-    args = parser.parse_args()
+    parser.add_argument(
+        "--check-index",
+        action="store_true",
+        help="compare the committed manifest (rag_storage/index-manifest.json) against"
+        " the current source notes; exit 1 naming any drift",
+    )
+    parser.add_argument(
+        "--write-manifest",
+        action="store_true",
+        help="write rag_storage/index-manifest.json from the current source notes --"
+        " run right after (re-)indexing, never to paper over drift without re-indexing",
+    )
+    args = parser.parse_args(argv)
+
+    if args.write_manifest:
+        manifest = compute_manifest(args.root)
+        path = manifest_path_for(args.root)
+        save_manifest(path, manifest)
+        print(f"wrote {len(manifest)} note(s) to {path}")
+        sys.exit(0)
+
+    if args.check_index:
+        path = manifest_path_for(args.root)
+        if not path.exists():
+            print(
+                f"no manifest at {path} -- run --write-manifest after indexing", file=sys.stderr
+            )
+            sys.exit(1)
+        diff = diff_manifest(load_manifest(path), compute_manifest(args.root))
+        if diff.is_fresh:
+            print("fresh")
+            sys.exit(0)
+        print(format_check_index_report(diff))
+        sys.exit(1)
 
     errors, warnings = validate_corpus(args.root)
     for warning in warnings:

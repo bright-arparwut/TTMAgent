@@ -1,7 +1,9 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+RAG_QUERY_MODES = ("mix", "naive")
 
 
 class ModelSlotSettings(BaseSettings):
@@ -56,10 +58,38 @@ class Settings(BaseSettings):
     mongodb_uri: str = "mongodb://localhost:27017"
     mongodb_db_name: str = "ttm_advisor"
 
-    # Chroma (TTM corpus RAG)
-    chroma_persist_dir: str = "./data/chroma"
+    # LightRAG (TTM corpus GraphRAG) -- ADR 0010. One pre-fetched `mix`
+    # query per turn; `naive` is the same-infrastructure thesis baseline
+    # arm, flipped by this one setting -- no per-turn mode router.
+    rag_query_mode: str = "mix"
+    rag_storage_dir: str = "./rag_storage"
+    corpus_dir: str = "./corpus"
+
+    # Token budgets (replace `rag_top_k`): whole sections handed to the
+    # Advisor, plus separate caps for entity/relation graph-context
+    # descriptions (evidence the Advisor reads but cannot cite).
+    rag_section_token_budget: int = 5000
+    rag_entity_token_budget: int = 2000
+    rag_relation_token_budget: int = 2000
+
     embedding_model_name: str = "BAAI/bge-m3"
-    rag_top_k: int = 5
+
+    # KEYWORD slot: LightRAG's keyword-extraction (and construction-only
+    # QUERY) role. The one hosted LLM call per LINE message -- request
+    # path, so never Claude Code headless and never the Advisor slot.
+    # Flash-tier hosted model by default (latency-sensitive, in the
+    # request path on every message).
+    keyword_provider: str = "google"
+    keyword_model: str = "gemini-2.5-flash"
+    keyword_api_key: str = ""
+    keyword_base_url: str | None = None
+
+    @field_validator("rag_query_mode")
+    @classmethod
+    def _validate_rag_query_mode(cls, value: str) -> str:
+        if value not in RAG_QUERY_MODES:
+            raise ValueError(f"rag_query_mode must be one of {RAG_QUERY_MODES!r}, got {value!r}")
+        return value
 
     # Load BGE-M3 in the FastAPI lifespan instead of on the first retrieval.
     # Lazy load costs the demo's first message 14.5-23 s, and two concurrent
@@ -94,6 +124,14 @@ class Settings(BaseSettings):
             model=self.describer_model,
             api_key=self.describer_api_key,
             base_url=self.describer_base_url,
+        )
+
+    def keyword_slot(self) -> ModelSlotSettings:
+        return ModelSlotSettings(
+            provider=self.keyword_provider,
+            model=self.keyword_model,
+            api_key=self.keyword_api_key,
+            base_url=self.keyword_base_url,
         )
 
 

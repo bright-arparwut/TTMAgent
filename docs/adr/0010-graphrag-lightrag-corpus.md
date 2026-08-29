@@ -15,7 +15,7 @@ LightRAG runs on its **file-persisted defaults**: JsonKV + NanoVectorDB + Networ
 
 The working directory is repo-root **`rag_storage/`**, split in two:
 
-- **Committed (authoritative)**: the graphml and *all* KV stores (~1.15 MB). A full EXTRACT costs real money and a logged-in session; the committed half is the artifact. LightRAG 1.5.6 writes four KV stores beyond the subset `app/preflight.py` lists as `AUTHORITATIVE_FILES` — those are authoritative and committed too ([#30](https://github.com/bright-arparwut/TTMAgent/issues/30)).
+- **Committed (authoritative)**: the graphml and *all* KV stores (~1.15 MB). A full EXTRACT costs real money and a logged-in session; the committed half is the artifact. LightRAG 1.5.6 writes seven KV stores beyond the graphml, and `app/preflight.py`'s `AUTHORITATIVE_FILES` lists every one of them ([#30](https://github.com/bright-arparwut/TTMAgent/issues/30)); any filename change on either side must update the other.
 - **Gitignored (regenerated)**: `vdb_*.json` (~6.4 MB) and the LLM response cache. Rebuilt locally by LightRAG's own `lightrag-rebuild-vdb` in ~1 min for $0 (measured 16.9 texts/s). Committing vectors would cost ~4.5 MB of git history per re-index — `vdb_entities.json` is a monolithic base64 matrix that gzips 1.4×, against the graphml's 10.5×. Missing vectors are a **visible boot failure**, never a silent rebuild.
 
 **LightRAG 1.5.6 has no in-place update.** Any same-name record is treated as a duplicate: an edited source note re-inserted as-is is **silently rejected** and the stale graph survives. Edits require `adelete_by_doc_id` then re-insert. Staleness detection is a committed manifest plus `source_notes --check-index` in CI — **not** `git diff`, because every storage layer carries timestamps.

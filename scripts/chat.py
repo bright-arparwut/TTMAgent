@@ -1,4 +1,4 @@
-"""Local terminal chat harness for the TTM advisor -- no LINE, no Chroma.
+"""Local terminal chat harness for the TTM advisor -- no LINE, no graph.
 
 Drives the *real* consultation spine (`_run_consultation_turn` in the
 dispatcher) straight from your terminal against a local MongoDB, so you can
@@ -12,9 +12,10 @@ What it needs:
     because this harness never calls the LINE messenger.
 
 What it skips:
-  * RAG retrieval is stubbed to return no passages, so Chroma is never opened
-    and the BGE-M3 embedding model is never downloaded. Advice is therefore
-    *ungrounded* -- fine for smoke-testing plumbing, not a faithful thesis run.
+  * RAG retrieval is stubbed to return no passages, so rag_storage/ is never
+    opened and the BGE-M3 embedding model is never downloaded. Advice is
+    therefore *ungrounded* -- fine for smoke-testing plumbing, not a faithful
+    thesis run.
   * The image path (needs Roboflow); this harness is text-only.
 
 Run:
@@ -54,7 +55,8 @@ async def _no_rag(query: str) -> list[str]:
     """Stub for `retrieve_passages`: no corpus ingested, so no passages.
 
     Keeping this here (instead of touching the real vector store) is what lets
-    the harness run with no Chroma directory and no embedding-model download.
+    the harness run with no rag_storage/ directory opened and no
+    embedding-model download.
     """
     return []
 
@@ -123,13 +125,13 @@ def _print_help() -> None:
 async def main() -> None:
     settings = _load_settings()
 
-    # Skip RAG entirely: no Chroma, no BGE-M3 download.
+    # Skip RAG entirely: no rag_storage/ opened, no BGE-M3 download.
     dispatcher.retrieve_passages = _no_rag
 
     user_id = DEFAULT_USER
     force_close_next = False
 
-    print("TTM advisor -- local chat harness (no LINE, no Chroma).")
+    print("TTM advisor -- local chat harness (no LINE, no graph).")
     print(f"Acting as user '{user_id}'. RAG is stubbed -> advice is ungrounded.")
     print("Type /help for commands. First Gemini call may take a few seconds.\n")
 
