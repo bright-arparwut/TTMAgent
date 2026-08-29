@@ -21,8 +21,6 @@ from app.preflight import (
     check_graph_store,
     check_prewarm,
     check_server,
-    check_tunnel,
-    check_webhook,
     find_process,
     main,
     parse_check_index_output,
@@ -30,7 +28,7 @@ from app.preflight import (
 )
 
 UVICORN = "  123 /repo/.venv/bin/python /repo/.venv/bin/uvicorn app.main:app --port 8000"
-PS_CLEAN = UVICORN + "\n  456 caffeinate -dimsu\n  789 cloudflared tunnel run ttm-demo\n"
+PS_CLEAN = UVICORN + "\n  456 caffeinate -dimsu\n"
 
 
 def _settings(**overrides) -> Settings:
@@ -126,90 +124,6 @@ def test_env_does_not_warn_about_keyword_api_key_in_naive_mode():
     # naive mode legitimately needs no keyword-extraction key.
     result = check_env(_settings(keyword_api_key="", rag_query_mode="naive"))
     assert result.status == PASS
-
-
-# --- tunnel -----------------------------------------------------------------
-
-
-def test_tunnel_fails_without_cloudflared():
-    assert check_tunnel(UVICORN + "\n", "https://ttm.example.com").status == FAIL
-
-
-def test_tunnel_fails_on_quick_tunnel_hostname():
-    result = check_tunnel(PS_CLEAN, "https://random-words.trycloudflare.com")
-    assert result.status == FAIL
-    assert "QUICK" in result.detail
-
-
-def test_tunnel_passes_when_public_health_answers():
-    fetch = _fetch(200, {"status": "ok", "embedding": "ready"})
-    result = check_tunnel(PS_CLEAN, "https://ttm.example.com", fetch=fetch)
-    assert result.status == PASS
-
-
-def test_tunnel_fails_when_public_health_unreachable():
-    fetch = _fetch(0, None, "connect timeout")
-    result = check_tunnel(PS_CLEAN, "https://ttm.example.com", fetch=fetch)
-    assert result.status == FAIL
-
-
-# --- webhook ----------------------------------------------------------------
-
-
-def _line_endpoint(endpoint: str, active: bool = True):
-    return _fetch(200, {"endpoint": endpoint, "active": active})
-
-
-def test_webhook_passes_when_url_matches_and_verify_succeeds():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == PASS
-
-
-def test_webhook_tolerates_trailing_slash_differences():
-    result = check_webhook(
-        "https://ttm.example.com/",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook/"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == PASS
-
-
-def test_webhook_fails_on_console_mismatch():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://old-host.example.com/webhook"),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == FAIL
-    assert "old-host.example.com" in result.detail
-
-
-def test_webhook_fails_when_disabled_in_console():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook", active=False),
-        post=_fetch(200, {"success": True}),
-    )
-    assert result.status == FAIL
-
-
-def test_webhook_fails_when_line_verify_fails():
-    result = check_webhook(
-        "https://ttm.example.com",
-        "token",
-        fetch=_line_endpoint("https://ttm.example.com/webhook"),
-        post=_fetch(200, {"success": False, "reason": "COULD_NOT_CONNECT"}),
-    )
-    assert result.status == FAIL
-    assert "COULD_NOT_CONNECT" in result.detail
 
 
 # --- prewarm ----------------------------------------------------------------
@@ -389,14 +303,6 @@ def test_run_preflight_includes_corpus_books_when_graph_store_fails(monkeypatch)
         preflight, "check_caffeinate", lambda ps: CheckResult("caffeinate", PASS, "ok")
     )
     monkeypatch.setattr(
-        preflight, "check_tunnel", lambda ps, url, fetch=None: CheckResult("tunnel", PASS, "ok")
-    )
-    monkeypatch.setattr(
-        preflight,
-        "check_webhook",
-        lambda url, token, fetch=None: CheckResult("webhook", PASS, "ok"),
-    )
-    monkeypatch.setattr(
         preflight,
         "check_corpus_books",
         lambda repo_root: CheckResult("corpus-books", PASS, "ok"),
@@ -420,8 +326,6 @@ def test_run_preflight_includes_corpus_books_when_graph_store_fails(monkeypatch)
         "server",
         "prewarm",
         "caffeinate",
-        "tunnel",
-        "webhook",
         "graph-store",
         "corpus-books",
         "index-freshness",

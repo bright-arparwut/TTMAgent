@@ -21,7 +21,6 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urlparse
 
 import httpx
 from pydantic import ValidationError
@@ -37,7 +36,6 @@ HTTP_TIMEOUT_S = 10.0
 MONGO_PING_TIMEOUT_MS = 3000
 
 LAUNCH_CMD = "EMBEDDING_PREWARM=1 uv run uvicorn app.main:app --host 127.0.0.1 --port {port}"
-LINE_WEBHOOK_API = "https://api.line.me/v2/bot/channel/webhook"
 
 # Ticket #24: the authoritative half of rag_storage/ is committed repo
 # content; the vdb_* half is derived, gitignored, and rebuilt in ~1-3 min
@@ -90,17 +88,6 @@ def _get_json(url: str, headers: dict[str, str] | None = None) -> tuple[int, dic
         return resp.status_code, None, resp.text[:200]
 
 
-def _post_json(url: str, headers: dict[str, str] | None = None) -> tuple[int, dict | None, str]:
-    try:
-        resp = httpx.post(url, headers=headers, json={}, timeout=HTTP_TIMEOUT_S)
-    except httpx.HTTPError as exc:
-        return 0, None, str(exc)
-    try:
-        return resp.status_code, resp.json(), ""
-    except ValueError:
-        return resp.status_code, None, resp.text[:200]
-
-
 def ps_snapshot() -> str:
     return subprocess.run(
         ["ps", "-axo", "pid=,command="], capture_output=True, text=True, check=False
@@ -139,7 +126,7 @@ def check_env(settings: Settings) -> CheckResult:
             "env",
             WARN,
             "PUBLIC_BASE_URL empty -- tongue-photo echo is disabled (ADR 0007)",
-            hint="set it to the named tunnel origin",
+            hint="set it to the tunnel's current public origin",
         )
     if settings.rag_query_mode == "mix" and not settings.keyword_api_key:
         return CheckResult(
@@ -217,80 +204,6 @@ def check_caffeinate(ps: str) -> CheckResult:
             hint="run `caffeinate -dimsu` in its own terminal for the whole session",
         )
     return CheckResult("caffeinate", PASS, "running")
-
-
-def check_tunnel(ps: str, public_base_url: str, fetch: FetchJson = _get_json) -> CheckResult:
-    if find_process(ps, "cloudflared") is None:
-        return CheckResult(
-            "tunnel", FAIL, "no cloudflared process", hint="cloudflared tunnel run <tunnel-name>"
-        )
-    if not public_base_url:
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            "PUBLIC_BASE_URL empty -- cannot probe the public origin",
-            hint="set PUBLIC_BASE_URL to the named tunnel origin",
-        )
-    host = urlparse(public_base_url).hostname or ""
-    if host.endswith("trycloudflare.com"):
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            f"{host} is a QUICK tunnel: its hostname changes every restart and silently"
-            " orphans the webhook URL in the LINE console",
-            hint="create a named tunnel with a stable hostname (docs/demo-runbook.md)",
-        )
-    status, data, err = fetch(public_base_url.rstrip("/") + "/health")
-    if status != 200 or data is None or data.get("status") != "ok":
-        return CheckResult(
-            "tunnel",
-            FAIL,
-            f"GET {host}/health -> {status or err}",
-            hint="tunnel up but app unreachable: does the ingress port match the server port?",
-        )
-    return CheckResult("tunnel", PASS, f"named tunnel serving at {host}")
-
-
-def check_webhook(
-    public_base_url: str,
-    channel_access_token: str,
-    fetch: FetchJson = _get_json,
-    post: FetchJson = _post_json,
-) -> CheckResult:
-    if not public_base_url:
-        return CheckResult(
-            "webhook", FAIL, "PUBLIC_BASE_URL empty -- cannot compare with the LINE console"
-        )
-    headers = {"Authorization": f"Bearer {channel_access_token}"}
-    expected = public_base_url.rstrip("/") + "/webhook"
-    status, data, err = fetch(LINE_WEBHOOK_API + "/endpoint", headers)
-    if status != 200 or data is None:
-        return CheckResult(
-            "webhook",
-            FAIL,
-            f"LINE endpoint API -> {status or err}",
-            hint="channel access token wrong, or LINE API unreachable",
-        )
-    actual = str(data.get("endpoint", ""))
-    if actual.rstrip("/") != expected:
-        return CheckResult(
-            "webhook",
-            FAIL,
-            f"LINE console points at {actual or '(unset)'} but this machine serves {expected}",
-            hint="update the webhook URL in the LINE Developers Console",
-        )
-    if not data.get("active", False):
-        return CheckResult(
-            "webhook",
-            FAIL,
-            "webhook delivery is disabled in the LINE console",
-            hint='enable "Use webhook" in the LINE Developers Console',
-        )
-    status, data, err = post(LINE_WEBHOOK_API + "/test", headers)
-    if status != 200 or data is None or not data.get("success", False):
-        reason = (data or {}).get("reason") or (data or {}).get("detail") or err or status
-        return CheckResult("webhook", FAIL, f"LINE Verify failed: {reason}")
-    return CheckResult("webhook", PASS, "console URL matches and LINE Verify passes")
 
 
 def check_mongo(uri: str) -> CheckResult:
@@ -504,8 +417,6 @@ def run_preflight(port: int) -> list[CheckResult]:
         check_server(ps, port),
         check_prewarm(port),
         check_caffeinate(ps),
-        check_tunnel(ps, settings.public_base_url),
-        check_webhook(settings.public_base_url, settings.line_channel_access_token),
     ]
     graph_store = check_graph_store(repo_root)
     results.append(graph_store)

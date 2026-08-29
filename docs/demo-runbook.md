@@ -82,21 +82,22 @@ Four terminal panes, in this order.
    docker compose up -d
    ```
 
-3. **The named tunnel.** Never a quick tunnel: a quick tunnel's hostname
-   changes on every restart, which silently orphans the webhook URL in the
-   LINE console:
+3. **The tunnel.** Any HTTPS tunnel to port 8000 works (ngrok is the current
+   setup):
 
    ```bash
-   cloudflared tunnel run ttm-demo
+   ngrok http 8000
    ```
 
-   One-time setup, long before demo day: `cloudflared tunnel login`, then
-   `cloudflared tunnel create ttm-demo`, route a stable hostname to it with
-   `cloudflared tunnel route dns ttm-demo <hostname>`, and point its ingress at
-   `http://localhost:8000` in `~/.cloudflared/config.yml`. Set
-   `PUBLIC_BASE_URL=https://<hostname>` in `.env` and set the LINE console's
-   webhook URL to `https://<hostname>/webhook`. The preflight's `webhook` check
-   verifies both ends match and runs LINE's own Verify.
+   A rotating-hostname tunnel (ngrok free tier, cloudflared quick tunnels)
+   mints a new URL on every restart, so after each tunnel (re)start:
+   set `PUBLIC_BASE_URL=https://<current-hostname>` in `.env`, set the LINE
+   console's webhook URL to `https://<current-hostname>/webhook`, and restart
+   the server (step 4) so it reads the new value. Confirm with LINE's own
+   Verify button in the console, or by sending a test message. A tunnel with
+   a stable hostname (ngrok paid domain, or a cloudflared named tunnel with
+   `cloudflared tunnel route dns`) makes this a one-time setup instead —
+   worth it before a real demo.
 
 4. **The server — reload-free, single worker, pre-warmed:**
 
@@ -148,10 +149,11 @@ Leave `EMBEDDING_PREWARM` unset in dev: every reload would otherwise pay the
 
 ## Recovery
 
-- **Tunnel drops mid-demo.** Restart pane 3 (`cloudflared tunnel run ttm-demo`).
-  The hostname is stable, so the LINE console needs no change. Messages sent
-  while it was down are gone — ask the advisor to resend the last message.
-  Confirm recovery with the preflight's `tunnel` and `webhook` checks.
+- **Tunnel drops mid-demo.** Restart pane 3 (`ngrok http 8000`). With a
+  rotating hostname the restart mints a NEW URL: redo step 3's ritual —
+  `PUBLIC_BASE_URL` in `.env`, the LINE console webhook URL, and a server
+  restart. Messages sent while it was down are gone — ask the advisor to
+  resend the last message. Confirm recovery with a test message.
 
 - **Server process dies mid-demo.** Relaunch pane 4 and wait for
   "Application startup complete" (~20 s of model load; `/health` reports
