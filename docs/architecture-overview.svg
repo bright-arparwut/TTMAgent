@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640 2460" width="1640" height="2460">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1C2B22"/></marker></defs>
+<rect width="1640" height="2460" fill="#FFFFFF"/>
+<rect x="55" y="40" width="395" height="220" rx="100" fill="#FFFFFF" stroke="#1C2B22" stroke-width="3"/>
+<text x="90" y="110" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">TTM User</text>
+<text x="90" y="145" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Person]</text>
+<text x="90" y="183.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Chats in Thai and sends</text>
+<text x="90" y="211.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">tongue photos in LINE.</text>
+<rect x="700" y="40" width="600" height="220" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="726" y="85" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">LINE Platform</text>
+<text x="726" y="116" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[External system - LINE Messaging API]</text>
+<text x="726" y="152.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Delivers webhook events, and renders the app's</text>
+<text x="726" y="180.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">replies as Flex bubbles, images and Quick Reply</text>
+<text x="726" y="209.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">buttons.</text>
+<path d="M 450 125 L 692 125" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="571" cy="125" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="571" y="133.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">1</text>
+<text x="571" y="88" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="middle">sends message / photo</text>
+<path d="M 700 205 L 458 205" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="579" cy="205" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="579" y="213.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">11</text>
+<text x="579" y="250" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="middle">delivers reply</text>
+<rect x="30" y="320" width="1130" height="1370" rx="18" fill="none" stroke="#2E6B4C" stroke-width="3" stroke-dasharray="16 11"/>
+<text x="55" y="364" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#2E6B4C" font-weight="bold" text-anchor="start">TTM Consultation Assistant</text>
+<text x="55" y="396" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">system boundary - one deployable process and the stores it owns</text>
+<rect x="65" y="430" width="1015" height="470" rx="8" fill="#E3EDE5" stroke="#2E6B4C" stroke-width="4"/>
+<text x="95" y="487" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="38" fill="#1C2B22" font-weight="bold" text-anchor="start">TTM Advisor App</text>
+<text x="95" y="522" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Container: Python 3.11 - FastAPI - LangGraph]</text>
+<text x="95" y="562.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="23" fill="#1C2B22" font-weight="normal" text-anchor="start">The single deployable process. Every deterministic decision lives here.</text>
+<circle cx="101" cy="614" r="6" fill="#2E6B4C"/>
+<text x="121" y="622" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Webhook intake</text>
+<text x="121" y="652.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">signature check, per-user turn</text>
+<text x="121" y="679.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">serialization</text>
+<circle cx="601" cy="614" r="6" fill="#2E6B4C"/>
+<text x="621" y="622" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Tongue-detection gate</text>
+<text x="621" y="652.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">the sole authority on "is there a tongue</text>
+<text x="621" y="679.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">here?" - ADR 0004</text>
+<circle cx="101" cy="709" r="6" fill="#2E6B4C"/>
+<text x="121" y="717" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Context assembly</text>
+<text x="121" y="747.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">buffer replay + Health Profile + recent</text>
+<text x="121" y="774.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">entries + passages - ADR 0005</text>
+<circle cx="601" cy="709" r="6" fill="#2E6B4C"/>
+<text x="621" y="717" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Advisor ReAct loop</text>
+<text x="621" y="747.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">two read-only Health Record tools, no write</text>
+<text x="621" y="774.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">tools - ADR 0002</text>
+<circle cx="101" cy="804" r="6" fill="#2E6B4C"/>
+<text x="121" y="812" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Relevance Gate + Profile Updater</text>
+<text x="121" y="842.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">code-triggered, LLM-scored, only at close -</text>
+<text x="121" y="869.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">ADR 0002/0003</text>
+<circle cx="601" cy="804" r="6" fill="#2E6B4C"/>
+<text x="621" y="812" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">Topic Menu + citations</text>
+<text x="621" y="842.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">delimiter blocks parsed into Quick Reply +</text>
+<text x="621" y="869.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#66766B" font-weight="normal" text-anchor="start">Flex - ADR 0006/0009</text>
+<rect x="55" y="960" width="500" height="670" rx="12" fill="none" stroke="#C7D2C4" stroke-width="2"/>
+<text x="78" y="1004" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#C08A2D" font-weight="bold" text-anchor="start">Knowledge</text>
+<text x="78" y="1034" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">what every Assessment is grounded in</text>
+<rect x="85" y="1060" width="440" height="250" rx="8" fill="#FFFFFF" stroke="#C08A2D" stroke-width="2.6" stroke-dasharray="3 8"/>
+<text x="111" y="1105" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="start">TTM Knowledge Graph</text>
+<rect x="407" y="1084" width="100" height="30" rx="15" fill="#C08A2D"/>
+<text x="457.0" y="1105" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" fill="#FFFFFF" font-weight="bold" text-anchor="middle">PLANNED</text>
+<text x="111" y="1136" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Container: LightRAG - under evaluation]</text>
+<text x="111" y="1172.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Entities and relations from the</text>
+<text x="111" y="1200.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">same corpus, for multi-hop</text>
+<text x="111" y="1229.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">questions. Prototyped in spike/;</text>
+<text x="111" y="1257.68" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">not wired into app/ yet - spike</text>
+<text x="111" y="1286.24" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">#16.</text>
+<rect x="85" y="1350" width="440" height="250" rx="8" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="85" y="1352" width="8" height="246" rx="4" fill="#C08A2D"/>
+<text x="111" y="1395" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">TTM Corpus Store</text>
+<text x="111" y="1426" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Container: Chroma - embedded, local files]</text>
+<text x="111" y="1462.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Digitized TTM books, one chunk per</text>
+<text x="111" y="1490.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">paragraph, BGE-M3 vectors, with</text>
+<text x="111" y="1519.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">book / page / paragraph provenance</text>
+<text x="111" y="1547.68" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">- ADR 0008.</text>
+<rect x="655" y="960" width="405" height="670" rx="12" fill="none" stroke="#C7D2C4" stroke-width="2"/>
+<text x="677" y="1004" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#C08A2D" font-weight="bold" text-anchor="start">Memory</text>
+<text x="677" y="1034" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Container: MongoDB 7]</text>
+<rect x="685" y="1060" width="355" height="130" rx="8" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="685" y="1062" width="8" height="126" rx="4" fill="#C08A2D"/>
+<text x="715" y="1100" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Working Buffer</text>
+<text x="715" y="1130.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">Raw turns of the open</text>
+<text x="715" y="1155.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">Consultation; deleted at</text>
+<text x="715" y="1180.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">close.</text>
+<rect x="685" y="1200" width="355" height="130" rx="8" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="685" y="1202" width="8" height="126" rx="4" fill="#C08A2D"/>
+<text x="715" y="1240" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Health Record</text>
+<text x="715" y="1270.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">One entry per relevant</text>
+<text x="715" y="1295.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">Consultation - the only</text>
+<text x="715" y="1320.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">long-term memory.</text>
+<rect x="685" y="1340" width="355" height="130" rx="8" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="685" y="1342" width="8" height="126" rx="4" fill="#C08A2D"/>
+<text x="715" y="1380" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Health Profile</text>
+<text x="715" y="1410.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">Face sheet: a rebuildable</text>
+<text x="715" y="1435.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">projection of Health Record</text>
+<text x="715" y="1460.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">entries.</text>
+<rect x="685" y="1480" width="355" height="130" rx="8" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="685" y="1482" width="8" height="126" rx="4" fill="#C08A2D"/>
+<text x="715" y="1520" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Tongue Photos</text>
+<text x="715" y="1550.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">Every crop, gate-passed or</text>
+<text x="715" y="1575.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">not. Outside the memory</text>
+<text x="715" y="1600.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#1C2B22" font-weight="normal" text-anchor="start">lifecycle - ADR 0007.</text>
+<rect x="1180" y="430" width="400" height="260" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="1206" y="475" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">Tongue Detection</text>
+<text x="1206" y="506" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[External service - Roboflow]</text>
+<text x="1206" y="542.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Serverless workflow: detects</text>
+<text x="1206" y="570.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">and crops the tongue</text>
+<text x="1206" y="599.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">server-side, returns the crop</text>
+<text x="1206" y="627.6800000000001" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">with its confidence - ADR 0004.</text>
+<rect x="1180" y="740" width="400" height="290" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="1206" y="785" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">Vision Describer</text>
+<text x="1206" y="816" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[External service - VLM slot]</text>
+<text x="1206" y="852.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Vision-language model,</text>
+<text x="1206" y="880.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">config-selected. Turns a</text>
+<text x="1206" y="909.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">cropped photo into a structured</text>
+<text x="1206" y="937.6800000000001" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Tongue Description: it</text>
+<text x="1206" y="966.24" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">observes, never assesses - ADR</text>
+<text x="1206" y="994.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">0001.</text>
+<rect x="1180" y="1080" width="400" height="300" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="1206" y="1125" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="30" fill="#1C2B22" font-weight="bold" text-anchor="start">Advisor Model</text>
+<text x="1206" y="1156" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[External service - LLM slot]</text>
+<text x="1206" y="1192.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Chat model, config-selected and</text>
+<text x="1206" y="1220.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">independent of the VLM slot.</text>
+<text x="1206" y="1249.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Conducts the Consultation and</text>
+<text x="1206" y="1277.68" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">both close-time reasoning steps</text>
+<text x="1206" y="1306.24" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">- ADR 0001.</text>
+<path d="M 900 260 L 900 422" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="900" cy="340" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="900" y="348.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">2</text>
+<text x="930" y="348" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="start">webhook event [HTTPS/JSON]</text>
+<path d="M 760 430 L 760 268" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="760" cy="340" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="760" y="348.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">10</text>
+<text x="730" y="348" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="end">reply [HTTPS/JSON]</text>
+<path d="M 1080 520 L 1172 520" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="1126" cy="520" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1126" y="528.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">3</text>
+<path d="M 1080 620 L 1145 620 L 1145 860 L 1172 860" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="1145" cy="722" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1145" y="730.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">5</text>
+<path d="M 1080 700 L 1085 700 L 1085 1160 L 1172 1160" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="1085" cy="940" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1085" y="948.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">9</text>
+<path d="M 1080 760 L 1105 760 L 1105 1230 L 1172 1230" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="1105" cy="1030" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1105" y="1038.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">12</text>
+<path d="M 1080 820 L 1125 820 L 1125 1300 L 1172 1300" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="1125" cy="1120" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1125" y="1128.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">14</text>
+<path d="M 300 900 L 300 940 L 585 940 L 585 1480 L 533 1480" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="585" cy="1210" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="585" y="1218.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">8</text>
+<path d="M 430 900 L 430 1052" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 8"/>
+<text x="450" y="935" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" fill="#C08A2D" font-weight="normal" text-anchor="start" font-style="italic">planned</text>
+<path d="M 900 900 L 900 968 L 625 968 L 625 1552" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 625 1125 L 677 1125" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1125" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1133.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">6</text>
+<path d="M 625 1240 L 677 1240" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1240" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1248.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">7</text>
+<path d="M 625 1300 L 677 1300" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1300" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1308.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">13</text>
+<path d="M 625 1380 L 677 1380" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1380" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1388.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">7</text>
+<path d="M 625 1440 L 677 1440" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1440" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1448.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">15</text>
+<path d="M 625 1545 L 677 1545" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="651" cy="1545" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="651" y="1553.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">4</text>
+<rect x="30" y="1760" width="690" height="420" rx="12" fill="none" stroke="#66766B" stroke-width="2" stroke-dasharray="10 9"/>
+<text x="55" y="1804" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#66766B" font-weight="bold" text-anchor="start">Offline / build-time</text>
+<text x="55" y="1836" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">run once per book, outside the request path</text>
+<rect x="60" y="1870" width="280" height="200" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="86" y="1915" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Scanned books</text>
+<text x="86" y="1946" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Source - PDF]</text>
+<text x="86" y="1982.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Purchased TTM books,</text>
+<text x="86" y="2010.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">scanned page by</text>
+<text x="86" y="2039.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">page.</text>
+<rect x="400" y="1870" width="300" height="260" rx="8" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="11 8"/>
+<text x="426" y="1915" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Digitization CLI</text>
+<text x="426" y="1946" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#66766B" font-weight="normal" text-anchor="start" font-style="italic">[Container: Python]</text>
+<text x="426" y="1982.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">pdf_ocr, corpus_merge,</text>
+<text x="426" y="2010.56" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">ingest. Transcribes</text>
+<text x="426" y="2039.12" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">each page through the</text>
+<text x="426" y="2067.68" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">Vision Describer slot,</text>
+<text x="426" y="2096.24" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">then embeds paragraph</text>
+<text x="426" y="2124.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="21" fill="#1C2B22" font-weight="normal" text-anchor="start">records - ADR 0008.</text>
+<path d="M 340 1950 L 392 1950" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="366" cy="1950" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="366" y="1958.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">A</text>
+<path d="M 700 2000 L 1605 2000 L 1605 900 L 1588 900" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="10 9"/>
+<circle cx="1150" cy="2000" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="1150" y="2008.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">B</text>
+<path d="M 500 1870 L 500 1730 L 300 1730 L 300 1608" fill="none" stroke="#1C2B22" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="10 9"/>
+<circle cx="300" cy="1672" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="300" y="1680.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">C</text>
+<line x1="30" y1="2225" x2="1610" y2="2225" stroke="#C7D2C4" stroke-width="2"/>
+<text x="30" y="2272" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#1C2B22" font-weight="bold" text-anchor="start">Legend</text>
+<rect x="30" y="2300" width="52" height="30" rx="4" fill="#E3EDE5" stroke="#2E6B4C" stroke-width="3.4"/>
+<text x="98" y="2323" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">Container we build and deploy</text>
+<rect x="480" y="2300" width="52" height="30" rx="4" fill="#F6EDDC" stroke="#C08A2D" stroke-width="2.6"/>
+<rect x="480" y="2302" width="7" height="26" rx="3" fill="#C08A2D"/>
+<text x="548" y="2323" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">Data store we own</text>
+<rect x="810" y="2300" width="52" height="30" rx="4" fill="#EFF1EE" stroke="#66766B" stroke-width="2.6" stroke-dasharray="8 6"/>
+<text x="878" y="2323" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">External system / service</text>
+<rect x="1200" y="2300" width="52" height="30" rx="4" fill="#FFFFFF" stroke="#C08A2D" stroke-width="2.6" stroke-dasharray="3 7"/>
+<text x="1268" y="2323" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">Planned - not in app/ yet</text>
+<circle cx="50" cy="2390" r="20" fill="#FFFFFF" stroke="#1C2B22" stroke-width="2.4"/>
+<text x="50" y="2398.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="24" fill="#1C2B22" font-weight="bold" text-anchor="middle">n</text>
+<text x="96" y="2398" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">step in the numbered flow - see the key in architecture-overview.md</text>
+<line x1="900" y1="2390" x2="960" y2="2390" stroke="#1C2B22" stroke-width="2.6" stroke-dasharray="10 9"/>
+<text x="976" y="2398" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="22" fill="#1C2B22" font-weight="normal" text-anchor="start">offline or planned path</text>
+</svg>
