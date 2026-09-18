@@ -1,0 +1,1385 @@
+{
+ "book_id": "herbs-50",
+ "book_title": "แนวทางการใช้ยาสมุนไพรในการดูแลอาการเจ็บป่วยเบื้องต้น",
+ "page_offset": 8,
+ "validation": {
+  "chars": 396331,
+  "doubled": 0,
+  "illegal_above_pairs": 0,
+  "orphan_marks": 1,
+  "unmapped": 3
+ },
+ "unmapped_context": [
+  "ะนำเพื่อการดูแลตนเอง\n1. ค�นหาสาเหตุของกา",
+  "น้ำทับทิมน้ำหนัก\nรวม 5 กร�ม (ผสมเป็นเนื้",
+  "กอากาศเปลี่ยน) แก้ไอ แก้ร�อนใน\nสมานแผลเป"
+ ],
+ "monographs": [
+  {
+   "ordinal": 1,
+   "name": "กระเจี๊ยบแดง",
+   "latin": "Hibiscus sabdariffa L.",
+   "synonym": "-",
+   "family": "Malvaceae",
+   "common": "Roselle",
+   "local": "ส้มพอดี",
+   "pages": [
+    34,
+    36
+   ],
+   "pdf_pages": [
+    42,
+    44
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 2,
+   "name": "กระชาย",
+   "latin": "Boesenbergia rotunda (L.) Mansf.",
+   "synonym": "B. pandurata (Roxb.) Schltr.",
+   "family": "Zingiberaceae",
+   "common": "Fingerroot",
+   "local": "กะแอน, ขิงทราย, ละแอน",
+   "pages": [
+    37,
+    40
+   ],
+   "pdf_pages": [
+    45,
+    48
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 3,
+   "name": "กระเทียม",
+   "latin": "Allium sativum L.",
+   "synonym": "-",
+   "family": "Amaryllidaceae",
+   "common": "Garlic",
+   "local": "หอมขาว, กระเทียมจีน, เทียม, หัวเทียม, หอมเทียม",
+   "pages": [
+    41,
+    44
+   ],
+   "pdf_pages": [
+    49,
+    52
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 4,
+   "name": "กระวาน",
+   "latin": "1. Wurfbainia vera (Blackw.) Škorničk. & A.D.Poulsen",
+   "synonym": "Amomum verum Blackw.",
+   "family": "Zingiberaceae",
+   "common": "Camphor seed",
+   "local": "กระวานขาว, กระวานจันท์, กระวานดำ, กระวานโพธิสัตว์",
+   "pages": [
+    45,
+    47
+   ],
+   "pdf_pages": [
+    53,
+    55
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 5,
+   "name": "กล้วยน้ำว้า",
+   "latin": "Musa (ABB) ‘Namwa’",
+   "synonym": "-",
+   "family": "Musaceae",
+   "common": "Kluai namwa",
+   "local": "-",
+   "pages": [
+    48,
+    50
+   ],
+   "pdf_pages": [
+    56,
+    58
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 6,
+   "name": "กะทือ",
+   "latin": "Zingiber zerumbet (L.) Roscoe ex Sm.",
+   "synonym": "Amomum zerumbet L.",
+   "family": "Zingiberaceae",
+   "common": "Wild ginger",
+   "local": "กะทือป่า",
+   "pages": [
+    51,
+    53
+   ],
+   "pdf_pages": [
+    59,
+    61
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 7,
+   "name": "กะเพรา",
+   "latin": "Ocimum tenuiflorum L.",
+   "synonym": "O. sanctum L.",
+   "family": "Lamiaceae",
+   "common": "Holy basil, Secred basil",
+   "local": "กอมก้อ, กอมก้อขาว, กอมก้อดำ, กะเพราขาว, กะเพราแดง",
+   "pages": [
+    54,
+    57
+   ],
+   "pdf_pages": [
+    62,
+    65
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 8,
+   "name": "กะเม็ง",
+   "latin": "Eclipta prostrata (L.) L.",
+   "synonym": "Eclipta alba (L.) Hassk., E. angustata Umemoto & H. Koyama",
+   "family": "Asteraceae",
+   "common": "False daisy",
+   "local": "กะเม็งตัวเมีย, คัดเม็ง, หญ้าสับ, ฮ่อมเกี่ยว",
+   "pages": [
+    58,
+    61
+   ],
+   "pdf_pages": [
+    66,
+    69
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 9,
+   "name": "กานพลู",
+   "latin": "Syzygium aromaticum (L.) Merr. & L.M.Perry",
+   "synonym": "Caryophyllus aromaticus L., Eugenia aromatica (L.) Baill.",
+   "family": "Myrtaceae",
+   "common": "Clove",
+   "local": "กรานพูล, กรามพูล, กรานพลู, กรามพลู",
+   "pages": [
+    62,
+    64
+   ],
+   "pdf_pages": [
+    70,
+    72
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 10,
+   "name": "ขมิ้นชัน",
+   "latin": "Curcuma longa L.",
+   "synonym": "C. domestica Valeton",
+   "family": "Zingiberaceae",
+   "common": "Turmeric",
+   "local": "ขมิ้น, ขมิ้นแกง, ขมิ้นหยวก, ขมิ้นหัว, ขี้มิ้น, หมิ้น",
+   "pages": [
+    65,
+    68
+   ],
+   "pdf_pages": [
+    73,
+    76
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 11,
+   "name": "ขลู่",
+   "latin": "Pluchea indica (L.) Less.",
+   "synonym": "Baccharis indica L.",
+   "family": "Asteraceae",
+   "common": "Indian marsh fleabane",
+   "local": "คลู, ขลู",
+   "pages": [
+    69,
+    71
+   ],
+   "pdf_pages": [
+    77,
+    79
+   ],
+   "has_prohibited": false,
+   "has_warning": false,
+   "has_caution": false
+  },
+  {
+   "ordinal": 12,
+   "name": "ข่อย",
+   "latin": "Streblus asper Lour.",
+   "synonym": "Diplothorax tonkinensis Gagnep.",
+   "family": "Moraceae",
+   "common": "Siamese rough bush, Tooth brush tree",
+   "local": "กักไม้ฝอย, ส้มพอ",
+   "pages": [
+    72,
+    73
+   ],
+   "pdf_pages": [
+    80,
+    81
+   ],
+   "has_prohibited": false,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 13,
+   "name": "ข่า",
+   "latin": "Alpinia galanga (L.) Willd.",
+   "synonym": "Maranta galanga L.",
+   "family": "Zingiberaceae",
+   "common": "Greater galangal",
+   "local": "ข่าหลวง",
+   "pages": [
+    74,
+    78
+   ],
+   "pdf_pages": [
+    82,
+    86
+   ],
+   "has_prohibited": false,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 14,
+   "name": "ขิง",
+   "latin": "Zingiber officinale Roscoe",
+   "synonym": "Amomum zingiber L.",
+   "family": "Zingiberaceae",
+   "common": "Ginger",
+   "local": "ขิงแกลง, ขิงแดง, ขิงเผือก, สะเอ",
+   "pages": [
+    79,
+    83
+   ],
+   "pdf_pages": [
+    87,
+    91
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 15,
+   "name": "ขี้เหล็ก",
+   "latin": "Senna siamea (Lam.) H.S.Irwim & Barneby",
+   "synonym": "Cassia siamea Lam.",
+   "family": "Fabaceae",
+   "common": "Cassod tree, Thai copper pod",
+   "local": "ขี้เหล็กใหญ่, ขี้เหล็กหลวง, ยะหา",
+   "pages": [
+    84,
+    86
+   ],
+   "pdf_pages": [
+    92,
+    94
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 16,
+   "name": "คูน",
+   "latin": "Cassia fistula L.",
+   "synonym": "-",
+   "family": "Fabaceae",
+   "common": "Golden shower",
+   "local": "ลมแล้ง",
+   "pages": [
+    87,
+    89
+   ],
+   "pdf_pages": [
+    95,
+    97
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 17,
+   "name": "ช้าพลู",
+   "latin": "Piper sarmentosum Roxb.",
+   "synonym": "Piper albispicum C.DC.",
+   "family": "Piperaceae",
+   "common": "False betel leaf",
+   "local": "นมวา, พลูลิง, ผักอีเลิด",
+   "pages": [
+    90,
+    91
+   ],
+   "pdf_pages": [
+    98,
+    99
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 18,
+   "name": "ชุมเห็ดเทศ",
+   "latin": "Senna alata (L.) Roxb.",
+   "synonym": "Cassia alata L.",
+   "family": "Fabaceae",
+   "common": "Ringworm bush, Seven golden candle stick",
+   "local": "ชุมเห็ดใหญ่",
+   "pages": [
+    92,
+    95
+   ],
+   "pdf_pages": [
+    100,
+    103
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 19,
+   "name": "ดีปลี",
+   "latin": "Piper retrofractum Vahl",
+   "synonym": "Piper chaba W.Hunter.",
+   "family": "Piperaceae",
+   "common": "Javanese pepper, Balinese pepper",
+   "local": "ดีปลีเชือก, ประดงข้อ, ปานนุ, ฟันพญาไฟ, บี้ฮวด, พิษพญาไฟ",
+   "pages": [
+    96,
+    98
+   ],
+   "pdf_pages": [
+    104,
+    106
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 20,
+   "name": "ตะไคร้",
+   "latin": "Cymbopogon citratus (DC.) Stapf",
+   "synonym": "Andropogon citratus DC.",
+   "family": "Poaceae",
+   "common": "Lemon grass",
+   "local": "ตะไคร้แกง, หัวสิงไค",
+   "pages": [
+    99,
+    101
+   ],
+   "pdf_pages": [
+    107,
+    109
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 21,
+   "name": "เถาวัลย์เปรียง",
+   "latin": "Brachypterum scandens (Roxb.) Wight & Arn. ex Miq.",
+   "synonym": "Derris scandens (Roxb.) Benth",
+   "family": "Fabaceae",
+   "common": "Hogcreeper",
+   "local": "เถาตาปลา, เครือเขาหนัง",
+   "pages": [
+    102,
+    104
+   ],
+   "pdf_pages": [
+    110,
+    112
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 22,
+   "name": "ทองพันชั่ง",
+   "latin": "Rhinacanthus nasutus (L.) Kurz",
+   "synonym": "Rhinacanthus communis Nees",
+   "family": "Acanthaceae",
+   "common": "Snake jasmine",
+   "local": "ทองคันชั่ง, หญ้ามันไก่",
+   "pages": [
+    105,
+    107
+   ],
+   "pdf_pages": [
+    113,
+    115
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 23,
+   "name": "ทับทิม",
+   "latin": "Punica granatum L.",
+   "synonym": "Punica nana L.",
+   "family": "Lythraceae",
+   "common": "Pomegranate",
+   "local": "มะเก๊าะ, พิลา, พิลาขาว, มะก่องแก้ว",
+   "pages": [
+    108,
+    110
+   ],
+   "pdf_pages": [
+    116,
+    118
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 24,
+   "name": "น้อยหน่า",
+   "latin": "Annona squamosa L.",
+   "synonym": "-",
+   "family": "Annonaceae",
+   "common": "Custard apple, Sugar apple",
+   "local": "บักเขียบ, น้อยแน่, มะนอแน่, มะแน่",
+   "pages": [
+    111,
+    113
+   ],
+   "pdf_pages": [
+    119,
+    121
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 25,
+   "name": "บัวบก",
+   "latin": "Centella asiatica (L.) Urb.",
+   "synonym": "Hydrocotyle asiatica L.",
+   "family": "Apiaceae",
+   "common": "Asiatic pennywort",
+   "local": "ผักหนอก, ผักแว่น",
+   "pages": [
+    114,
+    116
+   ],
+   "pdf_pages": [
+    122,
+    124
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 26,
+   "name": "ผักชี",
+   "latin": "Coriandrum sativum L.",
+   "synonym": "Selinum coriandrum E.H.L.Krause",
+   "family": "Apiaceae",
+   "common": "Coriander",
+   "local": "ชีลา, ผลชีลา, ลูกชีลา",
+   "pages": [
+    117,
+    119
+   ],
+   "pdf_pages": [
+    125,
+    127
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 27,
+   "name": "ฝรั่ง",
+   "latin": "Psidium guajava L.",
+   "synonym": "-",
+   "family": "Myrtaceae",
+   "common": "Guava",
+   "local": "ชมพู่กัว, บักสีดา, ฝรั่งขี้นก, มะก้วยกา",
+   "pages": [
+    120,
+    122
+   ],
+   "pdf_pages": [
+    128,
+    130
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 28,
+   "name": "พญายอ",
+   "latin": "Clinacanthus nutans (Burm.f.) Lindau",
+   "synonym": "Justicia fulgida Blume, Clinacanthus burmannii Nees",
+   "family": "Acanthaceae",
+   "common": "Sabah snake grass",
+   "local": "พญาปล้องทอง, เสลดพังพอนตัวเมีย",
+   "pages": [
+    123,
+    125
+   ],
+   "pdf_pages": [
+    131,
+    133
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 29,
+   "name": "พริกไทย",
+   "latin": "Piper nigrum L.",
+   "synonym": "-",
+   "family": "Piperaceae",
+   "common": "Pepper",
+   "local": "พริกไท, พริกไทยดำ",
+   "pages": [
+    126,
+    128
+   ],
+   "pdf_pages": [
+    134,
+    136
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 30,
+   "name": "พลู",
+   "latin": "Piper betle L.",
+   "synonym": "-",
+   "family": "Piperaceae",
+   "common": "Betel pepper",
+   "local": "ซีเก๊ะ, พลูเขียว, พลูเหลือง",
+   "pages": [
+    129,
+    131
+   ],
+   "pdf_pages": [
+    137,
+    139
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 31,
+   "name": "พลูคาว",
+   "latin": "Houttuynia cordata Thunb.",
+   "synonym": "-",
+   "family": "Saururaceae",
+   "common": "Fishwort, Heartleaf",
+   "local": "ผักก้านตอง, ผักคาวตอง, ผักคาวทอง",
+   "pages": [
+    132,
+    134
+   ],
+   "pdf_pages": [
+    140,
+    142
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 32,
+   "name": "เพกา",
+   "latin": "Oroxylum indicum (L.) Kurz.",
+   "synonym": "Bignonia indica L.",
+   "family": "Bignoniaceae",
+   "common": "Midnight horror, Indian trumpet flower",
+   "local": "มะลิดไม้, มะลิ้นไม้, ลิดไม้, ลิ้นฟ้า, เบโก",
+   "pages": [
+    135,
+    137
+   ],
+   "pdf_pages": [
+    143,
+    145
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 33,
+   "name": "เพชรสังฆาต",
+   "latin": "Cissus quadrangularis L.",
+   "synonym": "-",
+   "family": "Vitaceae",
+   "common": "Devil’s backbone, Veldt grape vine",
+   "local": "ขั่นข้อ, สามร้อยต่อ",
+   "pages": [
+    138,
+    140
+   ],
+   "pdf_pages": [
+    146,
+    148
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 34,
+   "name": "ไพล",
+   "latin": "Zingiber purpureum Roscoe",
+   "synonym": "Zingiber cassummar Roxb.",
+   "family": "Zingiberaceae",
+   "common": "Cassumunar ginger",
+   "local": "ว่านไฟ, ปูลอย, ปูเลย",
+   "pages": [
+    141,
+    143
+   ],
+   "pdf_pages": [
+    149,
+    151
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 35,
+   "name": "ฟักทอง",
+   "latin": "Cucurbita moschata Duchesne",
+   "synonym": "-",
+   "family": "Cucurbitaceae",
+   "common": "Pumpkin",
+   "local": "หมักอึ",
+   "pages": [
+    144,
+    145
+   ],
+   "pdf_pages": [
+    152,
+    153
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 36,
+   "name": "ฟ้าทะลายโจร",
+   "latin": "Andrographis paniculata (Burm.f.) Wall. ex Nees",
+   "synonym": "-",
+   "family": "Acanthaceae",
+   "common": "Indian snake grass",
+   "local": "น้ำลายพังพอน",
+   "pages": [
+    146,
+    150
+   ],
+   "pdf_pages": [
+    154,
+    158
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 37,
+   "name": "มะกรูด",
+   "latin": "Citrus hystrix DC.",
+   "synonym": "-",
+   "family": "Rutaceae",
+   "common": "Kaffir lime",
+   "local": "โกร้ยเชียด, มะขุน, ส้มกรูด, ส้มมั่วผี",
+   "pages": [
+    151,
+    153
+   ],
+   "pdf_pages": [
+    159,
+    161
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 38,
+   "name": "มะขาม",
+   "latin": "Tamarindus indica L.",
+   "synonym": "-",
+   "family": "Fabaceae",
+   "common": "Indian date, Tamarind",
+   "local": "บักขาม",
+   "pages": [
+    154,
+    156
+   ],
+   "pdf_pages": [
+    162,
+    164
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 39,
+   "name": "มะขามป้อม",
+   "latin": "Phyllanthus emblica L.",
+   "synonym": "Emblica officinalis Gaertn.",
+   "family": "Phyllanthaceae",
+   "common": "Emblic Myrobalan, Amla",
+   "local": "กำทวด",
+   "pages": [
+    157,
+    159
+   ],
+   "pdf_pages": [
+    165,
+    167
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 40,
+   "name": "มะตูม",
+   "latin": "Aegle marmelos (L.) Corrêa",
+   "synonym": "Crateva marmelos L.",
+   "family": "Rutaceae",
+   "common": "Bael fruit, Bengal quince, Golden apple",
+   "local": "มะปิน, ตูม",
+   "pages": [
+    160,
+    162
+   ],
+   "pdf_pages": [
+    168,
+    170
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 41,
+   "name": "มะนาว",
+   "latin": "Citrus x aurantiifolia (Christm.) Swingle",
+   "synonym": "Limonia x aurantiifolia Christm.",
+   "family": "Rutaceae",
+   "common": "Lime",
+   "local": "หมากฟ้า, ส้มนาว, บักนาว, บ่านาว",
+   "pages": [
+    163,
+    165
+   ],
+   "pdf_pages": [
+    171,
+    173
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 42,
+   "name": "มะระขี้นก",
+   "latin": "Momordica charantia L.",
+   "synonym": "-",
+   "family": "Cucurbitaceae",
+   "common": "Balsam pear, Bitter gourd, Leprosy gourd",
+   "local": "มะห่อย, มะไห่, มะร้อยรู, ผักเหย",
+   "pages": [
+    166,
+    168
+   ],
+   "pdf_pages": [
+    174,
+    176
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 43,
+   "name": "มะรุม",
+   "latin": "Moringa oleifera Lam.",
+   "synonym": "Moringa pterygosperma Gaertn.",
+   "family": "Moringaceae",
+   "common": "-",
+   "local": "ผักอีฮึม, ผักอีฮุม, มะค้อนก้อม",
+   "pages": [
+    169,
+    171
+   ],
+   "pdf_pages": [
+    177,
+    179
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 44,
+   "name": "มะแว้งเครือ",
+   "latin": "Solanum trilobatum L.",
+   "synonym": "-",
+   "family": "Solanaceae",
+   "common": "Purple fruited pea eggplant, Thai nightshade",
+   "local": "แขว้งเคีย, มะแว้งเถา",
+   "pages": [
+    172,
+    173
+   ],
+   "pdf_pages": [
+    180,
+    181
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 45,
+   "name": "มังคุด",
+   "latin": "Garcinia mangostana L.",
+   "synonym": "Mangostana garcinia Gaertn.",
+   "family": "Clusiaceae",
+   "common": "Mangosteen",
+   "local": "-",
+   "pages": [
+    174,
+    176
+   ],
+   "pdf_pages": [
+    182,
+    184
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 46,
+   "name": "ยอ",
+   "latin": "Morinda citrifolia L.",
+   "synonym": "-",
+   "family": "Rubiaceae",
+   "common": "Indian mulberry, noni",
+   "local": "ยอบ้าน",
+   "pages": [
+    177,
+    179
+   ],
+   "pdf_pages": [
+    185,
+    187
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 47,
+   "name": "ย่านาง",
+   "latin": "Tiliacora triandra (Colebr.) Diels",
+   "synonym": "-",
+   "family": "Menispermaceae",
+   "common": "Yanang",
+   "local": "จ้อยนาง",
+   "pages": [
+    180,
+    182
+   ],
+   "pdf_pages": [
+    188,
+    190
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 48,
+   "name": "รางจืด",
+   "latin": "Thunbergia laurifolia Lindl.",
+   "synonym": "-",
+   "family": "Acanthaceae",
+   "common": "Laurel clock vine, Blue trumpet vine",
+   "local": "-",
+   "pages": [
+    183,
+    185
+   ],
+   "pdf_pages": [
+    191,
+    193
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 49,
+   "name": "ส้มป่อย",
+   "latin": "Senegalia rugata (Lam.) Britton & Rose",
+   "synonym": "Mimosa concinna Willd.",
+   "family": "Fabaceae",
+   "common": "Soap pod",
+   "local": "ส้มขอน, ส้มพอดี",
+   "pages": [
+    186,
+    188
+   ],
+   "pdf_pages": [
+    194,
+    196
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  },
+  {
+   "ordinal": 50,
+   "name": "สมอไทย",
+   "latin": "Terminalia chebula Retz.",
+   "synonym": "-",
+   "family": "Combretaceae",
+   "common": "Chebulic myrobalan",
+   "local": "ส้มมอ",
+   "pages": [
+    189,
+    196
+   ],
+   "pdf_pages": [
+    197,
+    204
+   ],
+   "has_prohibited": true,
+   "has_warning": true,
+   "has_caution": true
+  }
+ ],
+ "symptom_sections": [
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.1",
+   "title": "ท้องอืด ท้องเฟ้อ อาหารไม่ย่อยและแน่นจุกเสียด ขับลม",
+   "herbs": [
+    "กระชาย",
+    "กระเทียม",
+    "กระวาน",
+    "กะทือ",
+    "กะเพรา",
+    "กานพลู",
+    "ขมิ้นชัน",
+    "ข่า",
+    "ขิง",
+    "ช้าพลู",
+    "ดีปลี",
+    "ตะไคร้",
+    "ผักชี",
+    "พริกไทย",
+    "มะกรูด",
+    "มะตูม",
+    "มะนาว"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.2",
+   "title": "ท้องเดิน บิด",
+   "herbs": [
+    "กระชาย",
+    "ข่า",
+    "ทับทิม",
+    "ฝรั่ง",
+    "ฟ้าทะลายโจร"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.3",
+   "title": "ท้องผูก",
+   "herbs": [
+    "ขี้เหล็ก",
+    "คูน",
+    "ชุมเห็ดเทศ",
+    "มะขาม",
+    "สมอไทย"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.4",
+   "title": "แผลในทางเดินอาหาร",
+   "herbs": [
+    "กล้วยน้ำว้า",
+    "ขมิ้นชัน"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.5",
+   "title": "ริดสีดวงทวารหนัก",
+   "herbs": [
+    "เพชรสังฆาต"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.6",
+   "title": "ปวดฟัน",
+   "herbs": [
+    "กะเม็ง",
+    "กานพลู",
+    "ข่อย"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.7",
+   "title": "เบื่ออาหาร",
+   "herbs": [
+    "ขี้เหล็ก"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.8",
+   "title": "ร้อนใน กระหายน้ำ",
+   "herbs": [
+    "บัวบก",
+    "พลูคาว",
+    "มะระขี้นก",
+    "รางจืด"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.9",
+   "title": "เหงือกอักเสบและเหงือกบวม",
+   "herbs": [
+    "ข่อย"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.10",
+   "title": "แผลในปาก",
+   "herbs": [
+    "กระชาย"
+   ]
+  },
+  {
+   "group": 1,
+   "group_title": "ระบบทางเดินอาหาร",
+   "number": "1.11",
+   "title": "กลิ่นปาก",
+   "herbs": [
+    "กานพลู"
+   ]
+  },
+  {
+   "group": 2,
+   "group_title": "ระบบทางเดินหายใจ",
+   "number": "2.1",
+   "title": "ไอ ขับเสมหะ",
+   "herbs": [
+    "ขิง",
+    "ดีปลี",
+    "เพกา",
+    "มะกรูด",
+    "มะขาม",
+    "มะขามป้อม",
+    "มะนาว",
+    "มะแว้งเครือ"
+   ]
+  },
+  {
+   "group": 2,
+   "group_title": "ระบบทางเดินหายใจ",
+   "number": "2.2",
+   "title": "เจ็บคอ ระคายคอ",
+   "herbs": [
+    "เพกา",
+    "ฟ้าทะลายโจร"
+   ]
+  },
+  {
+   "group": 2,
+   "group_title": "ระบบทางเดินหายใจ",
+   "number": "2.3",
+   "title": "ไข้หวัดในระยะแรก",
+   "herbs": [
+    "ฟ้าทะลายโจร"
+   ]
+  },
+  {
+   "group": 2,
+   "group_title": "ระบบทางเดินหายใจ",
+   "number": "2.4",
+   "title": "ไข้ ตัวร้อน",
+   "herbs": [
+    "ย่านาง",
+    "รางจืด"
+   ]
+  },
+  {
+   "group": 3,
+   "group_title": "ระบบทางเดินปัสสาวะ",
+   "number": "3.1",
+   "title": "ขัดเบา นิ่วขนาดเล็ก ขับปัสสาวะ",
+   "herbs": [
+    "กระเจี๊ยบแดง",
+    "ขลู่",
+    "ตะไคร้",
+    "พลูคาว"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.1",
+   "title": "โรคกลากเกลื้อน",
+   "herbs": [
+    "กระเทียม",
+    "ข่า",
+    "ชุมเห็ดเทศ",
+    "ทองพันชั่ง",
+    "พลู"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.2",
+   "title": "ฝี แผลพุพอง",
+   "herbs": [
+    "กะเม็ง",
+    "ฟ้าทะลายโจร",
+    "มังคุด"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.3",
+   "title": "แผลสด",
+   "herbs": [
+    "กะเม็ง"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.4",
+   "title": "เลือดออก ห้ามเลือด",
+   "herbs": [
+    "กะเม็ง"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.5",
+   "title": "อักเสบแพ้จากแมลงกัดต่อย",
+   "herbs": [
+    "พญายอ",
+    "ย่านาง"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.6",
+   "title": "ลมพิษ",
+   "herbs": [
+    "ข่า",
+    "พญายอ",
+    "พลู"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.7",
+   "title": "เริม งูสวัด",
+   "herbs": [
+    "ทับทิม",
+    "พญายอ"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.8",
+   "title": "ผด ผื่นคัน",
+   "herbs": [
+    "ขมิ้นชัน",
+    "บัวบก",
+    "พญายอ"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.9",
+   "title": "ไฟไหม้ น้ำร้อนลวก",
+   "herbs": [
+    "บัวบก"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.10",
+   "title": "เหา",
+   "herbs": [
+    "น้อยหน่า"
+   ]
+  },
+  {
+   "group": 4,
+   "group_title": "ระบบผิวหนัง",
+   "number": "4.11",
+   "title": "คันศีรษะ รังแค",
+   "herbs": [
+    "มะกรูด",
+    "ส้มป่อย"
+   ]
+  },
+  {
+   "group": 5,
+   "group_title": "ระบบกระดูกและกล้ามเนื้อ",
+   "number": "5.1",
+   "title": "เคล็ด ขัดยอก",
+   "herbs": [
+    "ไพล"
+   ]
+  },
+  {
+   "group": 5,
+   "group_title": "ระบบกระดูกและกล้ามเนื้อ",
+   "number": "5.2",
+   "title": "ปวดเมื่อยตามร่างกาย",
+   "herbs": [
+    "เถาวัลย์เปรียง",
+    "ไพล"
+   ]
+  },
+  {
+   "group": 5,
+   "group_title": "ระบบกระดูกและกล้ามเนื้อ",
+   "number": "5.3",
+   "title": "ปวดกล้ามเนื้อ ปวดข้อ",
+   "herbs": [
+    "ไพล"
+   ]
+  },
+  {
+   "group": 6,
+   "group_title": "โรคและอาการเจ็บป่วยอื่น ๆ",
+   "number": "6.1",
+   "title": "นอนไม่หลับ",
+   "herbs": [
+    "ขี้เหล็ก"
+   ]
+  },
+  {
+   "group": 6,
+   "group_title": "โรคและอาการเจ็บป่วยอื่น ๆ",
+   "number": "6.2",
+   "title": "ไขมันในเลือดสูง",
+   "herbs": [
+    "กระเทียม"
+   ]
+  },
+  {
+   "group": 6,
+   "group_title": "โรคและอาการเจ็บป่วยอื่น ๆ",
+   "number": "6.3",
+   "title": "คลื่นไส้อาเจียน",
+   "herbs": [
+    "ขิง",
+    "มะตูม",
+    "ยอ"
+   ]
+  },
+  {
+   "group": 6,
+   "group_title": "โรคและอาการเจ็บป่วยอื่น ๆ",
+   "number": "6.4",
+   "title": "น้ำนมน้อย",
+   "herbs": [
+    "มะรุม"
+   ]
+  }
+ ]
+}
