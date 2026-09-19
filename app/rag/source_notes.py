@@ -38,9 +38,8 @@ MANIFEST_FILENAME = "index-manifest.json"
 # books.yaml entry, and must never have their contents parsed as source
 # notes. `archive/` holds retired JSONLs (Phase 5, #14); `concepts/` is the
 # generated vault view over the graph (ADR 0010, ticket #17) -- a completely
-# different frontmatter schema, not a book. app/preflight.py's
-# `check_corpus_books` and app/advisor/citation.py's `_locate_book_id` share
-# this list so the three never drift apart.
+# different frontmatter schema, not a book. Every consumer goes through
+# `is_book_dir` below so they never drift apart.
 NON_BOOK_DIR_NAMES = frozenset({"archive", "concepts"})
 
 REQUIRED_STR_FIELDS = ("uid", "type", "book_id", "chapter", "section")
@@ -53,6 +52,19 @@ COMMENT_RE = re.compile(r"<!--(.*?)-->", re.DOTALL)
 PAGE_MARKER_RE = re.compile(r"^ p\.(\d+) $")
 SIC_RE = re.compile(r"^ sic: (.+?) $")
 CAPTION_RE = re.compile(r"^\*\*(.+)\*\*$")
+
+
+def is_book_dir(path: Path) -> bool:
+    """Whether `path` is a `corpus/<book_id>/` folder.
+
+    A dot-directory is never a book. `.gitignore` documents `corpus/` as the
+    Obsidian vault root, and opening it drops `corpus/.obsidian/` next to the
+    books -- git ignores that folder, but every caller here reads the
+    filesystem, so it still reaches them: before this check it failed
+    `check_corpus_books` (no books.yaml entry) the moment anyone opened the
+    vault. The same goes for any other tool's dot-directory.
+    """
+    return path.is_dir() and not path.name.startswith(".") and path.name not in NON_BOOK_DIR_NAMES
 
 
 @dataclass(frozen=True)
@@ -244,9 +256,7 @@ def validate_corpus(root: Path) -> tuple[list[str], list[str]]:
     books = load_books(root)
     seen_uids: dict[str, Path] = {}
 
-    for book_dir in sorted(
-        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
-    ):
+    for book_dir in sorted(p for p in root.iterdir() if is_book_dir(p)):
         notes: list[SourceNote] = []
         for path in sorted(book_dir.glob("*.md")):
             where = f"{book_dir.name}/{path.name}"
@@ -336,9 +346,7 @@ def compute_manifest(root: Path) -> dict[str, str]:
     edit anywhere in the file, not only the body, must register as drift.
     """
     manifest: dict[str, str] = {}
-    for book_dir in sorted(
-        p for p in root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
-    ):
+    for book_dir in sorted(p for p in root.iterdir() if is_book_dir(p)):
         for path in sorted(book_dir.glob("*.md")):
             where = f"{book_dir.name}/{path.name}"
             try:
