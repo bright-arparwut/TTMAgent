@@ -260,16 +260,17 @@ def check_corpus_books(repo_root: Path) -> CheckResult:
     book_id field yet still fail citation rendering, which reads titles
     from books.yaml alone. corpus/archive/ (Phase 5, #14) and
     corpus/concepts/ (Phase 6, #17 -- the generated vault) are excluded:
-    neither is ever ingested, and neither is ever a book_id."""
-    from app.rag.source_notes import NON_BOOK_DIR_NAMES, load_books
+    neither is ever ingested, and neither is ever a book_id. So are
+    dot-directories: this reads the filesystem, not git, so an ignored
+    `corpus/.obsidian/` would otherwise fail the check (see
+    source_notes.py's `is_book_dir`)."""
+    from app.rag.source_notes import is_book_dir, load_books
 
     corpus_root = repo_root / "corpus"
     if not corpus_root.is_dir():
         return CheckResult("corpus-books", FAIL, "corpus/ directory missing")
     books = load_books(corpus_root)
-    book_dirs = sorted(
-        p.name for p in corpus_root.iterdir() if p.is_dir() and p.name not in NON_BOOK_DIR_NAMES
-    )
+    book_dirs = sorted(p.name for p in corpus_root.iterdir() if is_book_dir(p))
     missing = [name for name in book_dirs if name not in books]
     if missing:
         return CheckResult(

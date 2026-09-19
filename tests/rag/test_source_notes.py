@@ -100,6 +100,19 @@ def test_validate_corpus_ignores_archive_and_concepts_directories(tmp_path):
     assert errors == []
 
 
+def test_validate_corpus_ignores_an_obsidian_vault_directory(tmp_path):
+    # .gitignore documents corpus/ as the Obsidian vault root, so opening the
+    # vault drops corpus/.obsidian/ beside the books. git ignores it; this
+    # reads the filesystem, so the skip has to happen here too -- and the
+    # folder really does hold .md files (starred notes, templates).
+    root = write_book(tmp_path, [note()])
+    (root / ".obsidian").mkdir()
+    (root / ".obsidian" / "workspace.json").write_text("{}", encoding="utf-8")
+    (root / ".obsidian" / "starred.md").write_text("not a source note", encoding="utf-8")
+    errors, _ = validate_corpus(root)
+    assert errors == []
+
+
 def test_missing_required_field_is_an_error(tmp_path):
     root = write_book(tmp_path, [note(chapter=None)])
     errors, _ = validate_corpus(root)
@@ -418,6 +431,13 @@ def test_compute_manifest_ignores_archive_and_concepts_directories(tmp_path):
     (root / "archive" / "retired.jsonl").write_text("{}", encoding="utf-8")
     (root / "concepts").mkdir()
     (root / "concepts" / "ธาตุทั้งสี่.md").write_text("not a source note", encoding="utf-8")
+    assert set(compute_manifest(root)) == {"four-elements-01"}
+
+
+def test_compute_manifest_ignores_an_obsidian_vault_directory(tmp_path):
+    root = write_book(tmp_path, [note()])
+    (root / ".obsidian").mkdir()
+    (root / ".obsidian" / "starred.md").write_text("not a source note", encoding="utf-8")
     assert set(compute_manifest(root)) == {"four-elements-01"}
 
 
